@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour {
 
     private void UpdatePlayerSortingPosition(float yPosition) {
         Vector3 position = transform.position;
-        position.z = yPosition;
+        position.z = yPosition - 100;
         transform.position = position;
     }
 
