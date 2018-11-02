@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -27,9 +25,13 @@ public class Room : MonoBehaviour
                 SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
             }
         }
+        
+        for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 2; y++) {
+                Vector3 pos = new Vector3(x*4, y*4, y*4*Utils.zPositionMultiplier + Utils.zPositionOffset);
+                SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
+            }
+        }
     }
 
-    void Update() {
-        
-    }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Unity.Mathematics;
+using UnityEditor;
 
 public class PlayerController : MonoBehaviour {
     public float walkSpeed = 2.2f;
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 
     private void UpdatePlayerSortingPosition(float yPosition) {
         Vector3 position = transform.position;
-        position.z = yPosition - 100;
+        position.z = Utils.zPositionMultiplier * yPosition + Utils.zPositionOffset;
         transform.position = position;
     }
 
@@ -63,6 +64,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void UpdateAnimator(bool isMoving, bool isRunning, float2 playerInput) {
+        float currentX = animator.GetFloat("X");
+        float currentY = animator.GetFloat("Y");
+        
+        if (!isMoving && (currentX != 0 || currentY != 0)) {
+            animator.SetFloat("lastX", currentX);
+            animator.SetFloat("lastY", currentY);
+        }
+        
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isRunning", isRunning);
         animator.SetFloat("X", playerInput.x);

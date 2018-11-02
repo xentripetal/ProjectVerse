@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Cyrusc\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_ProjectVerse.-791855509.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Cyrusc\Documents\Unity\ProjectVerse" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="CameraFollow.cs" t="Include" />
+        <e p="Scripts" t="Include">
+          <e p="PlayerController.cs" t="Include" />
+          <e p="Room.cs" t="Include" />
+          <e p="SimplePool.cs" t="Include" />
+          <e p="SwappableSpriteAnimationController.cs" t="Include" />
+          <e p="Thing.cs" t="Include" />
+          <e p="Utils.cs" t="Include" />
+          <e p="Verse.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="ProjectVerse.sln" t="IncludeFlat" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>

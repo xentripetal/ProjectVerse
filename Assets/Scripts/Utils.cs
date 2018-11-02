@@ -1,9 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class Utils {
 
+    public static float zPositionMultiplier = .01f;
+    public static float zPositionOffset = -10f;
+    
     public static Vector3 SwapVectorDimension(Vector2 vec)
     {
         return new Vector3(vec.x, vec.y, 0);
