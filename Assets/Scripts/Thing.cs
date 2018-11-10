@@ -1,16 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class Thing : MonoBehaviour {
+public class Thing {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public string name {
+        get;
+        private set;
+    }
+
+    public Sprite sprite{
+        get;
+        private set;
+    }
+
+   public Thing(String name, String resourcePath) {
+       this.name = name;
+       sprite = Resources.Load<Sprite>(resourcePath);
+   }
 }

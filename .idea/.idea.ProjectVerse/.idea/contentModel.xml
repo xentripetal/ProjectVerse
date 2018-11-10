@@ -13,6 +13,7 @@
           <e p="Room.cs" t="Include" />
           <e p="SimplePool.cs" t="Include" />
           <e p="SwappableSpriteAnimationController.cs" t="Include" />
+          <e p="TerrainTile.cs" t="Include" />
           <e p="Thing.cs" t="Include" />
           <e p="Utils.cs" t="Include" />
           <e p="Verse.cs" t="Include" />
