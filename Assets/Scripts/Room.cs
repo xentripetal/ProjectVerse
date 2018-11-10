@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.XR.WSA;
 
@@ -25,24 +26,30 @@ public class Room : MonoBehaviour
         buildTempObjectAtlas();
         
         GameObject poolGO;
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
-                Vector3 pos = new Vector3(x*4, y*4, 0);
-                poolGO = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
-                poolGO.GetComponent<SpriteRenderer>().sprite = terrainAtlas["core.grass"].sprite;
-                poolGO.transform.parent = TerrainRoot.transform;
-            }
+        foreach (TileJson tile in getTerrainMap().Tiles) {
+            Vector3 pos = new Vector3(tile.X, tile.Y, 0);
+            poolGO = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
+            poolGO.GetComponent<SpriteRenderer>().sprite = terrainAtlas[tile.name].sprite;
+            poolGO.transform.parent = TerrainRoot.transform;
         }
 
-        for (int x = 0; x < 5; x++) {
-            for (int y = 0; y < 2; y++) {
-                Vector3 pos = new Vector3(x*4, y*4, y*4*Utils.zPositionMultiplier + Utils.zPositionOffset);
-                poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
-                poolGO.GetComponent<SpriteRenderer>().sprite = objectAtlas["core.barrel"].sprite;
-                poolGO.AddComponent<PolygonCollider2D>();
-                poolGO.transform.parent = ObjectRoot.transform;
-            }
+        foreach (TileJson tile in getObjectMap().Tiles) {
+            Vector3 pos = new Vector3(tile.X, tile.Y, tile.Y*Utils.zPositionMultiplier + Utils.zPositionOffset);
+            poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
+            poolGO.GetComponent<SpriteRenderer>().sprite = objectAtlas[tile.name].sprite;
+            poolGO.AddComponent<PolygonCollider2D>();
+            poolGO.transform.parent = ObjectRoot.transform;
         }
+    }
+
+    private TileMap getTerrainMap() {
+        TextAsset jsonObj = Resources.Load<TextAsset>("TerrainMap");
+        return JsonUtility.FromJson<TileMap>(jsonObj.text);
+    }
+
+    private TileMap getObjectMap() {
+        TextAsset jsonObj = Resources.Load<TextAsset>("ObjectMap");
+        return JsonUtility.FromJson<TileMap>(jsonObj.text);
     }
 
     private void buildTempTerrainAtlas() {

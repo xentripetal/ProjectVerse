@@ -7,13 +7,14 @@
       <e p=".git\info\exclude" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="CameraFollow.cs" t="Include" />
         <e p="Scripts" t="Include">
+          <e p="CameraFollow.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
           <e p="Room.cs" t="Include" />
           <e p="SimplePool.cs" t="Include" />
           <e p="SwappableSpriteAnimationController.cs" t="Include" />
           <e p="TerrainTile.cs" t="Include" />
+          <e p="TerrainTileJson.cs" t="Include" />
           <e p="Thing.cs" t="Include" />
           <e p="Utils.cs" t="Include" />
           <e p="Verse.cs" t="Include" />
