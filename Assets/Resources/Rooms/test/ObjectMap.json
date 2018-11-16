@@ -39,6 +39,14 @@
       "name": "core.barrel",
       "X": 12,
       "Y": 8
-    }
+    },
+	{
+	  "name": "core.trigger",
+	  "X": 0,
+	  "Y": 2,
+	  "data": {
+		"room": "main"
+	  }
+	}
   ]
 }
