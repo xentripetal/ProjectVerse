@@ -4,7 +4,7 @@ using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.XR.WSA;
 
-public class Room : MonoBehaviour
+public class RoomController : MonoBehaviour
 {
     [SerializeField]
     public GameObject TerrainRoot;
@@ -19,11 +19,17 @@ public class Room : MonoBehaviour
     public GameObject ObjectTilePrefab;
 
     private Dictionary<String, TerrainTile> terrainAtlas;
-    private Dictionary<String, Thing> objectAtlas;
+    private ObjectAtlas ObjectAtlas;
 
-    private Stack<GameObject> activeObjects;
+    private Dictionary<GameObject, Thing> activeObjects;
 
     private string currentRoom;
+
+    public static RoomController Instance;
+
+    private void Awake() {
+        Instance = this;
+    }
 
     private void Start() {
         activeObjects = new Stack<GameObject>();
@@ -59,7 +65,6 @@ public class Room : MonoBehaviour
         currentRoom = room;
         
         buildTempTerrainAtlas();
-        buildTempObjectAtlas();
         
         GameObject poolGO;
         foreach (TileJson tile in getTerrainMap(room).Tiles) {
@@ -73,7 +78,7 @@ public class Room : MonoBehaviour
         foreach (TileJson tile in getObjectMap(room).Tiles) {
             Vector3 pos = new Vector3(tile.X, tile.Y, tile.Y*Utils.zPositionMultiplier + Utils.zPositionOffset);
             poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
-            poolGO.GetComponent<SpriteRenderer>().sprite = objectAtlas[tile.name].sprite;
+            poolGO.GetComponent<SpriteRenderer>().sprite = ObjectAtlas.getObject(tile.name).sprite;
             poolGO.AddComponent<PolygonCollider2D>();
             poolGO.transform.parent = ObjectRoot.transform;
             activeObjects.Push(poolGO);
@@ -98,11 +103,4 @@ public class Room : MonoBehaviour
         terrainAtlas.Add(grass2.name, grass2);
     }
     
-    private void buildTempObjectAtlas() {
-        Thing barrel = new Thing("core.barrel", "Sprites/Objects/barrel");
-        Thing trigger = new Thing("core.trigger", "Sprites/Terrain/Collision");
-        objectAtlas = new Dictionary<string, Thing>();
-        objectAtlas.Add(barrel.name, barrel);
-        objectAtlas.Add(trigger.name, trigger);
-    }
 }

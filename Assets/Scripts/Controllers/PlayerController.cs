@@ -10,16 +10,24 @@ public class PlayerController : MonoBehaviour {
     public string VerticalAxis = "Vertical";
     public KeyCode SpeedModifierKey = KeyCode.LeftShift;
 
+    private Player playerData;
+
     [SerializeField] public Animator animator;
 
     private Rigidbody2D _rigidbody2D;
 
     private void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        playerData = new Player();
     }
 
     void Update() {
         HandlePlayerMovement();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("Blah!");
+        // If other corresponds to 
     }
 
     #region Movement Code
@@ -32,7 +40,7 @@ public class PlayerController : MonoBehaviour {
             MovePlayer(playerInput);
         }
         else {
-            UpdateAnimator(false, false, playerInput);
+            UpdateModelAndAnimator(false, false, playerInput);
         }
     }
 
@@ -48,7 +56,7 @@ public class PlayerController : MonoBehaviour {
         UpdatePlayerSortingPosition(movePosition.y);
         _rigidbody2D.MovePosition(movePosition);
 
-        UpdateAnimator(true, isRunning, playerInput);
+        UpdateModelAndAnimator(true, isRunning, playerInput);
     }
 
     private void UpdatePlayerSortingPosition(float yPosition) {
@@ -61,6 +69,17 @@ public class PlayerController : MonoBehaviour {
         bool isRunning = !Input.GetKey(SpeedModifierKey);
         playerSpeed = isRunning ? runSpeed : walkSpeed;
         return isRunning;
+    }
+
+    private void UpdateModelAndAnimator(bool isMoving, bool isRunning, float2 playerInput) {
+        UpdateModel(isMoving, isRunning);
+        UpdateAnimator(isMoving, isRunning, playerInput);
+    }
+
+    private void UpdateModel(bool isMoving, bool isRunning) {
+        playerData.position = Utils.SwapVectorDimension(transform.position);
+        playerData.isMoving = isMoving;
+        playerData.isRunning = isRunning;
     }
 
     private void UpdateAnimator(bool isMoving, bool isRunning, float2 playerInput) {

@@ -1,11 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
-public class DoorTriggerData : MonoBehaviour {
+public class DoorTriggerData : IThingScriptData{
     public string room;
+    public float x, y;
+}
+
+public class DoorTrigger : IThingScript { 
+    public Type DataModel {
+        get { return typeof(DoorTriggerData); }
+    }
+
+    public DoorTrigger() {
+        
+    }
     
-    private void OnTriggerEnter2D(Collider2D other) {
-        FindObjectOfType<Room>().changeRoom(room);
+    void OnPlayerEnter() {
     }
 }
