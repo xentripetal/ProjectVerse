@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using Unity.Mathematics;
-using UnityEditor;
+﻿using Unity.Mathematics;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     public float walkSpeed = 2.2f;
@@ -15,9 +14,11 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] public Animator animator;
 
     private Rigidbody2D _rigidbody2D;
+    private APIController apiController;
 
     private void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        apiController = APIController.Instance;
         playerData = new Player();
     }
 
@@ -26,8 +27,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Debug.Log("Blah!");
-        // If other corresponds to 
+        apiController.OnPlayerEnter(playerData, other.gameObject);
     }
 
     #region Movement Code
@@ -85,12 +85,12 @@ public class PlayerController : MonoBehaviour {
     private void UpdateAnimator(bool isMoving, bool isRunning, float2 playerInput) {
         float currentX = animator.GetFloat("X");
         float currentY = animator.GetFloat("Y");
-        
+
         if (!isMoving && (currentX != 0 || currentY != 0)) {
             animator.SetFloat("lastX", currentX);
             animator.SetFloat("lastY", currentY);
         }
-        
+
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isRunning", isRunning);
         animator.SetFloat("X", playerInput.x);

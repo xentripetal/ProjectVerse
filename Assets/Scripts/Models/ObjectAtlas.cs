@@ -16,8 +16,9 @@ public class ObjectAtlas {
     }
 
     private static void createAtlas() {
-        ThingDef barrel = new ThingDef("core.barrel", "Sprites/Objects/barrel");
-        ThingDef trigger = new ThingDef("core.trigger", "Sprites/Terrain/Collision");
+        ThingDef barrel = new ThingDef("core.barrel", "Sprites/Objects/barrel", null);
+        IThingScript[] scripts = new IThingScript[] {new DoorTrigger()};
+        ThingDef trigger = new ThingDef("core.trigger", "Sprites/Terrain/Collision", scripts);
         objectAtlas = new Dictionary<string, ThingDef>();
         objectAtlas.Add(barrel.name, barrel);
         objectAtlas.Add(trigger.name, trigger);

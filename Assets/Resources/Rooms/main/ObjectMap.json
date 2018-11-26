@@ -38,14 +38,21 @@
     {
       "name": "core.barrel",
       "X": 12,
-      "Y": 4
+	  "Y": 4
     },
 	{
 	  "name": "core.trigger",
 	  "X": 16,
 	  "Y": 0,
-	  "data": {
-		"room": "test"
-	  }
+	  "datasets": [
+        {
+		  "DoorTriggerData": {
+            "room": "test_room",
+		    "x": 2,
+		    "y": 2
+		  }
+		}
+	  ]
+	}
   ]
 }
