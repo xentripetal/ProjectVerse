@@ -97,16 +97,16 @@
    },
    {
       "Definition":"core.trigger",
-      "posX":2.0,
+      "posX":8.0,
       "posY":2.0,
       "Datasets":{
          "$type":"IThingData[], Assembly-CSharp",
          "$values":[
             {
                "$type":"DoorTriggerData, Assembly-CSharp",
-               "room":"room",
-               "x":1.0,
-               "y":1.0
+               "room":"test",
+               "x":6.0,
+               "y":2.0
             }
          ]
       }

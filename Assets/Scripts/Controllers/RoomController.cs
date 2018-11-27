@@ -83,10 +83,6 @@ public class RoomController : MonoBehaviour {
         ThingDef currentThingDef;
         Thing currentThing;
         foreach (Thing thing in getObjectMap(room)) {
-            if (thing.Datasets != null) {
-                Debug.Log(thing.Datasets[0].GetType().FullName);
-            }
-
             currentThingDef = thing.Definition;
             Vector3 pos = new Vector3(thing.Position.x, thing.Position.y, thing.Position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
             poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
@@ -94,8 +90,7 @@ public class RoomController : MonoBehaviour {
             var collider = poolGO.AddComponent<PolygonCollider2D>();
             collider.isTrigger = currentThingDef.isTrigger;
             poolGO.transform.parent = ObjectRoot.transform;
-            currentThing = new Thing(currentThingDef, Utils.SwapVectorDimension(pos), null);
-            activeObjects[poolGO] = currentThing;
+            activeObjects[poolGO] = thing;
         }
     }
 

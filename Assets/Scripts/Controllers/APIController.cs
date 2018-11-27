@@ -24,6 +24,9 @@ public class APIController : MonoBehaviour {
     }
     
     private T[] GetScriptsImplementingInterface<T>(Thing thing) {
+        if (thing.Definition.Scripts == null) {
+            return new T[] { };
+        }
         return GetScriptsImplementingInterface<T>(thing.Definition.Scripts);
     }
     
@@ -33,7 +36,7 @@ public class APIController : MonoBehaviour {
 
     private IThingData GetDatasetOfType(Thing thing, Type dataType) {
         foreach (IThingData thingData in thing.Datasets) {
-            if (dataType.IsAssignableFrom(thingData.GetType())) {
+            if (dataType.IsInstanceOfType(thingData)) {
                 return thingData;
             }
         }

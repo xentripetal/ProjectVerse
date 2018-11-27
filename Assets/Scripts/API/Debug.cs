@@ -5,6 +5,10 @@ public static class Debug {
         UnityEngine.Debug.Log(message);
     }
 
+    public static void Log(object obj) {
+        UnityEngine.Debug.Log(obj);
+    }
+
     public static void LogError(String message) {
         UnityEngine.Debug.LogError(message);
     }

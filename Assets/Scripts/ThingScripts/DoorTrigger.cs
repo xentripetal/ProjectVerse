@@ -14,12 +14,13 @@ public class DoorTriggerData : IThingData{
     }
 }
 
-public class DoorTrigger : IThingScript { 
+public class DoorTrigger : IThingScript, ITrigger { 
     public Type DataModel {
         get { return typeof(DoorTriggerData); }
     }
     
-    void OnPlayerEnter(PlayerReadOnly player, DoorTriggerData data) {
-        player.RequestRoomChange(data.room, new float2(data.x, data.y));
+    public void OnPlayerEnter(PlayerReadOnly player, IThingData data) {
+        DoorTriggerData dat = (DoorTriggerData) data;
+        player.RequestRoomChange(dat.room, new float2(dat.x, dat.y));
     }
 }

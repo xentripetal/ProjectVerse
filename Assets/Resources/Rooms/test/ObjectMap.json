@@ -1,52 +1,48 @@
-{
-  "Tiles": [
-    {
-      "name": "core.barrel",
-      "X": 0,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 4,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 8,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 12,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 0,
-      "Y": 8
-    },
-    {
-      "name": "core.barrel",
-      "X": 4,
-      "Y": 8
-    },
-    {
-      "name": "core.barrel",
-      "X": 8,
-      "Y": 8
-    },
-    {
-      "name": "core.barrel",
-      "X": 12,
-      "Y": 8
-    },
-	{
-	  "name": "core.trigger",
-	  "X": 0,
-	  "Y": 2,
-	  "data": {
-		"room": "main"
-	  }
-	}
-  ]
-}
+[
+   {
+      "Definition":"core.barrel",
+      "posX":0.0,
+      "posY":0.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":0.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":2.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":4.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":6.0,
+      "posY":6.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.trigger",
+      "posX":0.0,
+      "posY":0.0,
+      "Datasets":{
+         "$type":"IThingData[], Assembly-CSharp",
+         "$values":[
+            {
+               "$type":"DoorTriggerData, Assembly-CSharp",
+               "room":"main",
+               "x":0.0,
+               "y":0.0
+            }
+         ]
+      }
+   }
+]

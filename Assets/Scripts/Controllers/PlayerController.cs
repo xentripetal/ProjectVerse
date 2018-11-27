@@ -4,85 +4,63 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     public float walkSpeed = 2.2f;
     public float runSpeed = 4f;
+    public static PlayerController Instance;
 
     public string HorizontalAxis = "Horizontal";
     public string VerticalAxis = "Vertical";
     public KeyCode SpeedModifierKey = KeyCode.LeftShift;
 
     private Player playerData;
+    private float2 playerInput;
+    private bool isMoving;
+    private bool isRunning;
 
     [SerializeField] public Animator animator;
 
     private Rigidbody2D _rigidbody2D;
-    private APIController apiController;
+    private APIController _apiController;
+
+    void Awake() {
+        Instance = this;
+    }
 
     private void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        apiController = APIController.Instance;
+        _apiController = APIController.Instance;
         playerData = new Player();
     }
 
     void Update() {
+        GetPlayerInput();
+        UpdateAnimator();
+    }
+
+    void LateUpdate() {
+        UpdateModel();
+    }
+
+    public void DirectMovePlayer(float2 pos) {
+        transform.position = Utils.SwapVectorDimension(pos);
+    }
+    
+    private void FixedUpdate() {
         HandlePlayerMovement();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        apiController.OnPlayerEnter(playerData, other.gameObject);
+        _apiController.OnPlayerEnter(playerData, other.gameObject);
     }
+    
+    #region ModelAndAnimator
 
-    #region Movement Code
-
-    private void HandlePlayerMovement() {
-        float2 playerInput = GetPlayerInput();
-        bool isMoving = Mathf.Abs(playerInput.x) + Mathf.Abs(playerInput.y) > 0;
-
-        if (isMoving) {
-            MovePlayer(playerInput);
-        }
-        else {
-            UpdateModelAndAnimator(false, false, playerInput);
-        }
-    }
-
-    private float2 GetPlayerInput() {
-        return new float2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
-    }
-
-    private void MovePlayer(float2 playerInput) {
-        float playerSpeed;
-        bool isRunning = GetPlayerSpeed(out playerSpeed);
-
-        Vector2 movePosition = CalculateMovePosition(playerInput, playerSpeed);
-        UpdatePlayerSortingPosition(movePosition.y);
-        _rigidbody2D.MovePosition(movePosition);
-
-        UpdateModelAndAnimator(true, isRunning, playerInput);
-    }
-
-    private void UpdatePlayerSortingPosition(float yPosition) {
-        Vector3 position = transform.position;
-        position.z = Utils.zPositionMultiplier * yPosition + Utils.zPositionOffset;
-        transform.position = position;
-    }
-
-    private bool GetPlayerSpeed(out float playerSpeed) {
-        bool isRunning = !Input.GetKey(SpeedModifierKey);
-        playerSpeed = isRunning ? runSpeed : walkSpeed;
-        return isRunning;
-    }
-
-    private void UpdateModelAndAnimator(bool isMoving, bool isRunning, float2 playerInput) {
-        UpdateModel(isMoving, isRunning);
-        UpdateAnimator(isMoving, isRunning, playerInput);
-    }
-
-    private void UpdateModel(bool isMoving, bool isRunning) {
-        playerData.position = Utils.SwapVectorDimension(transform.position);
+    private void UpdateModel() {
+        float2 goPosition = Utils.SwapVectorDimension(transform.position);
+        playerData.position = goPosition;
         playerData.isMoving = isMoving;
         playerData.isRunning = isRunning;
     }
-
-    private void UpdateAnimator(bool isMoving, bool isRunning, float2 playerInput) {
+    
+    private void UpdateAnimator() {
         float currentX = animator.GetFloat("X");
         float currentY = animator.GetFloat("Y");
 
@@ -96,14 +74,49 @@ public class PlayerController : MonoBehaviour {
         animator.SetFloat("X", playerInput.x);
         animator.SetFloat("Y", playerInput.y);
     }
+    #endregion
+    
+    #region Movement Code
 
-    private Vector2 CalculateMovePosition(float2 playerInput, float playerSpeed) {
-        return CalculateMoveVector(playerInput, playerSpeed) +
-               new float2(Utils.SwapVectorDimension(transform.position));
+    private void HandlePlayerMovement() {
+
+        if (isMoving) {
+            MovePlayer(playerInput);
+        }
+    }
+
+    private void GetPlayerInput() {
+        isRunning = !Input.GetKey(SpeedModifierKey);
+        playerInput = new float2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
+        isMoving = Mathf.Abs(playerInput.x) + Mathf.Abs(playerInput.y) > 0;
+    }
+
+    private void MovePlayer(float2 playerInput) {
+        float playerSpeed;
+        bool isRunning = GetPlayerSpeed(out playerSpeed);
+
+        float2 movePosition = CalculateMovePosition(playerInput, playerSpeed);
+        UpdatePlayerSortingPosition(movePosition.y);
+        _rigidbody2D.MovePosition(movePosition);
+    }
+
+    private void UpdatePlayerSortingPosition(float yPosition) {
+        Vector3 position = transform.position;
+        position.z = Utils.zPositionMultiplier * yPosition + Utils.zPositionOffset;
+        transform.position = position;
+    }
+
+    private bool GetPlayerSpeed(out float playerSpeed) {
+        playerSpeed = isRunning ? runSpeed : walkSpeed;
+        return isRunning;
+    }
+
+    private float2 CalculateMovePosition(float2 playerInput, float playerSpeed) {
+        return CalculateMoveVector(playerInput, playerSpeed) + playerData.position;
     }
 
     private float2 CalculateMoveVector(float2 playerInput, float speed) {
-        return math.normalize(playerInput) * Time.deltaTime * speed;
+        return math.normalize(playerInput) * Time.fixedDeltaTime * speed;
     }
 
     #endregion
