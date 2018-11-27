@@ -1,58 +1,114 @@
-{
-  "Tiles": [
-    {
-      "name": "core.barrel",
-      "X": 0,
-      "Y": 0
-    },
-    {
-      "name": "core.barrel",
-      "X": 4,
-      "Y": 0
-    },
-    {
-      "name": "core.barrel",
-      "X": 8,
-      "Y": 0
-    },
-    {
-      "name": "core.barrel",
-      "X": 12,
-      "Y": 0
-    },
-    {
-      "name": "core.barrel",
-      "X": 0,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 4,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 8,
-      "Y": 4
-    },
-    {
-      "name": "core.barrel",
-      "X": 12,
-	  "Y": 4
-    },
-	{
-	  "name": "core.trigger",
-	  "X": 16,
-	  "Y": 0,
-	  "datasets": [
-        {
-		  "DoorTriggerData": {
-            "room": "test_room",
-		    "x": 2,
-		    "y": 2
-		  }
-		}
-	  ]
-	}
-  ]
-}
+[
+   {
+      "Definition":"core.barrel",
+      "posX":0.0,
+      "posY":0.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":0.0,
+      "posY":2.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":0.0,
+      "posY":4.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":0.0,
+      "posY":6.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":2.0,
+      "posY":0.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":2.0,
+      "posY":2.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":2.0,
+      "posY":4.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":2.0,
+      "posY":6.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":0.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":2.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":4.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":4.0,
+      "posY":6.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":6.0,
+      "posY":0.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":6.0,
+      "posY":2.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":6.0,
+      "posY":4.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.barrel",
+      "posX":6.0,
+      "posY":6.0,
+      "Datasets":null
+   },
+   {
+      "Definition":"core.trigger",
+      "posX":2.0,
+      "posY":2.0,
+      "Datasets":{
+         "$type":"IThingData[], Assembly-CSharp",
+         "$values":[
+            {
+               "$type":"DoorTriggerData, Assembly-CSharp",
+               "room":"room",
+               "x":1.0,
+               "y":1.0
+            }
+         ]
+      }
+   }
+]

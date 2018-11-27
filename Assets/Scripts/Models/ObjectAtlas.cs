@@ -16,12 +16,12 @@ public class ObjectAtlas {
     }
 
     private static void createAtlas() {
-        ThingDef barrel = new ThingDef("core.barrel", "Sprites/Objects/barrel", null);
+        ThingDef barrel = new ThingDef("core.barrel", "Sprites/Objects/barrel", false, null);
         IThingScript[] scripts = new IThingScript[] {new DoorTrigger()};
-        ThingDef trigger = new ThingDef("core.trigger", "Sprites/Terrain/Collision", scripts);
+        ThingDef trigger = new ThingDef("core.trigger", "Sprites/Terrain/Collision", true, scripts);
         objectAtlas = new Dictionary<string, ThingDef>();
-        objectAtlas.Add(barrel.name, barrel);
-        objectAtlas.Add(trigger.name, trigger);
+        objectAtlas.Add(barrel.Name, barrel);
+        objectAtlas.Add(trigger.Name, trigger);
     }
     
 }

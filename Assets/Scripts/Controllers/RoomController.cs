@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using Newtonsoft.Json;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class RoomController : MonoBehaviour {
@@ -32,15 +29,7 @@ public class RoomController : MonoBehaviour {
     private void Start() {
         activeObjects = new Dictionary<GameObject, Thing>();
         activeTerrainTiles = new Stack<GameObject>();
-        //buildRoom("main");
-        List<Thing> test = new List<Thing>();
-        Thing simpleThing = new Thing(ObjectAtlas.getObject("core.barrel"), float2.zero, null);
-        IThingData[] dataset = new[] {new DoorTriggerData("room", 1, 1),};
-        Thing triggerThing = new Thing(ObjectAtlas.getObject("core.trigger"), new float2(2, 2), dataset);
-        test.Add(simpleThing);
-        test.Add(triggerThing);
-        string jsonString = JsonConvert.SerializeObject(test, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-        Debug.Log(jsonString);
+        buildRoom("main");
     }
 
     private void Update() {
@@ -93,16 +82,17 @@ public class RoomController : MonoBehaviour {
 
         ThingDef currentThingDef;
         Thing currentThing;
-        foreach (TileJson tile in getObjectMap(room).Tiles) {
-            if (tile.datasets != null) {
-                Debug.Log(tile.datasets[0].GetType().FullName);
+        foreach (Thing thing in getObjectMap(room)) {
+            if (thing.Datasets != null) {
+                Debug.Log(thing.Datasets[0].GetType().FullName);
             }
 
-            currentThingDef = ObjectAtlas.getObject(tile.name);
-            Vector3 pos = new Vector3(tile.X, tile.Y, tile.Y * Utils.zPositionMultiplier + Utils.zPositionOffset);
+            currentThingDef = thing.Definition;
+            Vector3 pos = new Vector3(thing.Position.x, thing.Position.y, thing.Position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
             poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
-            poolGO.GetComponent<SpriteRenderer>().sprite = currentThingDef.sprite;
-            poolGO.AddComponent<PolygonCollider2D>();
+            poolGO.GetComponent<SpriteRenderer>().sprite = currentThingDef.Sprite;
+            var collider = poolGO.AddComponent<PolygonCollider2D>();
+            collider.isTrigger = currentThingDef.isTrigger;
             poolGO.transform.parent = ObjectRoot.transform;
             currentThing = new Thing(currentThingDef, Utils.SwapVectorDimension(pos), null);
             activeObjects[poolGO] = currentThing;
@@ -114,10 +104,16 @@ public class RoomController : MonoBehaviour {
         return JsonUtility.FromJson<TileMap>(jsonObj.text);
     }
 
-    private TileMap getObjectMap(string room) {
-        String jsonObj = Resources.Load<TextAsset>("Rooms/" + room + "/ObjectMap").text;
-        var deserializedObject = JsonConvert.DeserializeObject<TileMap>(jsonObj, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Objects });
-        return deserializedObject;
+    private IList<Thing> getObjectMap(string room) {
+        var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/ObjectMap").text;
+        var settings  = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
+        var serializableThings = JsonConvert.DeserializeObject<List<SerializableThing>>(jsonString, settings);
+        var objectMap = new List<Thing>();
+        foreach (var sThing in serializableThings) {
+            objectMap.Add(new Thing(sThing));
+        }
+        
+        return objectMap;
     }
 
     private void buildTempTerrainAtlas() {

@@ -24,7 +24,7 @@ public class APIController : MonoBehaviour {
     }
     
     private T[] GetScriptsImplementingInterface<T>(Thing thing) {
-        return GetScriptsImplementingInterface<T>(thing.definition.scripts);
+        return GetScriptsImplementingInterface<T>(thing.Definition.Scripts);
     }
     
     private T[] GetScriptsImplementingInterface<T>(IThingScript[] scripts) {
@@ -32,7 +32,7 @@ public class APIController : MonoBehaviour {
     }
 
     private IThingData GetDatasetOfType(Thing thing, Type dataType) {
-        foreach (IThingData thingData in thing.datasets) {
+        foreach (IThingData thingData in thing.Datasets) {
             if (dataType.IsAssignableFrom(thingData.GetType())) {
                 return thingData;
             }
