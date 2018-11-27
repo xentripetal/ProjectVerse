@@ -22,13 +22,6 @@ and explore other worlds with different themes and quests all while promoting hi
 trading, production, and crime.
 
 
-### Currently Implemented Features
-* Movable Player
-* Basic objects that can be scripted and have their data set via json.
-* Storing and loading rooms from json files to allow editing/modability.
-* Loading different rooms
-
-
 ### Planned Features
 * Crop Growing - plantable crops that grow over a given lifecycle and produce a sellable item
 * Home Building - Add objects into home, decorative and functional
@@ -44,6 +37,22 @@ trading, production, and crime.
 
 
 ## Development
+
+### Currently Implemented Features
+* Movable Player
+* Basic objects that can be scripted and have their data set via json.
+* Storing and loading rooms from json files to allow editing/modability.
+* Loading different rooms
+
+
+### Design Goals
+* Pick a specific code style and reformat all code
+* Add unit tests and a build tracker
+* Transition most code over to ECS. Objects are intentionally being designed right now around data and systems. However,
+it currently uses a simple controller that delegates these data units to the appropriate systems in a single thread.
+
+
+### Stages
 
 Currently, the game is in stage INDEV. The expected stages are listed below.
 
