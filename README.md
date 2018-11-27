@@ -3,8 +3,11 @@
 ### Project Verse: A fully moddable Farming and Trading game
 
 [About](#about)  
-[Copyright & Licensing](#copyright--licensing)  
+
+[Copyright & Licensing](#copyright--licensing)
+
 [Development](#Development)
+
 [Contributing](#contributing)  
 
 ## About
