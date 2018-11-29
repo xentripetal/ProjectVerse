@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using Unity.Mathematics;
+using UnityEngine;
 
 public class Player : PlayerReadOnly
 {
@@ -20,7 +21,7 @@ public class Player : PlayerReadOnly
 
     public void RequestRoomChange(String room, float2 pos) {
         Debug.Log("Room change requested to " + room + " at position " + pos); 
-        _roomController.changeRoom(room);
+        _roomController.ChangeRoom(room);
         MovePlayer(pos);
     }
 

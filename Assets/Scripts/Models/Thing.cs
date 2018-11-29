@@ -15,7 +15,17 @@ public class Thing {
 
     public Thing(SerializableThing serializableThing) {
         Definition = ObjectAtlas.getObject(serializableThing.Definition);
-        Position = new float2(serializableThing.posX, serializableThing.posY);
+        Position = serializableThing.Position;
         Datasets = serializableThing.Datasets;
+    }
+
+    public override string ToString() {
+        var concatstring = "{Definition: " + Definition.Name + ", Position: " + Position + ", Datasets: {";
+        foreach (var dataset in Datasets) {
+            concatstring += dataset.GetType().Name + ",";
+        }
+
+        concatstring += "}";
+        return concatstring;
     }
 }

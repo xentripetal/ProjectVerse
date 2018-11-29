@@ -1,48 +1,60 @@
 [
-   {
-      "Definition":"core.barrel",
-      "posX":0.0,
-      "posY":0.0,
-      "Datasets":null
-   },
-   {
-      "Definition":"core.barrel",
-      "posX":4.0,
-      "posY":0.0,
-      "Datasets":null
-   },
-   {
-      "Definition":"core.barrel",
-      "posX":4.0,
-      "posY":2.0,
-      "Datasets":null
-   },
-   {
-      "Definition":"core.barrel",
-      "posX":4.0,
-      "posY":4.0,
-      "Datasets":null
-   },
-   {
-      "Definition":"core.barrel",
-      "posX":6.0,
-      "posY":6.0,
-      "Datasets":null
-   },
-   {
-      "Definition":"core.trigger",
-      "posX":0.0,
-      "posY":0.0,
-      "Datasets":{
-         "$type":"IThingData[], Assembly-CSharp",
-         "$values":[
-            {
-               "$type":"DoorTriggerData, Assembly-CSharp",
-               "room":"main",
-               "x":0.0,
-               "y":0.0
-            }
-         ]
-      }
-   }
+  {
+    "Definition": "core.barrel",
+    "Position": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "Datasets": null
+  },
+  {
+    "Definition": "core.barrel",
+    "Position": {
+      "x": 4.0,
+      "y": 0.0
+    },
+    "Datasets": null
+  },
+  {
+    "Definition": "core.barrel",
+    "Position": {
+      "x": 4.0,
+      "y": 2.0
+    },
+    "Datasets": null
+  },
+  {
+    "Definition": "core.barrel",
+    "Position": {
+      "x": 4.0,
+      "y": 4.0
+    },
+    "Datasets": null
+  },
+  {
+    "Definition": "core.barrel",
+    "Position": {
+      "x": 6.0,
+      "y": 6.0
+    },
+    "Datasets": null
+  },
+  {
+    "Definition": "core.trigger",
+    "Position": {
+      "x": 0.0,
+      "y": 0.0
+    },
+    "Datasets": {
+      "$type": "IThingData[], Assembly-CSharp",
+      "$values": [
+        {
+          "$type": "DoorTriggerData, Assembly-CSharp",
+          "room": "main",
+          "x": 0.0,
+          "y": 0.0
+        }
+      ]
+    }
+  }
 ]

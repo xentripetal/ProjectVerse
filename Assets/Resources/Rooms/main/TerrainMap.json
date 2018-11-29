@@ -1,129 +1,215 @@
 {
+  "Colliders": {
+    "EdgePoints": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": 20.0,
+        "y": 0.0
+      },
+      {
+        "x": 20.0,
+        "y": 20.0
+      },
+      {
+        "x": 0.0,
+        "y": 20.0
+      },
+      {
+        "x": 0.0,
+        "y": 0.0
+      }
+    ],
+    "BoxColliders": [
+      {
+        "Position": {
+          "x": 2.5,
+          "y": 2.5
+        },
+        "Size": {
+          "x": 1.0,
+          "y": 1.0
+        }
+      }
+    ]
+  },
   "Tiles": [
     {
-      "name": "core.grass",
-      "X": 0,
-      "Y": 0
+      "Definition": "core.grass",
+      "Position": {
+        "x": 0.0,
+        "y": 0.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 4,
-      "Y": 0
+      "Definition": "core.grass",
+      "Position": {
+        "x": 0.0,
+        "y": 4.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 8,
-      "Y": 0
+      "Definition": "core.grass",
+      "Position": {
+        "x": 0.0,
+        "y": 8.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 12,
-      "Y": 0
+      "Definition": "core.grass",
+      "Position": {
+        "x": 0.0,
+        "y": 12.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 16,
-      "Y": 0
+      "Definition": "core.grass",
+      "Position": {
+        "x": 0.0,
+        "y": 16.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 0,
-      "Y": 4
+      "Definition": "core.grass",
+      "Position": {
+        "x": 4.0,
+        "y": 0.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 4,
-      "Y": 4
+      "Definition": "core.grass",
+      "Position": {
+        "x": 4.0,
+        "y": 4.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 8,
-      "Y": 4
+      "Definition": "core.grass",
+      "Position": {
+        "x": 4.0,
+        "y": 8.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 12,
-      "Y": 4
+      "Definition": "core.grass",
+      "Position": {
+        "x": 4.0,
+        "y": 12.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 16,
-      "Y": 4
+      "Definition": "core.grass",
+      "Position": {
+        "x": 4.0,
+        "y": 16.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 0,
-      "Y": 8
+      "Definition": "core.grass",
+      "Position": {
+        "x": 8.0,
+        "y": 0.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 4,
-      "Y": 8
+      "Definition": "core.grass",
+      "Position": {
+        "x": 8.0,
+        "y": 4.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 8,
-      "Y": 8
+      "Definition": "core.grass",
+      "Position": {
+        "x": 8.0,
+        "y": 8.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 12,
-      "Y": 8
+      "Definition": "core.grass",
+      "Position": {
+        "x": 8.0,
+        "y": 12.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 16,
-      "Y": 8
+      "Definition": "core.grass",
+      "Position": {
+        "x": 8.0,
+        "y": 16.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 0,
-      "Y": 12
+      "Definition": "core.grass",
+      "Position": {
+        "x": 12.0,
+        "y": 0.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 4,
-      "Y": 12
+      "Definition": "core.grass",
+      "Position": {
+        "x": 12.0,
+        "y": 4.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 8,
-      "Y": 12
+      "Definition": "core.grass",
+      "Position": {
+        "x": 12.0,
+        "y": 8.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 12,
-      "Y": 12
+      "Definition": "core.grass",
+      "Position": {
+        "x": 12.0,
+        "y": 12.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 16,
-      "Y": 12
+      "Definition": "core.grass",
+      "Position": {
+        "x": 12.0,
+        "y": 16.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 0,
-      "Y": 16
+      "Definition": "core.grass",
+      "Position": {
+        "x": 16.0,
+        "y": 0.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 4,
-      "Y": 16
+      "Definition": "core.grass",
+      "Position": {
+        "x": 16.0,
+        "y": 4.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 8,
-      "Y": 16
+      "Definition": "core.grass",
+      "Position": {
+        "x": 16.0,
+        "y": 8.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 12,
-      "Y": 16
+      "Definition": "core.grass",
+      "Position": {
+        "x": 16.0,
+        "y": 12.0
+      }
     },
     {
-      "name": "core.grass",
-      "X": 16,
-      "Y": 16
+      "Definition": "core.grass",
+      "Position": {
+        "x": 16.0,
+        "y": 16.0
+      }
     }
   ]
 }
