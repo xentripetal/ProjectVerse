@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using API.Models;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-
-public class SerializableTile{
-    public string Definition;
-    public Position Position;
-}
+using Verse.API.Models;
 
 public class BoxCollider {
     public Position Position;
@@ -23,7 +17,6 @@ public class Colliders {
     }
 }
 
-[JsonObject(MemberSerialization.OptIn)]
 public class TerrainMap {
     public Colliders Colliders;
     public IList<SerializableTile> Tiles;

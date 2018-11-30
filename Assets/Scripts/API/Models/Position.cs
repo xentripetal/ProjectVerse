@@ -2,7 +2,7 @@ using System;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace API.Models {
+namespace Verse.API.Models {
     public struct Position {
         public float x;
         public float y;

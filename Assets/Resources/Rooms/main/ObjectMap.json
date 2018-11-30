@@ -127,6 +127,14 @@
     },
     "Datasets": null
   },
+	{
+    "Definition": "core.mediumtree1",
+    "Position": {
+      "x": 12.0,
+      "y": 4.0
+    },
+    "Datasets": null
+  },
   {
     "Definition": "core.trigger",
     "Position": {
