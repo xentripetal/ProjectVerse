@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Verse.API.Models {
     /// <summary>
@@ -11,22 +12,23 @@ namespace Verse.API.Models {
         public string FullName { get; protected set; }
 
         /// <value>The tile name. E.g. 'barrel'.</value>
-        public readonly string Name;
+        [JsonIgnore] public readonly string Name;
 
         /// <value>
         /// The providing package for the Tile. For example, the Object 'core.staticobjects.deco.barrel'
         /// will return 'core.staticobjects.deco'
         /// </value>
-        public readonly string Package;
+        [JsonIgnore] public readonly string Package;
 
         /// <value>
         /// The top level package for the Tile. For example, all non-modded content will have the Provider 'core'.
         /// </value>
-        public readonly string Provider;
+        [JsonIgnore] public readonly string Provider;
 
         /// <value>Information on the Tiles sprite</value>
         public SpriteInfo SpriteInfo { get; protected set; }
 
+        [JsonConstructor]
         public TileDef(String fullName, SpriteInfo spriteInfo) {
             FullName = fullName;
             var splitFullName = fullName.Split('.');
@@ -45,6 +47,7 @@ namespace Verse.API.Models {
         /// <value>Is true if the object has collisions enabled.</value>
         public readonly bool IsCollidable;
 
+        [JsonConstructor]
         public ThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable) : base(fullName, spriteInfo) {
             IsCollidable = isCollidable;
         }
@@ -57,13 +60,19 @@ namespace Verse.API.Models {
         /// </value>
         public readonly bool IsTrigger;
 
-        /// <value>The list of scripts for the Object.</value>
-        public readonly IThingScript[] Scripts;
+        /// <value>the list of scripts for the object.</value>
+        [JsonIgnore] public readonly IThingScript[] Scripts;
 
+        /// <value>List of scripts by script name only./value>
+        public readonly string[] ScriptNames;
+
+        [JsonConstructor]
         public ScriptableThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable, bool isTrigger,
-            IThingScript[] scripts) : base(fullName, spriteInfo, isCollidable) {
+            string[] scriptNames) : base(fullName, spriteInfo, isCollidable) {
             IsTrigger = isTrigger;
-            Scripts = scripts;
+            ScriptNames = scriptNames;
+            Scripts = scriptNames.Select(scriptName => ScriptAtlas.getScript(scriptName)).ToArray();
         }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using Unity.Mathematics;
 using UnityEngine;
+using Verse.Systems.Visual;
 
 public class Player : PlayerReadOnly
 {

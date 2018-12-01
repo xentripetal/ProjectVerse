@@ -1,0 +1,29 @@
+{
+	"IsTrigger": true,
+	"ScriptNames": ["DoorTrigger"],
+	"IsCollidable": true,
+	"FullName": "core.scriptable.trigger",
+	"SpriteInfo": {
+		"SpritePath": "Sprites/Terrain/Collision",
+		"PixelsPerUnit": 32,
+		"PivotPoint": {
+			"x": 0.0,
+			"y": 0.0
+		},
+		"ColliderShape": [
+			[{
+				"x": 1.0,
+				"y": 0.0
+			}, {
+				"x": 1.0,
+				"y": 1.0
+			}, {
+				"x": 0.0,
+				"y": 1.0
+			}, {
+				"x": 0.0,
+				"y": 0.0
+			}]
+		]
+	}
+}

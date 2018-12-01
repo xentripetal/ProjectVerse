@@ -1,156 +1,121 @@
 [
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 0.0,
       "y": 0.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 0.0,
       "y": 2.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 0.0,
       "y": 4.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 0.0,
       "y": 6.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 2.0,
       "y": 0.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 2.0,
       "y": 2.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 2.0,
       "y": 4.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 2.0,
       "y": 6.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 4.0,
       "y": 0.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 4.0,
       "y": 2.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 4.0,
       "y": 4.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 4.0,
       "y": 6.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 6.0,
       "y": 0.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 6.0,
       "y": 2.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 6.0,
       "y": 4.0
-    },
-    "Datasets": null
+    }
   },
   {
-    "Definition": "core.barrel",
+    "Definition": "core.static.barrel",
     "Position": {
       "x": 6.0,
       "y": 6.0
-    },
-    "Datasets": null
+    }
   },
 	{
-    "Definition": "core.mediumtree1",
+    "Definition": "core.vegetation.tree",
     "Position": {
       "x": 12.0,
       "y": 4.0
-    },
-    "Datasets": null
-  },
-  {
-    "Definition": "core.trigger",
-    "Position": {
-      "x": 8.0,
-      "y": 2.0
-    },
-    "Datasets": {
-      "$type": "IThingData[], Assembly-CSharp",
-      "$values": [
-        {
-          "$type": "DoorTriggerData, Assembly-CSharp",
-          "room": "test",
-          "x": 6.0,
-          "y": 2.0
-        }
-      ]
     }
   }
 ]

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Verse.API.Models {
     public class SpriteInfo {
         
@@ -8,9 +10,9 @@ namespace Verse.API.Models {
         /// <value>The position of the pivot. Should normally be the bottom left corner (0,0).</value>
         public readonly Position PivotPoint;
         /// <value>A list of points for the collider shape.</value>
-        public readonly Position[][] ColliderShape;
+        public readonly List<Position[]> ColliderShape;
 
-        public SpriteInfo(string spritePath, int pixelsPerUnit, Position pivotPoint, Position[][] colliderShape) {
+        public SpriteInfo(string spritePath, int pixelsPerUnit, Position pivotPoint, List<Position[]> colliderShape) {
             SpritePath = spritePath;
             PixelsPerUnit = pixelsPerUnit;
             PivotPoint = pivotPoint;

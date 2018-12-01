@@ -1,0 +1,33 @@
+{
+	"IsCollidable": true,
+	"FullName": "core.vegetation.tree",
+	"SpriteInfo": {
+		"SpritePath": "Sprites/Objects/mediumtree1",
+		"PixelsPerUnit": 32,
+		"PivotPoint": {
+			"x": 0.2578125,
+			"y": 0.0
+		},
+		"ColliderShape": [
+			[{
+				"x": 0.8,
+				"y": 0.1
+			}, {
+				"x": 1.7,
+				"y": 0.2
+			}, {
+				"x": 1.4,
+				"y": 0.5
+			}, {
+				"x": 0.9,
+				"y": 0.6
+			}, {
+				"x": 0.4,
+				"y": 0.5
+			}, {
+				"x": 0.1,
+				"y": 0.2
+			}]
+		]
+	}
+}

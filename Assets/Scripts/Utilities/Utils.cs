@@ -19,12 +19,8 @@ public static class Utils {
     public static Sprite InfoToSprite(SpriteInfo info) {
         Texture2D image = Resources.Load<Texture2D>(info.SpritePath);
         Rect rect = new Rect(0, 0, image.width, image.height);
-        Sprite sprite = Sprite.Create(image, rect, info.PivotPoint, info.PixelsPerUnit);
-        if (info.ColliderShape != null) {
-            sprite.OverridePhysicsShape(info.ColliderShape
-                .Select(posList => posList.Select(pos => (Vector2) pos).ToArray()).ToList());
-        }
-
+        Sprite sprite = Sprite.Create(image, rect, info.PivotPoint, info.PixelsPerUnit, uint.MinValue, SpriteMeshType.Tight);
+        
         return sprite;
     }
 

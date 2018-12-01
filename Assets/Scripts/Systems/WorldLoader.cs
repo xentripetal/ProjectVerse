@@ -28,7 +28,7 @@ namespace Systems {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/ScriptableObjectMap").text;
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
             
-            var serializableThings = JsonConvert.DeserializeObject<List<SerializableThing>>(jsonString, settings);
+            var serializableThings = JsonConvert.DeserializeObject<List<SerializableScriptableThing>>(jsonString, settings);
             return serializableThings.Select(sThing => (ScriptableThing) sThing).ToList();
         }
     }

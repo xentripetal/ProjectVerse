@@ -1,0 +1,12 @@
+{
+	"FullName": "core.tiles.lightgrass",
+	"SpriteInfo": {
+		"SpritePath": "Sprites/Terrain/grass2-4x4tile",
+		"PixelsPerUnit": 32,
+		"PivotPoint": {
+			"x": 0.0,
+			"y": 0.0
+		},
+		"ColliderShape": null
+	}
+}

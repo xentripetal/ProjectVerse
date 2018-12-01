@@ -7,11 +7,8 @@ using Verse.API.Models;
 namespace Verse.Systems.Visual {
     public class RoomController : MonoBehaviour {
         [SerializeField] public GameObject TerrainRoot;
-
         [SerializeField] public GameObject ObjectRoot;
-
         [SerializeField] public GameObject TerrainTilePrefab;
-
         [SerializeField] public GameObject ObjectTilePrefab;
 
         private ObjectAtlas ObjectAtlas;
@@ -42,7 +39,7 @@ namespace Verse.Systems.Visual {
             return (ScriptableThing) activeObjects[GO];
         }
 
-        void DestroyRoom() {
+        private void DestroyRoom() {
             foreach (GameObject GO in activeObjects.Keys) {
                 SimplePool.Despawn(GO);
             }
@@ -58,8 +55,7 @@ namespace Verse.Systems.Visual {
             currentRoom = room;
 
             TerrainMap currentTerrainMap = WorldLoader.GetTerrainMap(currentRoom);
-            BuildEdgeColliders(currentTerrainMap.Colliders.EdgePoints);
-            BuildBoxColliders(currentTerrainMap.Colliders.BoxColliders);
+            BuildColliders(currentTerrainMap.Colliders);
 
             foreach (var tile in currentTerrainMap.Tiles) {
                 BuildTile(tile);
@@ -68,6 +64,17 @@ namespace Verse.Systems.Visual {
             foreach (Thing thing in WorldLoader.GetThingMap(currentRoom)) {
                 BuildThing(thing);
             }
+
+            foreach (var thing in WorldLoader.GetScriptableThings(currentRoom)) {
+                BuildScriptableThing(thing);
+            }
+        }
+
+        #region Collider Construction
+
+        private void BuildColliders(Colliders colliders) {
+            BuildEdgeColliders(colliders.EdgePoints);
+            BuildBoxColliders(colliders.BoxColliders);
         }
 
         private void BuildBoxColliders(IList<BoxCollider> boxColliders) {
@@ -97,43 +104,79 @@ namespace Verse.Systems.Visual {
             colliderRoot.points = colliderPoints.Select(pos => (Vector2) pos).ToArray();
         }
 
+        #endregion
+
+        #region Tile Construction
+
         private void BuildTile(Tile tile) {
             Vector3 pos = (Vector3) tile.Position;
-            GameObject poolGO = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
-            poolGO.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(tile.Definition.SpriteInfo);
-            poolGO.transform.parent = TerrainRoot.transform;
-            activeTerrainTiles.Push(poolGO);
+            GameObject poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
+            poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(tile.Definition.SpriteInfo);
+            poolGo.transform.parent = TerrainRoot.transform;
+            activeTerrainTiles.Push(poolGo);
         }
 
         private void BuildThing(Thing thing) {
             var currentThingDef = thing.Definition;
-            Vector3 pos = new Vector3(thing.Position.x, thing.Position.y,
-                thing.Position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
-            GameObject poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
-            poolGO.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            var pos = GetLayeredPosition(thing.Position);
+
+            GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
+
+            poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            var collider = poolGo.GetComponent<PolygonCollider2D>();
+            collider.enabled = currentThingDef.IsCollidable;
+            collider.isTrigger = false;
             if (currentThingDef.IsCollidable) {
-                var collider = poolGO.AddComponent<PolygonCollider2D>();
+                UpdateColliderPaths(collider, currentThingDef.SpriteInfo.ColliderShape);
             }
 
-            poolGO.transform.parent = ObjectRoot.transform;
-            activeObjects[poolGO] = thing;
+            poolGo.transform.parent = ObjectRoot.transform;
+            activeObjects[poolGo] = thing;
         }
-
 
         private void BuildScriptableThing(ScriptableThing thing) {
             var currentThingDef = thing.Definition;
             Vector3 pos = new Vector3(thing.Position.x, thing.Position.y,
                 thing.Position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
-            GameObject poolGO = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
-            poolGO.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
+            poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            var collider = poolGo.GetComponent<PolygonCollider2D>();
+            collider.enabled = currentThingDef.IsCollidable;
             if (currentThingDef.IsCollidable) {
-                if (currentThingDef.IsTrigger) {
-                    var collider = poolGO.AddComponent<PolygonCollider2D>();
-                }
+                UpdateColliderPaths(collider, currentThingDef.SpriteInfo.ColliderShape);
+                collider.isTrigger = currentThingDef.IsTrigger;
             }
 
-            poolGO.transform.parent = ObjectRoot.transform;
-            activeObjects[poolGO] = thing;
+            poolGo.transform.parent = ObjectRoot.transform;
+            activeObjects[poolGo] = thing;
         }
+
+        private Vector3 GetLayeredPosition(Position position) {
+            return new Vector3(position.x, position.y,
+                position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
+        }
+
+        private void UpdateColliderPaths(PolygonCollider2D collider, List<Position[]> paths) {
+            EmptyPreviousColliders(collider);
+
+            if (paths != null) {
+                CopyNewPaths(collider, paths);
+            }
+        }
+
+        private void CopyNewPaths(PolygonCollider2D collider, List<Position[]> paths) {
+            for (int i = 0; i < paths.Count; i++) {
+                collider.SetPath(i,
+                    paths[i].Select(point => (Vector2) point).ToArray());
+            }
+        }
+
+        private void EmptyPreviousColliders(PolygonCollider2D collider) {
+            for (int i = 0; i < collider.pathCount; i++) {
+                collider.SetPath(i, null);
+            }
+        }
+
+        #endregion
     }
 }
