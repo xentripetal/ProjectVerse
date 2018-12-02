@@ -2,6 +2,7 @@
 	"IsTrigger": true,
 	"ScriptNames": ["DoorTrigger"],
 	"IsCollidable": true,
+	"IsTransparentOnPlayerBehind": false,
 	"FullName": "core.scriptable.trigger",
 	"SpriteInfo": {
 		"SpritePath": "Sprites/Terrain/Collision",
@@ -24,6 +25,7 @@
 				"x": 0.0,
 				"y": 0.0
 			}]
-		]
+		],
+		"TransparencyShape": null
 	}
 }

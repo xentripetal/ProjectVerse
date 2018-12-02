@@ -1,5 +1,6 @@
 {
 	"IsCollidable": true,
+	"IsTransparentOnPlayerBehind": false,
 	"FullName": "core.static.barrel",
 	"SpriteInfo": {
 		"SpritePath": "Sprites/Objects/barrel",
@@ -34,6 +35,7 @@
 				"x": 0.125,
 				"y": 0.375	
 			}]
-		]
+		],
+		"TransparencyShape": null
 	}
 }

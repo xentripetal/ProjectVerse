@@ -12,6 +12,10 @@ namespace Verse.API.Models {
             this.y = y;
         }
 
+        public static Position zero() {
+            return new Position(0,0);
+        }
+
         public override string ToString() {
             return "Position(" + this.x + ", " + this.y + ")";
         }

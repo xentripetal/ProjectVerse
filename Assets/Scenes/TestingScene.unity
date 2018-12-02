@@ -318,6 +318,8 @@ MonoBehaviour:
     type: 3}
   ObjectTilePrefab: {fileID: 6472809618688913335, guid: 306ea39ea6955fc47901a68fbbc67825,
     type: 3}
+  TransparencyColliderPrefab: {fileID: 8103904561225275748, guid: 68774e8c61da1964084cb85b19d40f64,
+    type: 3}
 --- !u!114 &610970251
 MonoBehaviour:
   m_ObjectHideFlags: 0

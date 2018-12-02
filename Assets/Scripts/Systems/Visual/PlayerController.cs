@@ -53,7 +53,31 @@ namespace Verse.Systems.Visual {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            _apiController.OnPlayerEnter(playerData, other.gameObject);
+            if (other.tag == "TransparencyCollider") {
+                var sr = other.GetComponentInParent<SpriteRenderer>();
+                sr.color = ToggleOpacity(sr.color);
+            }
+            else {
+                _apiController.OnPlayerEnter(playerData, other.gameObject);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other) {
+            if (other.tag == "TransparencyCollider") {
+                var sr = other.GetComponentInParent<SpriteRenderer>();
+                sr.color = ToggleOpacity(sr.color);
+            }
+        }
+
+        private Color ToggleOpacity(Color color) {
+            if (color.a == 1) {
+                color.a = .8f;
+            }
+            else {
+                color.a = 1;
+            }
+
+            return color;
         }
 
         #region ModelAndAnimator

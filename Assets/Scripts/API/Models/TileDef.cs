@@ -47,9 +47,14 @@ namespace Verse.API.Models {
         /// <value>Is true if the object has collisions enabled.</value>
         public readonly bool IsCollidable;
 
+        /// <value>Is true if the object will go transparent when the player is behind it.</value>
+        public readonly bool IsTransparentOnPlayerBehind;
+
         [JsonConstructor]
-        public ThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable) : base(fullName, spriteInfo) {
+        public ThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable, bool isTransparentOnPlayerBehind) :
+            base(fullName, spriteInfo) {
             IsCollidable = isCollidable;
+            IsTransparentOnPlayerBehind = isTransparentOnPlayerBehind;
         }
     }
 
@@ -67,12 +72,12 @@ namespace Verse.API.Models {
         public readonly string[] ScriptNames;
 
         [JsonConstructor]
-        public ScriptableThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable, bool isTrigger,
-            string[] scriptNames) : base(fullName, spriteInfo, isCollidable) {
+        public ScriptableThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable,
+            bool isTransparentOnPlayerBehind, bool isTrigger,
+            string[] scriptNames) : base(fullName, spriteInfo, isCollidable, isTransparentOnPlayerBehind) {
             IsTrigger = isTrigger;
             ScriptNames = scriptNames;
             Scripts = scriptNames.Select(scriptName => ScriptAtlas.getScript(scriptName)).ToArray();
         }
-
     }
 }

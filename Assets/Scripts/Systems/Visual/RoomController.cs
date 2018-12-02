@@ -10,13 +10,18 @@ namespace Verse.Systems.Visual {
         [SerializeField] public GameObject ObjectRoot;
         [SerializeField] public GameObject TerrainTilePrefab;
         [SerializeField] public GameObject ObjectTilePrefab;
+        [SerializeField] public GameObject TransparencyColliderPrefab;
 
         private ObjectAtlas ObjectAtlas;
 
         private Dictionary<GameObject, Thing> activeObjects;
         private Stack<GameObject> activeTerrainTiles;
 
-        private string currentRoom;
+        public string currentRoom { get; private set; }
+
+        public Position TopRight{ get; private set; }
+        public Position BottomLeft{ get; private set; }
+        public Position Center{ get; private set; }
 
         public static RoomController Instance;
 
@@ -30,6 +35,20 @@ namespace Verse.Systems.Visual {
             BuildRoom("main");
         }
 
+        private void Update() {
+            if (Input.GetKeyDown(KeyCode.Space)) {
+                GameObject tree = GameObject.Find("TileObject (17)");
+                string json = "[";
+                foreach (var pos in tree.GetComponent<PolygonCollider2D>().GetPath(0)) {
+                    json += "{\"x\": " + pos.x + ",";
+                    json += "\"y\": " + pos.y;
+                    json += "},";
+                }
+                json += "]";
+                Debug.Log(json);
+            }
+        }
+
         public void ChangeRoom(string room) {
             DestroyRoom();
             BuildRoom(room);
@@ -41,6 +60,10 @@ namespace Verse.Systems.Visual {
 
         private void DestroyRoom() {
             foreach (GameObject GO in activeObjects.Keys) {
+                foreach (Transform child in GO.transform) {
+                    SimplePool.Despawn(child.gameObject);
+                }
+
                 SimplePool.Despawn(GO);
             }
 
@@ -75,6 +98,24 @@ namespace Verse.Systems.Visual {
         private void BuildColliders(Colliders colliders) {
             BuildEdgeColliders(colliders.EdgePoints);
             BuildBoxColliders(colliders.BoxColliders);
+            UpdateCornerPositions(colliders.EdgePoints);
+        }
+
+        private void UpdateCornerPositions(IList<Position> colliderPoints) {
+            var minX = colliderPoints[0].x;
+            var maxX = colliderPoints[0].x;
+            var minY = colliderPoints[0].y;
+            var maxY = colliderPoints[0].y;
+            foreach (var pos in colliderPoints) {
+                minX = (pos.x < minX) ? pos.x : minX;
+                maxX = (pos.x > maxX) ? pos.x : maxX;
+                minY = (pos.y < minY) ? pos.y : minY;
+                maxY = (pos.x > maxY) ? pos.y : maxY;
+            }
+            
+            TopRight= new Position(maxX, maxY);
+            BottomLeft= new Position(minY, minX);
+            Center = new Position((minX + maxX)/2, (minY + maxY)/2);
         }
 
         private void BuildBoxColliders(IList<BoxCollider> boxColliders) {
@@ -122,13 +163,26 @@ namespace Verse.Systems.Visual {
 
             GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
 
-            poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+
+            Sprite sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            poolGo.GetComponent<SpriteRenderer>().sprite = sprite;
             var collider = poolGo.GetComponent<PolygonCollider2D>();
             collider.enabled = currentThingDef.IsCollidable;
             collider.isTrigger = false;
             if (currentThingDef.IsCollidable) {
                 UpdateColliderPaths(collider, currentThingDef.SpriteInfo.ColliderShape);
             }
+
+            if (currentThingDef.IsTransparentOnPlayerBehind) {
+                if (currentThingDef.SpriteInfo.TransparencyShape != null) {
+                    GameObject transparencyGo =
+                        SimplePool.Spawn(TransparencyColliderPrefab, pos, Quaternion.identity);
+                    UpdateColliderPaths(transparencyGo.GetComponent<PolygonCollider2D>(),
+                        currentThingDef.SpriteInfo.TransparencyShape);
+                    transparencyGo.transform.parent = poolGo.transform;
+                }
+            }
+
 
             poolGo.transform.parent = ObjectRoot.transform;
             activeObjects[poolGo] = thing;
