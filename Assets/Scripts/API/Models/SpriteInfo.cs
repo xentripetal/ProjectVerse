@@ -12,13 +12,13 @@ namespace Verse.API.Models {
         public readonly Position PivotPoint;
 
         /// <value>A list of points for the collider shape. Can be null</value>
-        public readonly List<Position[]> ColliderShape;
+        public readonly Position[] ColliderShape;
 
         /// <value>A list of points for detecting when the player is behind the defined shape. Can be null</value>
-        public readonly List<Position[]> TransparencyShape;
+        public readonly Position[] TransparencyShape;
 
-        public SpriteInfo(string spritePath, int pixelsPerUnit, Position pivotPoint, List<Position[]> colliderShape,
-            List<Position[]> transparencyShape) {
+        public SpriteInfo(string spritePath, int pixelsPerUnit, Position pivotPoint, Position[] colliderShape,
+            Position[] transparencyShape) {
             SpritePath = spritePath;
             PixelsPerUnit = pixelsPerUnit;
             PivotPoint = pivotPoint;

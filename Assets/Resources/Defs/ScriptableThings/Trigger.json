@@ -11,7 +11,7 @@
 			"x": 0.0,
 			"y": 0.0
 		},
-		"ColliderShape": [
+		"ColliderShape":
 			[{
 				"x": 1.0,
 				"y": 0.0
@@ -24,8 +24,7 @@
 			}, {
 				"x": 0.0,
 				"y": 0.0
-			}]
-		],
+			}],
 		"TransparencyShape": null
 	}
 }

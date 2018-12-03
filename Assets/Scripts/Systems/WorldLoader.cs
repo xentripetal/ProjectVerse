@@ -8,11 +8,11 @@ namespace Systems {
     public class WorldLoader {
         public static TerrainMap GetTerrainMap(string room) {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/TerrainMap").text;
-            
+
             TerrainMap terrainMap = JsonConvert.DeserializeObject<TerrainMap>(jsonString);
-            
+
             if (terrainMap.Colliders.BoxColliders == null) {
-                terrainMap.Colliders.BoxColliders = new List<BoxCollider>();
+                terrainMap.Colliders.BoxColliders = new List<BoxColliderInfo>();
             }
 
             return terrainMap;
@@ -27,8 +27,9 @@ namespace Systems {
         public static IList<ScriptableThing> GetScriptableThings(string room) {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/ScriptableObjectMap").text;
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
-            
-            var serializableThings = JsonConvert.DeserializeObject<List<SerializableScriptableThing>>(jsonString, settings);
+
+            var serializableThings =
+                JsonConvert.DeserializeObject<List<SerializableScriptableThing>>(jsonString, settings);
             return serializableThings.Select(sThing => (ScriptableThing) sThing).ToList();
         }
     }

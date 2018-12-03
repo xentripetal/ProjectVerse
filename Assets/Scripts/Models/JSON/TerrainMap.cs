@@ -2,16 +2,16 @@
 using Newtonsoft.Json;
 using Verse.API.Models;
 
-public class BoxCollider {
+public class BoxColliderInfo {
     public Position Position;
     public Position Size;
 }
 
 public class Colliders {
     public IList<Position> EdgePoints;
-    public IList<BoxCollider> BoxColliders;
+    public IList<BoxColliderInfo> BoxColliders;
 
-    public Colliders(IList<Position> edgePoints, IList<BoxCollider> boxColliders) {
+    public Colliders(IList<Position> edgePoints, IList<BoxColliderInfo> boxColliders) {
         EdgePoints = edgePoints;
         BoxColliders = boxColliders;
     }

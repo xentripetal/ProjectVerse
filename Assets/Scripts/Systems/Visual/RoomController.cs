@@ -19,9 +19,9 @@ namespace Verse.Systems.Visual {
 
         public string currentRoom { get; private set; }
 
-        public Position TopRight{ get; private set; }
-        public Position BottomLeft{ get; private set; }
-        public Position Center{ get; private set; }
+        public Position TopRight { get; private set; }
+        public Position BottomLeft { get; private set; }
+        public Position Center { get; private set; }
 
         public static RoomController Instance;
 
@@ -44,6 +44,7 @@ namespace Verse.Systems.Visual {
                     json += "\"y\": " + pos.y;
                     json += "},";
                 }
+
                 json += "]";
                 Debug.Log(json);
             }
@@ -112,13 +113,13 @@ namespace Verse.Systems.Visual {
                 minY = (pos.y < minY) ? pos.y : minY;
                 maxY = (pos.x > maxY) ? pos.y : maxY;
             }
-            
-            TopRight= new Position(maxX, maxY);
-            BottomLeft= new Position(minY, minX);
-            Center = new Position((minX + maxX)/2, (minY + maxY)/2);
+
+            TopRight = new Position(maxX, maxY);
+            BottomLeft = new Position(minY, minX);
+            Center = new Position((minX + maxX) / 2, (minY + maxY) / 2);
         }
 
-        private void BuildBoxColliders(IList<BoxCollider> boxColliders) {
+        private void BuildBoxColliders(IList<BoxColliderInfo> boxColliders) {
             IList<BoxCollider2D> colliderComponents = TerrainRoot.GetComponents<BoxCollider2D>().ToList();
             var diff = boxColliders.Count - colliderComponents.Count;
             if (diff > 0) {
@@ -210,7 +211,7 @@ namespace Verse.Systems.Visual {
                 position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
         }
 
-        private void UpdateColliderPaths(PolygonCollider2D collider, List<Position[]> paths) {
+        private void UpdateColliderPaths(PolygonCollider2D collider, Position[] paths) {
             EmptyPreviousColliders(collider);
 
             if (paths != null) {
@@ -218,11 +219,9 @@ namespace Verse.Systems.Visual {
             }
         }
 
-        private void CopyNewPaths(PolygonCollider2D collider, List<Position[]> paths) {
-            for (int i = 0; i < paths.Count; i++) {
-                collider.SetPath(i,
-                    paths[i].Select(point => (Vector2) point).ToArray());
-            }
+        private void CopyNewPaths(PolygonCollider2D collider, Position[] paths) {
+            collider.SetPath(0,
+                paths.Select(point => (Vector2) point).ToArray());
         }
 
         private void EmptyPreviousColliders(PolygonCollider2D collider) {
