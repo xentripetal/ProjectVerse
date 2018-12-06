@@ -47,7 +47,7 @@ TextureImporter:
   spritePivot: {x: 0.2578125, y: 0}
   spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: 0
@@ -83,7 +83,11 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -64, y: -80}
+      - {x: -64, y: 80}
+      - {x: 64, y: 80}
+      - {x: 64, y: -80}
     physicsShape:
     - - {x: -6, y: -77}
       - {x: 22, y: -75}

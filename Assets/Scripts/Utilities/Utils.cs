@@ -15,6 +15,18 @@ public static class Utils {
     public static Vector2 SwapVectorDimension(Vector3 vec) {
         return new Vector2(vec.x, vec.y);
     }
+    
+    static public Rect GetWorldRect (RectTransform rt, Vector2 scale) {
+        // Convert the rectangle to world corners and grab the top left
+        Vector3[] corners = new Vector3[4];
+        rt.GetWorldCorners(corners);
+        Vector3 topLeft = corners[0];
+ 
+        // Rescale the size appropriately based on the current Canvas scale
+        Vector2 scaledSize = new Vector2(scale.x * rt.rect.size.x, scale.y * rt.rect.size.y);
+ 
+        return new Rect(topLeft, scaledSize);
+    }
 
     public static Sprite InfoToSprite(SpriteInfo info) {
         Texture2D image = Resources.Load<Texture2D>(info.SpritePath);

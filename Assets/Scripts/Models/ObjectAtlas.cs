@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
+using UnityEditor;
 using UnityEngine;
 using Verse.API.Models;
 
@@ -29,6 +31,38 @@ public class ObjectAtlas {
         createScriptableThingAtlas();
     }
 
+    public static string[] getKeys() {
+        var keys = getTileNames().ToList();
+        keys.AddRange(getThingNames());
+        keys.AddRange(getScriptableThingNames());
+        return keys.ToArray();
+    }
+
+    public static string[] getTileNames() {
+        return tileAtlas.Keys.ToArray();
+    }
+
+    public static string[] getThingNames() {
+        return thingAtlas.Keys.ToArray();
+    }
+
+    public static string[] getScriptableThingNames() {
+        return scriptableThingAtlas.Keys.ToArray();
+    }
+
+    public static TileDef getDef(string objectName) {
+        VerifyAtlas();
+        if (tileAtlas.ContainsKey(objectName)) {
+            return getTileDef(objectName);
+        } else if (thingAtlas.ContainsKey(objectName)) {
+            return getThingDef(objectName);
+        } else if (scriptableThingAtlas.ContainsKey(objectName)) {
+            return getScriptableThingDef(objectName);
+        }
+        Debug.LogError("Definition " + objectName + " does not exist");
+        return null;
+    }
+    
     public static TileDef getTileDef(String objectName) {
         VerifyAtlas();
         return tileAtlas[objectName];
