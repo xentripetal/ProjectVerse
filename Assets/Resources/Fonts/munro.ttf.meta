@@ -13,9 +13,9 @@ TrueTypeFontImporter:
   - Munro
   fallbackFontReferences: []
   customCharacters: 
-  fontRenderingMode: 0
+  fontRenderingMode: 3
   ascentCalculationMode: 1
-  useLegacyBoundsCalculation: 0
+  useLegacyBoundsCalculation: 1
   shouldRoundAdvanceValue: 1
   userData: 
   assetBundleName: 

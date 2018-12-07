@@ -1,57 +1,35 @@
 ﻿using System;
 using System.Runtime.ConstrainedExecution;
+using UI;
 using UnityEngine;
 using Verse.API.Models;
 
-public class DefinitionEditor : MonoBehaviour
-{
+public class DefinitionEditor : MonoBehaviour {
+
+    private DefinitionEditorVisualLogicHandler _visualLogicHandler;
+
+    private void Awake() {
+        _visualLogicHandler = GetComponent<DefinitionEditorVisualLogicHandler>();
+    }
+
     public void LoadDefinition(String definition) {
         var def = getDef(definition);
-        SetSprite(def.SpriteInfo);
+        var data = getUITileData(def);
+        _visualLogicHandler.LoadValues(data);
+    }
+
+    private UITileData getUITileData(TileDef def) {
+        if (def.GetType() == typeof(ScriptableThingDef)) {
+            return (ScriptableThingDef) def;
+        }
+        if (def.GetType() == typeof(ThingDef)) {
+            return (ThingDef) def;
+        }
+        return def;
     }
 
     private TileDef getDef(string definition) {
         return ObjectAtlas.getDef(definition);
     }
 
-    private void SetSprite(SpriteInfo info) {
-        var sprite = Utils.InfoToSprite(info);
-        var ratio = CalculateSpriteRatio(sprite);
-        SetSpriteContainerRatio(ratio);
-        SetRendererSprite(sprite);
-    }
-
-    private float CalculateSpriteRatio(Sprite sprite) {
-        return sprite.rect.width / sprite.rect.height;
-    }
-
-    private void SetSpriteContainerRatio(float ratio) {
-        Debug.Log("Ratio: " + ratio);
-        var widget = GetSpriteContainerWidget();
-        widget.aspectRatio = ratio;
-        widget.UpdateAnchors();
-    }
-
-    private UIWidget GetSpriteContainerWidget() {
-        return GameObject.Find("Ratio Container").GetComponent<UIWidget>();
-    }
-
-    private void SetRendererSprite(Sprite sprite) {
-        var renderer = GetUi2DSpriteWidget();
-        renderer.sprite2D = sprite;
-        renderer.UpdateAnchors();
-        var grid = GetUI2DGrid();
-        grid.mPixelSize = renderer.width / sprite.rect.width;
-        grid.MarkAsChanged();
-        grid.UpdateAnchors();
-
-    }
-
-    private UI2DSprite GetUI2DGrid() {
-        return GameObject.Find("SpriteGrid").GetComponent<UI2DSprite>();
-    }
-    
-    private UI2DSprite GetUi2DSpriteWidget() {
-        return GameObject.Find("Rendered Sprite").GetComponent<UI2DSprite>();
-    }
 }
