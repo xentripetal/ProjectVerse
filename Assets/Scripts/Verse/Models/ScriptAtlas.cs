@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Verse.API.Interfaces;
-using Verse.ThingScripts;
 
 namespace Verse.Models {
     public class ScriptAtlas {

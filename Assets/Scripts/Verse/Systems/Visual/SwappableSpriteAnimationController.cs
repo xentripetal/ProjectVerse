@@ -15,6 +15,8 @@ namespace Verse.Systems.Visual {
         [FormerlySerializedAs("shirtSpriteRenderer")] public SpriteRenderer ShirtSpriteRenderer;
         [FormerlySerializedAs("pantsSpriteRenderer")] public SpriteRenderer PantsSpriteRenderer;
 
+        public string CharacterFolderPath;
+
         private string _loadedBodySpriteSheetName;
         private string _loadedHairSpriteSheetName;
         private string _loadedShirtSpriteSheetName;
@@ -40,7 +42,7 @@ namespace Verse.Systems.Visual {
         }
 
         private Dictionary<string, Sprite> LoadSpriteSheet(string spriteSheet) {
-            var sprites = Resources.LoadAll<Sprite>(spriteSheet);
+            var sprites = Resources.LoadAll<Sprite>(CharacterFolderPath + spriteSheet);
             return sprites.ToDictionary(x => x.name, x => x);
         }
 
