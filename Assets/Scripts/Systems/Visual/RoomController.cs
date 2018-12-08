@@ -192,7 +192,7 @@ namespace Verse.Systems.Visual {
         private void BuildScriptableThing(ScriptableThing thing) {
             var currentThingDef = thing.Definition;
             Vector3 pos = new Vector3(thing.Position.x, thing.Position.y,
-                thing.Position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
+                thing.Position.y * Utilities.Constants.zPositionMultiplier + Utilities.Constants.zPositionOffset);
             GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
             poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
             var collider = poolGo.GetComponent<PolygonCollider2D>();
@@ -208,7 +208,7 @@ namespace Verse.Systems.Visual {
 
         private Vector3 GetLayeredPosition(Position position) {
             return new Vector3(position.x, position.y,
-                position.y * Utils.zPositionMultiplier + Utils.zPositionOffset);
+                position.y * Utilities.Constants.zPositionMultiplier + Utilities.Constants.zPositionOffset);
         }
 
         private void UpdateColliderPaths(PolygonCollider2D collider, Position[] paths) {

@@ -1,10 +1,11 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Verse.Systems.Visual {
     public class PlayerController : MonoBehaviour {
-        public float walkSpeed = 2.2f;
-        public float runSpeed = 4f;
+        [FormerlySerializedAs("walkSpeed")] public float WalkSpeed = 2.2f;
+        [FormerlySerializedAs("runSpeed")] public float RunSpeed = 4f;
         public static PlayerController Instance;
 
         public string HorizontalAxis = "Horizontal";
@@ -45,7 +46,7 @@ namespace Verse.Systems.Visual {
         }
 
         public void DirectMovePlayer(float2 pos) {
-            transform.position = Utils.SwapVectorDimension(pos);
+            transform.position = (Vector2) pos;
         }
 
         private void FixedUpdate() {
@@ -53,7 +54,7 @@ namespace Verse.Systems.Visual {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (other.tag == "TransparencyCollider") {
+            if (other.CompareTag("TransparencyCollider")) {
                 var sr = other.GetComponentInParent<SpriteRenderer>();
                 sr.color = ToggleOpacity(sr.color);
             }
@@ -83,7 +84,7 @@ namespace Verse.Systems.Visual {
         #region ModelAndAnimator
 
         private void UpdateModel() {
-            float2 goPosition = Utils.SwapVectorDimension(transform.position);
+            float2 goPosition = (Vector2) transform.position;
             playerData.position = goPosition;
             playerData.isMoving = isMoving;
             playerData.isRunning = isRunning;
@@ -131,12 +132,12 @@ namespace Verse.Systems.Visual {
 
         private void UpdatePlayerSortingPosition(float yPosition) {
             Vector3 position = transform.position;
-            position.z = Utils.zPositionMultiplier * yPosition + Utils.zPositionOffset;
+            position.z = Utilities.Constants.zPositionMultiplier * yPosition + Utilities.Constants.zPositionOffset;
             transform.position = position;
         }
 
         private bool GetPlayerSpeed(out float playerSpeed) {
-            playerSpeed = isRunning ? runSpeed : walkSpeed;
+            playerSpeed = isRunning ? RunSpeed : WalkSpeed;
             return isRunning;
         }
 

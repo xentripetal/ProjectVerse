@@ -1,14 +1,12 @@
 {
   "dependencies": {
     "com.unity.2d.pixel-perfect": "1.0.1-preview",
-    "com.unity.burst": "0.2.4-preview.37",
-    "com.unity.collections": "0.0.9-preview.9",
-    "com.unity.entities": "0.0.12-preview.19",
+    "com.unity.analytics": "2.0.16",
+    "com.unity.collections": "0.0.9-preview.10",
     "com.unity.jobs": "0.0.7-preview.5",
     "com.unity.mathematics": "0.0.12-preview.19",
-    "com.unity.package-manager-ui": "2.1.0-preview.1",
-    "com.unity.test-framework.performance": "0.1.34-preview",
-    "com.unity.xr.legacyinputhelpers": "1.0.0",
+    "com.unity.package-manager-ui": "1.9.11",
+    "com.unity.textmeshpro": "1.2.4",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.assetbundle": "1.0.0",
@@ -39,12 +37,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "registry": "https://packages.unity.com",
-  "testables": [
-    "com.unity.collections",
-    "com.unity.entities",
-    "com.unity.jobs",
-    "com.unity.test-framework.performance"
-  ]
+  }
 }
