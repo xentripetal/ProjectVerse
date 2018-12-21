@@ -1,46 +1,47 @@
-using Unity.Mathematics;
-using UnityEngine;
+using System;
 
 namespace Verse.API.Models {
     public struct Position {
-        public float x;
-        public float y;
+        public readonly int x;
+        public readonly int y;
 
-        public Position(float x, float y) {
+        public Position(int x, int y) {
             this.x = x;
             this.y = y;
-        }
-
-        public static Position Zero() {
-            return new Position(0,0);
         }
 
         public override string ToString() {
             return "Position(" + x + ", " + y + ")";
         }
+        
+        public float SqrMagnitude => x * x + y * y;
 
-        static public implicit operator float2(Position value) {
-            return new float2(value.x, value.y);
+        public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
+
+        public static float Distance(Position from, Position to) {
+            return (from - to).Magnitude;
+        }
+
+        public static Position Zero = new Position(0, 0);
+        public static Position MaxValue = new Position(int.MaxValue, int.MaxValue);
+        public static Position MinValue = new Position(int.MinValue, int.MinValue);
+
+
+        public static Position operator +(Position a, Position b) {
+            return new Position(a.x + b.x, a.y + b.y);
         }
         
-        static public implicit operator Position(float2 value) {
-            return new Position(value.x, value.y);
+        public static Position operator -(Position a, Position b) {
+            return new Position(a.x - b.x, a.y - b.y);
         }
         
-        static public implicit operator Vector2(Position value) {
-            return new Vector2(value.x, value.y);
+        public static Position operator *(Position a, Position b) {
+            return new Position(a.x * b.x, a.y * b.y);
+        }
+
+        public static Position operator /(Position a, Position b) {
+            return new Position(a.x / b.x, a.y / b.y);
         }
         
-        static public implicit operator Position(Vector2 value) {
-            return new Position(value.x, value.y);
-        }
-        
-        static public explicit operator Vector3(Position value) {
-            return new Vector3(value.x, value.y, 0);
-        }
-        
-        static public explicit operator Position(Vector3 value) {
-            return new Position(value.x, value.y);
-        }
     }
 }

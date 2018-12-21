@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using Verse.API;
-using Verse.API.Interfaces;
+using Verse.API.Scripting;
 using Verse.API.Models;
 using Verse.Systems.Visual;
 
@@ -55,6 +55,7 @@ namespace Verse.Systems {
 
         public void OnPlayerEnter(Player player, GameObject go) {
             var thing = GetScriptableThingFromGameObject(go);
+            //todo Cache results
             ITrigger[] triggerScripts = GetScriptsImplementingInterface<ITrigger>(thing);
             foreach (ITrigger trigger in triggerScripts) {
                 IThingData dataset = GetDatasetOfType(thing, trigger.DataModel);

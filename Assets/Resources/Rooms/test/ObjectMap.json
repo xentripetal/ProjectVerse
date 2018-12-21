@@ -2,40 +2,40 @@
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 2.0,
-      "y": 2.0
+      "x": 2,
+      "y": 2
     },
     "Datasets": null
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 0.0
+      "x": 4,
+      "y": 0
     },
     "Datasets": null
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 2.0
+      "x": 4,
+      "y": 2
     },
     "Datasets": null
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 4.0
+      "x": 4,
+      "y": 4
     },
     "Datasets": null
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 6.0,
-      "y": 6.0
+      "x": 6,
+      "y": 6
     },
     "Datasets": null
   }

@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
+using Verse.API;
 using Verse.API.Models;
 
 namespace Verse.Models.JSON {
     public class BoxColliderInfo {
-        public Position Position;
-        public Position Size;
+        public PlayerPosition Position;
+        public PlayerPosition Size;
     }
 
     public class Colliders {
-        public IList<Position> EdgePoints;
+        public IList<PlayerPosition> EdgePoints;
         public IList<BoxColliderInfo> BoxColliders;
 
-        public Colliders(IList<Position> edgePoints, IList<BoxColliderInfo> boxColliders) {
+        public Colliders(IList<PlayerPosition> edgePoints, IList<BoxColliderInfo> boxColliders) {
             EdgePoints = edgePoints;
             BoxColliders = boxColliders;
         }

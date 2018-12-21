@@ -7,16 +7,16 @@ namespace Verse.API.Models {
         public readonly int PixelsPerUnit;
 
         /// <value>The position of the pivot. Should normally be the bottom left corner (0,0).</value>
-        public readonly Position PivotPoint;
+        public readonly PlayerPosition PivotPoint;
 
         /// <value>A list of points for the collider shape. Can be null</value>
-        public readonly Position[] ColliderShape;
+        public readonly PlayerPosition[] ColliderShape;
 
         /// <value>A list of points for detecting when the player is behind the defined shape. Can be null</value>
-        public readonly Position[] TransparencyShape;
+        public readonly PlayerPosition[] TransparencyShape;
 
-        public SpriteInfo(string spritePath, int pixelsPerUnit, Position pivotPoint, Position[] colliderShape,
-            Position[] transparencyShape) {
+        public SpriteInfo(string spritePath, int pixelsPerUnit, PlayerPosition pivotPoint, PlayerPosition[] colliderShape,
+            PlayerPosition[] transparencyShape) {
             SpritePath = spritePath;
             PixelsPerUnit = pixelsPerUnit;
             PivotPoint = pivotPoint;

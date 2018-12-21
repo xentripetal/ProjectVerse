@@ -2,120 +2,120 @@
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 0.0,
-      "y": 0.0
+      "x": 0,
+      "y": 0
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 0.0,
-      "y": 2.0
+      "x": 0,
+      "y": 2
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 0.0,
-      "y": 4.0
+      "x": 0,
+      "y": 4
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 0.0,
-      "y": 6.0
+      "x": 0,
+      "y": 6
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 2.0,
-      "y": 0.0
+      "x": 2,
+      "y": 0
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 2.0,
-      "y": 2.0
+      "x": 2,
+      "y": 2
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 2.0,
-      "y": 4.0
+      "x": 2,
+      "y": 4
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 2.0,
-      "y": 6.0
+      "x": 2,
+      "y": 6
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 0.0
+      "x": 4,
+      "y": 0
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 2.0
+      "x": 4,
+      "y": 2
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 4.0
+      "x": 4,
+      "y": 4
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 4.0,
-      "y": 6.0
+      "x": 4,
+      "y": 6
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 6.0,
-      "y": 0.0
+      "x": 6,
+      "y": 0
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 6.0,
-      "y": 2.0
+      "x": 6,
+      "y": 2
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 6.0,
-      "y": 4.0
+      "x": 6,
+      "y": 4
     }
   },
   {
     "Definition": "core.static.barrel",
     "Position": {
-      "x": 6.0,
-      "y": 6.0
+      "x": 6,
+      "y": 6
     }
   },
 	{
     "Definition": "core.vegetation.tree",
     "Position": {
-      "x": 12.0,
-      "y": 4.0
+      "x": 12,
+      "y": 4
     }
   }
 ]

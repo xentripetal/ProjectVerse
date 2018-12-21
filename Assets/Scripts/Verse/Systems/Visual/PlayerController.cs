@@ -1,7 +1,7 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 using Verse.API;
+using Verse.API.Models;
 using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
@@ -19,25 +19,25 @@ namespace Verse.Systems.Visual {
         public KeyCode SpeedModifierKey = KeyCode.LeftShift;
 
         private Player _playerData;
-        private float2 _playerInput;
+        private Vector2 _playerInput;
         private bool _isMoving;
         private bool _isRunning;
+
+        private bool _moveToCalled;
 
         private Rigidbody2D _rigidbody2D;
         private ApiController _apiController;
 
         void Awake() {
             Instance = this;
-        }
-
-        private void OnBecameInvisible() {
-            Debug.Log("Invisible");
+            _playerData = new Player();
         }
 
         private void Start() {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _apiController = ApiController.Instance;
-            _playerData = new Player();
+            _playerData.OnRequestedPlayerMove += OnRequestedPlayerMove;
+            _playerData.OnPlayerMoved += OnPlayerMoved;
         }
 
         void Update() {
@@ -49,14 +49,12 @@ namespace Verse.Systems.Visual {
             UpdateModel();
         }
 
-        public void DirectMovePlayer(float2 pos) {
-            transform.position = (Vector2) pos;
-        }
-
         private void FixedUpdate() {
             HandlePlayerMovement();
         }
 
+        
+        #region Triggers
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("TransparencyCollider")) {
                 var sr = other.GetComponentInParent<SpriteRenderer>();
@@ -85,20 +83,33 @@ namespace Verse.Systems.Visual {
             return color;
         }
 
+        #endregion
+        
         #region ModelAndAnimator
 
+        private void OnPlayerMoved(PlayerPosition newPos, PlayerPosition oldPos) {
+            if (!_moveToCalled) {
+                Debug.Log("Scripted Teleport");
+                transform.position = ApiMappings.Vector2FromPosition(newPos);
+                UpdatePlayerSortingPosition(newPos.y);
+            }
+        }
+
         private void UpdateModel() {
-            float2 goPosition = (Vector2) transform.position;
-            _playerData.Position = goPosition;
-            _playerData.IsMoving = _isMoving;
-            _playerData.IsRunning = _isRunning;
+            var currentPos = new PlayerPosition(transform.position.x, transform.position.y);
+            if (_playerData.Position != currentPos) {
+                UpdatePlayerSortingPosition(currentPos.y);
+                _moveToCalled = true;
+                _playerData.MoveToWithoutPhysics(currentPos);
+                _moveToCalled = false;
+            }
         }
 
         private void UpdateAnimator() {
             float currentX = Animator.GetFloat("X");
             float currentY = Animator.GetFloat("Y");
 
-            if (!_isMoving && (Mathf.Approximately(currentX, 0) || Mathf.Approximately(currentY, 0))) {
+            if (!_isMoving && (!Mathf.Approximately(currentX, 0) || !Mathf.Approximately(currentY, 0))) {
                 Animator.SetFloat("lastX", currentX);
                 Animator.SetFloat("lastY", currentY);
             }
@@ -113,25 +124,26 @@ namespace Verse.Systems.Visual {
 
         #region Movement Code
 
+        private void OnRequestedPlayerMove(PlayerPosition pos) {
+            _rigidbody2D.MovePosition(transform.position + ApiMappings.Vector3FromPosition(pos));
+        }
+        
+        private void GetPlayerInput() {
+            _isRunning = !Input.GetKey(SpeedModifierKey);
+            _playerInput = new Vector2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
+            _isMoving = Mathf.Abs(_playerInput.x) + Mathf.Abs(_playerInput.y) > 0;
+        }
+
         private void HandlePlayerMovement() {
             if (_isMoving) {
                 MovePlayer(_playerInput);
             }
         }
 
-        private void GetPlayerInput() {
-            _isRunning = !Input.GetKey(SpeedModifierKey);
-            _playerInput = new float2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
-            _isMoving = Mathf.Abs(_playerInput.x) + Mathf.Abs(_playerInput.y) > 0;
-        }
-
-        private void MovePlayer(float2 playerInput) {
-            float playerSpeed;
-            _isRunning = GetPlayerSpeed(out playerSpeed);
-
-            float2 movePosition = CalculateMovePosition(playerInput, playerSpeed);
-            UpdatePlayerSortingPosition(movePosition.y);
-            _rigidbody2D.MovePosition(movePosition);
+        private void MovePlayer(Vector2 playerInput) {
+            float playerSpeed = GetPlayerSpeed();
+            Vector2 movePosition = CalculateMoveVector(playerInput, playerSpeed);
+            _playerData.Move(ApiMappings.Vector2ToPosition(movePosition));
         }
 
         private void UpdatePlayerSortingPosition(float yPosition) {
@@ -140,17 +152,12 @@ namespace Verse.Systems.Visual {
             transform.position = position;
         }
 
-        private bool GetPlayerSpeed(out float playerSpeed) {
-            playerSpeed = _isRunning ? RunSpeed : WalkSpeed;
-            return _isRunning;
+        private float GetPlayerSpeed() {
+            return _isRunning ? RunSpeed : WalkSpeed;
         }
 
-        private float2 CalculateMovePosition(float2 playerInput, float playerSpeed) {
-            return CalculateMoveVector(playerInput, playerSpeed) + _playerData.Position;
-        }
-
-        private float2 CalculateMoveVector(float2 playerInput, float speed) {
-            return math.normalize(playerInput) * Time.fixedDeltaTime * speed;
+        private Vector2 CalculateMoveVector(Vector2 playerInput, float speed) {
+            return playerInput.normalized * Time.fixedDeltaTime * speed;
         }
 
         #endregion

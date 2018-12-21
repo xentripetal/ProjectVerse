@@ -1,81 +1,65 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
     public class SwappableSpriteAnimationController : MonoBehaviour {
-        [FormerlySerializedAs("bodySpriteSheetName")] public string BodySpriteSheetName;
-        [FormerlySerializedAs("hairSpriteSheetName")] public string HairSpriteSheetName;
-        [FormerlySerializedAs("shirtSpriteSheetName")] public string ShirtSpriteSheetName;
-        [FormerlySerializedAs("pantsSpriteSheetName")] public string PantsSpriteSheetName;
 
-        [FormerlySerializedAs("bodySpriteRenderer")] public SpriteRenderer BodySpriteRenderer;
-        [FormerlySerializedAs("hairSpriteRenderer")] public SpriteRenderer HairSpriteRenderer;
-        [FormerlySerializedAs("shirtSpriteRenderer")] public SpriteRenderer ShirtSpriteRenderer;
-        [FormerlySerializedAs("pantsSpriteRenderer")] public SpriteRenderer PantsSpriteRenderer;
+        public string[] BodyParts;
+        public RuntimeAnimatorController Animator;
 
-        public string CharacterFolderPath;
+        private const string CharacterFolderPath = "Sprites/Character/";
 
-        private string _loadedBodySpriteSheetName;
-        private string _loadedHairSpriteSheetName;
-        private string _loadedShirtSpriteSheetName;
-        private string _loadedPantsSpriteSheetName;
+        private string _lastState;
 
-        private Dictionary<string, Sprite> _bodySpriteSheet;
-        private Dictionary<string, Sprite> _hairSpriteSheet;
-        private Dictionary<string, Sprite> _shirtSpriteSheet;
-        private Dictionary<string, Sprite> _pantsSpriteSheet;
+        private List<Dictionary<string, Sprite>> _spriteMappings;
+        private List<GameObject> _partRenderers;
 
         private void Start() {
-            _bodySpriteSheet = LoadSpriteSheet(BodySpriteSheetName);
-            _loadedBodySpriteSheetName = BodySpriteSheetName;
+            _spriteMappings = new List<Dictionary<string, Sprite>>();
+            _partRenderers = new List<GameObject>();
+            
+            for (var i = 0; i < BodyParts.Length; i++) {
+                _spriteMappings.Add(LoadSpriteSheet(BodyParts[i]));
+                _partRenderers.Add(CreateSpriteObject(i));
+            }
 
-            _hairSpriteSheet = LoadSpriteSheet(HairSpriteSheetName);
-            _loadedHairSpriteSheetName = HairSpriteSheetName;
+            var anim = _partRenderers[0].AddComponent<Animator>();
+            anim.runtimeAnimatorController = Animator;
+            GetComponent<PlayerController>().Animator = anim;
+        }
 
-            _shirtSpriteSheet = LoadSpriteSheet(ShirtSpriteSheetName);
-            _loadedShirtSpriteSheetName = ShirtSpriteSheetName;
-
-            _pantsSpriteSheet = LoadSpriteSheet(PantsSpriteSheetName);
-            _loadedPantsSpriteSheetName = PantsSpriteSheetName;
+        private GameObject CreateSpriteObject(int order) {
+            var go = new GameObject();
+            go.AddComponent<SpriteRenderer>();
+            go.transform.parent = transform;
+            go.transform.localPosition = new Vector3(0, 0, -.00005f * order);
+            return go;
         }
 
         private Dictionary<string, Sprite> LoadSpriteSheet(string spriteSheet) {
             var sprites = Resources.LoadAll<Sprite>(CharacterFolderPath + spriteSheet);
             return sprites.ToDictionary(x => x.name, x => x);
         }
-
+        
+        private void UpdateSprites(string currentState) {
+            for (var i = 0; i < BodyParts.Length; i++) {
+                try {
+                    _partRenderers[i].GetComponent<SpriteRenderer>().sprite = _spriteMappings[i][currentState];
+                }
+                catch (KeyNotFoundException) {
+                    Debug.Log(BodyParts[i] + " does not have state " + currentState);
+                }
+            }
+        }
+        
         private void LateUpdate() {
-            if (_loadedBodySpriteSheetName != BodySpriteSheetName) {
-                _bodySpriteSheet = LoadSpriteSheet(BodySpriteSheetName);
-                _loadedBodySpriteSheetName = BodySpriteSheetName;
+            var currentState = _partRenderers[0].GetComponent<SpriteRenderer>().sprite.name;
+            if (currentState != _lastState) {
+                UpdateSprites(currentState);
+                _lastState = currentState;
             }
-
-
-            if (_loadedHairSpriteSheetName != HairSpriteSheetName) {
-                _hairSpriteSheet = LoadSpriteSheet(HairSpriteSheetName);
-                _loadedHairSpriteSheetName = HairSpriteSheetName;
-            }
-
-
-            if (_loadedShirtSpriteSheetName != ShirtSpriteSheetName) {
-                _shirtSpriteSheet = LoadSpriteSheet(ShirtSpriteSheetName);
-                _loadedShirtSpriteSheetName = ShirtSpriteSheetName;
-            }
-
-
-            if (_loadedPantsSpriteSheetName != PantsSpriteSheetName) {
-                _pantsSpriteSheet = LoadSpriteSheet(PantsSpriteSheetName);
-                _loadedPantsSpriteSheetName = PantsSpriteSheetName;
-            }
-
-            string currentSpriteName = BodySpriteRenderer.sprite.name;
-
-            BodySpriteRenderer.sprite = _bodySpriteSheet[currentSpriteName];
-            HairSpriteRenderer.sprite = _hairSpriteSheet[currentSpriteName];
-            ShirtSpriteRenderer.sprite = _shirtSpriteSheet[currentSpriteName];
-            PantsSpriteRenderer.sprite = _pantsSpriteSheet[currentSpriteName];
         }
     }
 }

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Verse.API.Interfaces;
+using Verse.API.Scripting;
 using Verse.API.Models;
 
 namespace Verse.Models.JSON {
@@ -12,6 +12,8 @@ namespace Verse.Models.JSON {
             Position = position;
         }
 
+        public SerializableTile() { }
+
         static public implicit operator Tile(SerializableTile value) {
             return new Tile(ObjectAtlas.GetTileDef(value.Definition), value.Position);
         }
@@ -23,6 +25,8 @@ namespace Verse.Models.JSON {
 
     public class SerializableThing : SerializableTile {
         public SerializableThing(string definition, Position position) : base(definition, position) { }
+
+        public SerializableThing() { }
 
         static public implicit operator Thing(SerializableThing value) {
             return new Thing(ObjectAtlas.GetThingDef(value.Definition), value.Position);
@@ -40,6 +44,8 @@ namespace Verse.Models.JSON {
             definition, position) {
             Datasets = datasets;
         }
+
+        public SerializableScriptableThing() { }
 
         static public implicit operator ScriptableThing(SerializableScriptableThing value) {
             return new ScriptableThing(ObjectAtlas.GetScriptableThingDef(value.Definition), value.Position,

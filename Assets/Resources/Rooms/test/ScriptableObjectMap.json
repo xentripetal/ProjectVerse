@@ -1,20 +1,17 @@
 [
- {
+  {
     "Definition": "core.scriptable.trigger",
     "Position": {
-      "x": 0.0,
-      "y": 0.0
+      "x": 0,
+      "y": 0
     },
-    "Datasets": {
-      "$type": "IThingData[], Assembly-CSharp",
-      "$values": [
-        {
-          "$type": "DoorTriggerData, Assembly-CSharp",
-          "room": "main",
-          "x": 1.0,
-          "y": 1.0
-        }
-      ]
-    }
+		"Datasets": [
+      {
+        "$type": "DoorTriggerData, Assembly-CSharp",
+        "room": "main",
+        "x": 1,
+        "y": 1
+      }
+    ]
   }
 ]

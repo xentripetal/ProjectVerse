@@ -1,11 +1,16 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using Newtonsoft.Json;
 using UnityEngine;
+using Verse.API.Scripting;
 using Verse.API.Models;
 using Verse.Models.JSON;
 
 namespace Verse.Systems {
+    //todo Cache each world with changes
     public static class WorldLoader {
         public static TerrainMap GetTerrainMap(string room) {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/TerrainMap").text;
@@ -29,9 +34,9 @@ namespace Verse.Systems {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/ScriptableObjectMap").text;
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
 
-            var serializableThings =
+            var sThings =
                 JsonConvert.DeserializeObject<List<SerializableScriptableThing>>(jsonString, settings);
-            return serializableThings.Select(sThing => (ScriptableThing) sThing).ToList();
+            return sThings.Select(sThing => (ScriptableThing) sThing).ToList();
         }
     }
 }

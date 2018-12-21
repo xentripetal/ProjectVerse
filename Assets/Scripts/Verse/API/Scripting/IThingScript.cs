@@ -1,6 +1,6 @@
 using System;
 
-namespace Verse.API.Interfaces {
+namespace Verse.API.Scripting {
     public interface IThingScript {
         Type DataModel { get; }
     }

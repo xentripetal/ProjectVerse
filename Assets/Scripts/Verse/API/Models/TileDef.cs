@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json;
-using Verse.API.Interfaces;
+using Verse.API.Scripting;
 using Verse.Models;
 using Verse.Utilities;
 

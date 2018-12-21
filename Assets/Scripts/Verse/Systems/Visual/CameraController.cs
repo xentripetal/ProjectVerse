@@ -25,13 +25,13 @@ namespace Verse.Systems.Visual {
             float camVertExtent = _camera.orthographicSize;
             float camHorzExtent = _camera.aspect * camVertExtent;
 
-            Position topRightBound = _roomController.TopRight;
-            Position bottomLeftBound = _roomController.BottomLeft;
+            PlayerPosition topRightBound = _roomController.TopRight;
+            PlayerPosition bottomLeftBound = _roomController.BottomLeft;
 
             float leftBound = bottomLeftBound.x + camHorzExtent;
             float rightBound = topRightBound.x - camHorzExtent;
             float bottomBound = bottomLeftBound.y + camVertExtent;
-            float topBound = topRightBound.y - camVertExtent + Player.Height;
+            float topBound = topRightBound.y - camVertExtent + Player.Instance.Height;
 
             if (topBound < bottomBound) {
                 topBound = _roomController.Center.y;

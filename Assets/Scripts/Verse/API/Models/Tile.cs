@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Verse.API.Interfaces;
+using Verse.API.Scripting;
 
 namespace Verse.API.Models {
     public class Tile {
@@ -25,7 +25,7 @@ namespace Verse.API.Models {
         public new readonly ScriptableThingDef Definition;
         public IList<IThingData> Datasets { get; }
 
-        public ScriptableThing(ScriptableThingDef definition, float2 position, IList<IThingData> datasets) : base(
+        public ScriptableThing(ScriptableThingDef definition, Position position, IList<IThingData> datasets) : base(
             definition, position) {
             Definition = definition;
             Datasets = datasets;

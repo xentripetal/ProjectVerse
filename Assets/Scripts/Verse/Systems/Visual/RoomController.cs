@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Verse.API;
 using Verse.API.Models;
 using Verse.Models;
 using Verse.Models.JSON;
@@ -21,9 +22,9 @@ namespace Verse.Systems.Visual {
 
         public string CurrentRoom { get; private set; }
 
-        public Position TopRight { get; private set; }
-        public Position BottomLeft { get; private set; }
-        public Position Center { get; private set; }
+        public PlayerPosition TopRight { get; private set; }
+        public PlayerPosition BottomLeft { get; private set; }
+        public PlayerPosition Center { get; private set; }
 
         public static RoomController Instance;
 
@@ -35,26 +36,12 @@ namespace Verse.Systems.Visual {
             _activeObjects = new Dictionary<GameObject, Thing>();
             _activeTerrainTiles = new Stack<GameObject>();
             BuildRoom("main");
+            Player.Instance.OnRoomChange += ChangeRoom;
         }
 
-        private void Update() {
-            if (Input.GetKeyDown(KeyCode.Space)) {
-                GameObject tree = GameObject.Find("TileObject (17)");
-                string json = "[";
-                foreach (var pos in tree.GetComponent<PolygonCollider2D>().GetPath(0)) {
-                    json += "{\"x\": " + pos.x + ",";
-                    json += "\"y\": " + pos.y;
-                    json += "},";
-                }
-
-                json += "]";
-                Debug.Log(json);
-            }
-        }
-
-        public void ChangeRoom(string room) {
+        public void ChangeRoom(string newRoom, string oldRoom) {
             DestroyRoom();
-            BuildRoom(room);
+            BuildRoom(newRoom);
         }
 
         public ScriptableThing GetScriptableThingFromGameObject(GameObject go) {
@@ -104,7 +91,7 @@ namespace Verse.Systems.Visual {
             UpdateCornerPositions(colliders.EdgePoints);
         }
 
-        private void UpdateCornerPositions(IList<Position> colliderPoints) {
+        private void UpdateCornerPositions(IList<PlayerPosition> colliderPoints) {
             var minX = colliderPoints[0].x;
             var maxX = colliderPoints[0].x;
             var minY = colliderPoints[0].y;
@@ -116,9 +103,9 @@ namespace Verse.Systems.Visual {
                 maxY = (pos.x > maxY) ? pos.y : maxY;
             }
 
-            TopRight = new Position(maxX, maxY);
-            BottomLeft = new Position(minY, minX);
-            Center = new Position((minX + maxX) / 2, (minY + maxY) / 2);
+            TopRight = new PlayerPosition(maxX, maxY);
+            BottomLeft = new PlayerPosition(minY, minX);
+            Center = new PlayerPosition((minX + maxX) / 2, (minY + maxY) / 2);
         }
 
         private void BuildBoxColliders(IList<BoxColliderInfo> boxColliders) {
@@ -138,14 +125,14 @@ namespace Verse.Systems.Visual {
 
             for (int i = 0; i < boxColliders.Count; i++) {
                 var currentComponent = colliderComponents[i];
-                currentComponent.offset = boxColliders[i].Position;
-                currentComponent.size = boxColliders[i].Size;
+                currentComponent.offset = ApiMappings.Vector2FromPosition(boxColliders[i].Position);
+                currentComponent.size = ApiMappings.Vector2FromPosition(boxColliders[i].Size);
             }
         }
 
-        private void BuildEdgeColliders(IList<Position> colliderPoints) {
+        private void BuildEdgeColliders(IList<PlayerPosition> colliderPoints) {
             EdgeCollider2D colliderRoot = TerrainRoot.GetComponent<EdgeCollider2D>();
-            colliderRoot.points = colliderPoints.Select(pos => (Vector2) pos).ToArray();
+            colliderRoot.points = colliderPoints.Select(pos => ApiMappings.Vector2FromPosition(pos)).ToArray();
         }
 
         #endregion
@@ -153,9 +140,9 @@ namespace Verse.Systems.Visual {
         #region Tile Construction
 
         private void BuildTile(Tile tile) {
-            Vector3 pos = (Vector3) tile.Position;
+            Vector3 pos = new Vector3(tile.Position.x, tile.Position.y, 0);
             GameObject poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
-            poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(tile.Definition.SpriteInfo);
+            poolGo.GetComponent<SpriteRenderer>().sprite = ApiMappings.InfoToSprite(tile.Definition.SpriteInfo);
             poolGo.transform.parent = TerrainRoot.transform;
             _activeTerrainTiles.Push(poolGo);
         }
@@ -167,7 +154,7 @@ namespace Verse.Systems.Visual {
             GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
 
 
-            Sprite sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            Sprite sprite = ApiMappings.InfoToSprite(currentThingDef.SpriteInfo);
             poolGo.GetComponent<SpriteRenderer>().sprite = sprite;
             var colliderComponent = poolGo.GetComponent<PolygonCollider2D>();
             colliderComponent.enabled = currentThingDef.IsCollidable;
@@ -196,7 +183,7 @@ namespace Verse.Systems.Visual {
             var pos = new Vector3(thing.Position.x, thing.Position.y,
                 thing.Position.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
             var poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
-            poolGo.GetComponent<SpriteRenderer>().sprite = Utils.InfoToSprite(currentThingDef.SpriteInfo);
+            poolGo.GetComponent<SpriteRenderer>().sprite = ApiMappings.InfoToSprite(currentThingDef.SpriteInfo);
             var colliderComponent = poolGo.GetComponent<PolygonCollider2D>();
             colliderComponent.enabled = currentThingDef.IsCollidable;
             if (currentThingDef.IsCollidable) {
@@ -213,7 +200,7 @@ namespace Verse.Systems.Visual {
                 position.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
         }
 
-        private void UpdateColliderPaths(PolygonCollider2D colliderComponent, Position[] paths) {
+        private void UpdateColliderPaths(PolygonCollider2D colliderComponent, PlayerPosition[] paths) {
             EmptyPreviousColliders(colliderComponent);
 
             if (paths != null) {
@@ -221,9 +208,9 @@ namespace Verse.Systems.Visual {
             }
         }
 
-        private void CopyNewPaths(PolygonCollider2D colliderComponent, Position[] paths) {
+        private void CopyNewPaths(PolygonCollider2D colliderComponent, PlayerPosition[] paths) {
             colliderComponent.SetPath(0,
-                paths.Select(point => (Vector2) point).ToArray());
+                paths.Select(point => ApiMappings.Vector2FromPosition(point)).ToArray());
         }
 
         private void EmptyPreviousColliders(PolygonCollider2D colliderComponent) {

@@ -1,25 +1,23 @@
 ﻿using System;
 using Unity.Mathematics;
 using Verse.API;
-using Verse.API.Interfaces;
+using Verse.API.Models;
+using Verse.API.Scripting;
 
 public class DoorTriggerData : IThingData {
     public string room;
     public float x;
     public float y;
 
-    public DoorTriggerData(string room, float x, float y) {
-        this.room = room;
-        this.x = x;
-        this.y = y;
+    public DoorTriggerData() {
     }
 }
 
 public class DoorTrigger : ITrigger {
     public Type DataModel => typeof(DoorTriggerData);
 
-    public void OnPlayerEnter(IPlayerReadOnly player, IThingData data) {
+    public void OnPlayerEnter(Player player, IThingData data) {
         var dat = (DoorTriggerData) data;
-        player.RequestRoomChange(dat.room, new float2(dat.x, dat.y));
+        player.ChangeRoom(dat.room, new PlayerPosition(dat.x, dat.y));
     }
 }
