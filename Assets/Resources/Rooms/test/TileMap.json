@@ -1,0 +1,177 @@
+[
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 0,
+			"y": 0
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 0,
+			"y": 4
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 0,
+			"y": 8
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 0,
+			"y": 12
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 0,
+			"y": 16
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 4,
+			"y": 0
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 4,
+			"y": 4
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 4,
+			"y": 8
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 4,
+			"y": 12
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 4,
+			"y": 16
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 8,
+			"y": 0
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 8,
+			"y": 4
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 8,
+			"y": 8
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 8,
+			"y": 12
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 8,
+			"y": 16
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 12,
+			"y": 0
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 12,
+			"y": 4
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 12,
+			"y": 8
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 12,
+			"y": 12
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 12,
+			"y": 16
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 16,
+			"y": 0
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 16,
+			"y": 4
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 16,
+			"y": 8
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 16,
+			"y": 12
+		}
+	},
+	{
+		"Definition": "core.tiles.lightgrass",
+		"Position": {
+			"x": 16,
+			"y": 16
+		}
+	}
+]

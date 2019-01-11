@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
-using Verse.API;
-using Verse.API.Scripting;
+using Verse.API.Interfaces;
+using Verse.API.Interfaces.Events;
 using Verse.API.Models;
 using Verse.Systems.Visual;
 
@@ -12,34 +13,49 @@ namespace Verse.Systems {
 
         public static ApiController Instance;
 
+        private static MethodInfo[] _frameUpdateMethods;
+        private static MethodInfo[] _lateFrameUpdateMethods;
+
         private void Awake() {
             Instance = this;
         }
 
         void Start() {
             _roomController = RoomController.Instance;
+            _frameUpdateMethods = GetMethodsWithAttribute<OnFrameUpdate>();
+            _lateFrameUpdateMethods = GetMethodsWithAttribute<OnLateFrameUpdate>();
         }
 
-        #region Utilities
+        #region Utilities#Systems
 
-        private ScriptableThing GetScriptableThingFromGameObject(GameObject go) {
+        private MethodInfo[] GetMethodsWithAttribute<T>() where T : Attribute {
+            var type = typeof(T);
+            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetTypes()).SelectMany(t => t.GetMethods())
+                .Where(m => m.IsStatic && m.GetCustomAttributes(typeof(T), false).Length > 0).ToArray();
+        }
+
+        #endregion
+
+        #region Utilities#Things
+
+        private ScriptableTileObject GetScriptableThingFromGameObject(GameObject go) {
             return _roomController.GetScriptableThingFromGameObject(go);
         }
 
-        private T[] GetScriptsImplementingInterface<T>(ScriptableThing thing) {
-            if (thing.Datasets == null) {
+        private T[] GetScriptsImplementingInterface<T>(ScriptableTileObject tileObject) {
+            if (tileObject.Datasets == null) {
                 return new T[] { };
             }
 
-            return GetScriptsImplementingInterface<T>(thing.Definition.Scripts);
+            return GetScriptsImplementingInterface<T>(tileObject.Definition.Scripts);
         }
 
         private T[] GetScriptsImplementingInterface<T>(IThingScript[] scripts) {
             return scripts.OfType<T>().ToArray();
         }
 
-        private IThingData GetDatasetOfType(ScriptableThing thing, Type dataType) {
-            foreach (IThingData thingData in thing.Datasets) {
+        private IThingData GetDatasetOfType(ScriptableTileObject tileObject, Type dataType) {
+            foreach (IThingData thingData in tileObject.Datasets) {
                 if (dataType.IsInstanceOfType(thingData)) {
                     return thingData;
                 }
@@ -53,13 +69,25 @@ namespace Verse.Systems {
 
         #region ITrigger
 
-        public void OnPlayerEnter(Player player, GameObject go) {
+        public void OnPlayerEnter(GameObject go) {
             var thing = GetScriptableThingFromGameObject(go);
             //todo Cache results
             ITrigger[] triggerScripts = GetScriptsImplementingInterface<ITrigger>(thing);
             foreach (ITrigger trigger in triggerScripts) {
                 IThingData dataset = GetDatasetOfType(thing, trigger.DataModel);
-                trigger.OnPlayerEnter(player, dataset);
+                trigger.OnPlayerEnter(dataset);
+            }
+        }
+
+        private void Update() {
+            foreach (var methodInfo in _frameUpdateMethods) {
+                methodInfo.Invoke(null, null);
+            }
+        }
+
+        private void LateUpdate() {
+            foreach (var methodInfo in _lateFrameUpdateMethods) {
+                methodInfo.Invoke(null, null);
             }
         }
 

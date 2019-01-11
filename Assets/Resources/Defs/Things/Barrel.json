@@ -4,36 +4,30 @@
 	"FullName": "core.static.barrel",
 	"SpriteInfo": {
 		"SpritePath": "Sprites/Objects/barrel",
-		"PixelsPerUnit": 32,
+		"PixelsPerUnit": 16,
 		"PivotPoint": {
 			"x": 0.0,
 			"y": 0.0
 		},
 		"ColliderShape": 
 			[{
-				"x": 0.1875,
+				"x": 0.25,
+				"y": 0.0625
+			}, {
+				"x": 0.0625,
 				"y": 0.25
 			}, {
-				"x": 0.34375,
-				"y": 0.125
+				"x": 0.25,
+				"y": 0.5
 			}, {
-				"x": 0.625,
-				"y": 0.125
+				"x": 0.75,
+				"y": 0.5
 			}, {
-				"x": 0.78125,
+				"x": 0.9375,
 				"y": 0.25
 			}, {
-				"x": 0.84375,
-				"y": 0.375
-			}, {
-				"x": 0.59375,
-				"y": 0.46875
-			}, {
-				"x": 0.375,
-				"y": 0.46875
-			}, {
-				"x": 0.125,
-				"y": 0.375	
+				"x": 0.75,
+				"y": 0.0625
 			}],
 		"TransparencyShape": null
 	}

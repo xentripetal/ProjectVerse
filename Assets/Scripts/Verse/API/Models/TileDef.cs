@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Verse.API.Scripting;
-using Verse.Models;
+using UnityEngine;
+using Verse.API.Interfaces;
+using Verse.API.Models;
 using Verse.Utilities;
 
 namespace Verse.API.Models {
@@ -28,6 +30,9 @@ namespace Verse.API.Models {
         /// </value>
         [JsonIgnore] public readonly string Provider;
 
+        [JsonIgnore]
+        public TilePosition[] OccupiedPositions { get; protected set; }
+
         /// <value>Information on the Tiles sprite</value>
         public SpriteInfo SpriteInfo { get; protected set; }
 
@@ -39,6 +44,21 @@ namespace Verse.API.Models {
             Package = String.Join(".", splitFullName.DropLast().ToArray());
             Provider = splitFullName.First();
             SpriteInfo = spriteInfo;
+            OccupiedPositions = CalculateOccupiedPositions(spriteInfo);
+        }
+
+        //Todo: Use pivot point in calculations
+        TilePosition[] CalculateOccupiedPositions(SpriteInfo spriteInfo) {
+            var positions = new List<TilePosition>();
+            int width = Mathf.CeilToInt(spriteInfo.sprite.rect.width / spriteInfo.PixelsPerUnit);
+            int height = Mathf.CeilToInt(spriteInfo.sprite.rect.height / spriteInfo.PixelsPerUnit);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    positions.Add(new TilePosition(x, y));
+                }
+            }
+
+            return positions.ToArray();
         }
     }
 
@@ -46,7 +66,7 @@ namespace Verse.API.Models {
     /// ThingDefs are definitions are static objects in the world. They exist in 2.5 dimensions as the
     /// player can be in front of or behind them.
     /// </summary>
-    public class ThingDef : TileDef {
+    public class TileObjectDef : TileDef {
         /// <value>Is true if the object has collisions enabled.</value>
         public readonly bool IsCollidable;
 
@@ -54,14 +74,88 @@ namespace Verse.API.Models {
         public readonly bool IsTransparentOnPlayerBehind;
 
         [JsonConstructor]
-        public ThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable, bool isTransparentOnPlayerBehind) :
+        public TileObjectDef(String fullName, SpriteInfo spriteInfo, bool isCollidable,
+            bool isTransparentOnPlayerBehind) :
             base(fullName, spriteInfo) {
             IsCollidable = isCollidable;
             IsTransparentOnPlayerBehind = isTransparentOnPlayerBehind;
+            if (spriteInfo.ColliderShape.Length > 0) {
+                OccupiedPositions = CalculateOccupiedPositions(spriteInfo);
+            }
+        }
+
+        // Based on Nathan Mercers complex polygon point determination algorithm.
+        TilePosition[] CalculateOccupiedPositions(SpriteInfo spriteInfo) {
+            var minMax = GetMinMaxPositions(spriteInfo.ColliderShape);
+            var min = minMax.Item1.CurrentTilePosition;
+            var max = minMax.Item2.CurrentTilePosition;
+
+            return GetTilePositionInCollider(spriteInfo.ColliderShape, min, max);
+        }
+
+        private TilePosition[] GetTilePositionInCollider(Position[] positions, TilePosition min, TilePosition max) {
+            var containedPositions = new List<TilePosition>();
+            var centerOffset = new Position(.5f, .5f);
+
+            for (var x = min.x; x <= max.x; x++) {
+                for (var y = min.y; y <= max.y; y++) {
+                    var pos = new Position(x, y);
+                    if (pointInPolygon(pos + centerOffset, positions)) {
+                        containedPositions.Add(pos.CurrentTilePosition);
+                    }
+                }
+            }
+
+            return containedPositions.ToArray();
+        }
+
+        private bool pointInPolygon(Position point, Position[] corners) {
+            var comparingCorner = corners.Last();
+            var isOdd = false;
+
+            foreach (var corner in corners) {
+                if ((corner.y < point.y && comparingCorner.y >= point.y)
+                    || (comparingCorner.y < point.y && corner.y >= point.y)
+                    && (corner.x <= point.x || comparingCorner.x <= point.x)) {
+                    if (corner.x + (point.y - corner.y) / (comparingCorner.y - corner.y) *
+                        (comparingCorner.x - corner.x) <
+                        point.x) {
+                        isOdd = !isOdd;
+                    }
+                }
+
+                comparingCorner = corner;
+            }
+
+            return isOdd;
+        }
+
+        private (Position, Position) GetMinMaxPositions(Position[] positions) {
+            var min = Position.Max;
+            var max = Position.Min;
+            foreach (var position in positions) {
+                if (position.x > max.x) {
+                    max = new Position(position.x, max.y);
+                }
+
+                if (position.x < min.x) {
+                    min = new Position(position.x, min.y);
+                }
+
+                if (position.y > max.y) {
+                    max = new Position(max.x, position.y);
+                }
+
+                if (position.y < min.y) {
+                    min = new Position(min.x, position.y);
+                }
+            }
+
+            return (min, max);
         }
     }
 
-    public class ScriptableThingDef : ThingDef {
+    public class ScriptableTileObjectDef : TileObjectDef {
         /// <value>
         /// True if the collider should act as a trigger.
         /// Must be true if using a script inheriting from ITrigger. IsCollidable must also be true
@@ -75,7 +169,7 @@ namespace Verse.API.Models {
         public readonly string[] ScriptNames;
 
         [JsonConstructor]
-        public ScriptableThingDef(String fullName, SpriteInfo spriteInfo, bool isCollidable,
+        public ScriptableTileObjectDef(String fullName, SpriteInfo spriteInfo, bool isCollidable,
             bool isTransparentOnPlayerBehind, bool isTrigger,
             string[] scriptNames) : base(fullName, spriteInfo, isCollidable, isTransparentOnPlayerBehind) {
             IsTrigger = isTrigger;

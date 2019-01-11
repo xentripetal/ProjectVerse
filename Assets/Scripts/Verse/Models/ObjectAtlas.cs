@@ -5,11 +5,11 @@ using Newtonsoft.Json;
 using UnityEngine;
 using Verse.API.Models;
 
-namespace Verse.Models {
+namespace Verse.API.Models {
     public class ObjectAtlas {
         private static Dictionary<String, TileDef> _tileAtlas;
-        private static Dictionary<String, ThingDef> _thingAtlas;
-        private static Dictionary<String, ScriptableThingDef> _scriptableThingAtlas;
+        private static Dictionary<String, TileObjectDef> _thingAtlas;
+        private static Dictionary<String, ScriptableTileObjectDef> _scriptableThingAtlas;
 
         public static void VerifyAtlas() {
             if (_tileAtlas == null) {
@@ -71,12 +71,12 @@ namespace Verse.Models {
             return _tileAtlas[objectName];
         }
 
-        public static ThingDef GetThingDef(String objectName) {
+        public static TileObjectDef GetThingDef(String objectName) {
             VerifyAtlas();
             return _thingAtlas[objectName];
         }
 
-        public static ScriptableThingDef GetScriptableThingDef(String objectName) {
+        public static ScriptableTileObjectDef GetScriptableThingDef(String objectName) {
             VerifyAtlas();
             return _scriptableThingAtlas[objectName];
         }
@@ -91,19 +91,19 @@ namespace Verse.Models {
         }
 
         private static void CreateThingAtlas() {
-            _thingAtlas = new Dictionary<string, ThingDef>();
+            _thingAtlas = new Dictionary<string, TileObjectDef>();
             var tiles = Resources.LoadAll<TextAsset>("Defs/Things");
             foreach (var tile in tiles) {
-                var def = JsonConvert.DeserializeObject<ThingDef>(tile.text);
+                var def = JsonConvert.DeserializeObject<TileObjectDef>(tile.text);
                 _thingAtlas.Add(def.FullName, def);
             }
         }
 
         private static void CreateScriptableThingAtlas() {
-            _scriptableThingAtlas = new Dictionary<string, ScriptableThingDef>();
+            _scriptableThingAtlas = new Dictionary<string, ScriptableTileObjectDef>();
             var tiles = Resources.LoadAll<TextAsset>("Defs/ScriptableThings");
             foreach (var tile in tiles) {
-                var def = JsonConvert.DeserializeObject<ScriptableThingDef>(tile.text);
+                var def = JsonConvert.DeserializeObject<ScriptableTileObjectDef>(tile.text);
                 _scriptableThingAtlas.Add(def.FullName, def);
             }
         }

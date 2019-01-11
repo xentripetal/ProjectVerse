@@ -1,30 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Verse.API;
 using Verse.API.Models;
-using Verse.Models;
-using Verse.Models.JSON;
 using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
     public class RoomController : MonoBehaviour {
-        [SerializeField] public GameObject TerrainRoot;
-        [SerializeField] public GameObject ObjectRoot;
-        [SerializeField] public GameObject TerrainTilePrefab;
-        [SerializeField] public GameObject ObjectTilePrefab;
-        [SerializeField] public GameObject TransparencyColliderPrefab;
+        public GameObject TerrainRoot;
+        public GameObject ObjectRoot;
+        public GameObject TerrainTilePrefab;
+        public GameObject ObjectTilePrefab;
+        public GameObject TransparencyColliderPrefab;
 
         private ObjectAtlas _objectAtlas;
 
-        private Dictionary<GameObject, Thing> _activeObjects;
-        private Stack<GameObject> _activeTerrainTiles;
+        public Dictionary<GameObject, TileObject> activeObjects;
+        public Dictionary<GameObject, Tile> activeTerrainTiles;
 
         public string CurrentRoom { get; private set; }
 
-        public PlayerPosition TopRight { get; private set; }
-        public PlayerPosition BottomLeft { get; private set; }
-        public PlayerPosition Center { get; private set; }
+        public bool HasActiveRoom { get; private set; }
+
+        public Position TopRight { get; private set; }
+        public Position BottomLeft { get; private set; }
+        public Position Center { get; private set; }
 
         public static RoomController Instance;
 
@@ -33,10 +32,9 @@ namespace Verse.Systems.Visual {
         }
 
         private void Start() {
-            _activeObjects = new Dictionary<GameObject, Thing>();
-            _activeTerrainTiles = new Stack<GameObject>();
-            BuildRoom("main");
-            Player.Instance.OnRoomChange += ChangeRoom;
+            activeObjects = new Dictionary<GameObject, TileObject>();
+            activeTerrainTiles = new Dictionary<GameObject, Tile>();
+            //BuildRoom("main");
         }
 
         public void ChangeRoom(string newRoom, string oldRoom) {
@@ -44,12 +42,12 @@ namespace Verse.Systems.Visual {
             BuildRoom(newRoom);
         }
 
-        public ScriptableThing GetScriptableThingFromGameObject(GameObject go) {
-            return (ScriptableThing) _activeObjects[go];
+        public ScriptableTileObject GetScriptableThingFromGameObject(GameObject go) {
+            return (ScriptableTileObject) activeObjects[go];
         }
 
-        private void DestroyRoom() {
-            foreach (var go in _activeObjects.Keys) {
+        public void DestroyRoom() {
+            foreach (var go in activeObjects.Keys) {
                 foreach (Transform child in go.transform) {
                     SimplePool.Despawn(child.gameObject);
                 }
@@ -57,41 +55,44 @@ namespace Verse.Systems.Visual {
                 SimplePool.Despawn(go);
             }
 
-            foreach (var go in _activeTerrainTiles) {
+            foreach (var go in activeTerrainTiles.Keys) {
                 SimplePool.Despawn(go);
             }
 
-            _activeObjects = new Dictionary<GameObject, Thing>();
+            activeObjects = new Dictionary<GameObject, TileObject>();
+            CurrentRoom = "";
+            HasActiveRoom = false;
         }
 
-        private void BuildRoom(string room) {
-            CurrentRoom = room;
+        private void BuildRoom(string roomKey) {
+            CurrentRoom = roomKey;
+            var room = RoomAtlas.GetRoom(CurrentRoom);
+            HasActiveRoom = true;
 
-            var currentTerrainMap = WorldLoader.GetTerrainMap(CurrentRoom);
-            BuildColliders(currentTerrainMap.Colliders);
+            BuildColliders(room.RoomColliders);
 
-            foreach (var tile in currentTerrainMap.Tiles) {
+            foreach (var tile in room.TileProvider.GetTiles()) {
                 BuildTile(tile);
             }
 
-            foreach (var thing in WorldLoader.GetThingMap(CurrentRoom)) {
+            foreach (var thing in room.TileProvider.GetTileObjects()) {
                 BuildThing(thing);
             }
 
-            foreach (var thing in WorldLoader.GetScriptableThings(CurrentRoom)) {
+            foreach (var thing in room.TileProvider.GetScriptableTileObjects()) {
                 BuildScriptableThing(thing);
             }
         }
 
         #region Collider Construction
 
-        private void BuildColliders(Colliders colliders) {
+        private void BuildColliders(RoomColliders colliders) {
             BuildEdgeColliders(colliders.EdgePoints);
             BuildBoxColliders(colliders.BoxColliders);
             UpdateCornerPositions(colliders.EdgePoints);
         }
 
-        private void UpdateCornerPositions(IList<PlayerPosition> colliderPoints) {
+        private void UpdateCornerPositions(IList<Position> colliderPoints) {
             var minX = colliderPoints[0].x;
             var maxX = colliderPoints[0].x;
             var minY = colliderPoints[0].y;
@@ -103,12 +104,16 @@ namespace Verse.Systems.Visual {
                 maxY = (pos.x > maxY) ? pos.y : maxY;
             }
 
-            TopRight = new PlayerPosition(maxX, maxY);
-            BottomLeft = new PlayerPosition(minY, minX);
-            Center = new PlayerPosition((minX + maxX) / 2, (minY + maxY) / 2);
+            TopRight = new Position(maxX, maxY);
+            BottomLeft = new Position(minY, minX);
+            Center = new Position((minX + maxX) / 2, (minY + maxY) / 2);
         }
 
         private void BuildBoxColliders(IList<BoxColliderInfo> boxColliders) {
+            if (boxColliders == null) {
+                return;
+            }
+
             IList<BoxCollider2D> colliderComponents = TerrainRoot.GetComponents<BoxCollider2D>().ToList();
             var diff = boxColliders.Count - colliderComponents.Count;
             if (diff > 0) {
@@ -130,7 +135,7 @@ namespace Verse.Systems.Visual {
             }
         }
 
-        private void BuildEdgeColliders(IList<PlayerPosition> colliderPoints) {
+        private void BuildEdgeColliders(IList<Position> colliderPoints) {
             EdgeCollider2D colliderRoot = TerrainRoot.GetComponent<EdgeCollider2D>();
             colliderRoot.points = colliderPoints.Select(pos => ApiMappings.Vector2FromPosition(pos)).ToArray();
         }
@@ -140,16 +145,16 @@ namespace Verse.Systems.Visual {
         #region Tile Construction
 
         private void BuildTile(Tile tile) {
-            Vector3 pos = new Vector3(tile.Position.x, tile.Position.y, 0);
+            Vector3 pos = new Vector3(tile.TilePosition.x, tile.TilePosition.y, 0);
             GameObject poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
             poolGo.GetComponent<SpriteRenderer>().sprite = ApiMappings.InfoToSprite(tile.Definition.SpriteInfo);
             poolGo.transform.parent = TerrainRoot.transform;
-            _activeTerrainTiles.Push(poolGo);
+            activeTerrainTiles.Add(poolGo, tile);
         }
 
-        private void BuildThing(Thing thing) {
-            var currentThingDef = thing.Definition;
-            var pos = GetLayeredPosition(thing.Position);
+        private void BuildThing(TileObject tileObject) {
+            var currentThingDef = tileObject.Definition;
+            var pos = GetLayeredPosition(tileObject.TilePosition);
 
             GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
 
@@ -175,13 +180,13 @@ namespace Verse.Systems.Visual {
 
 
             poolGo.transform.parent = ObjectRoot.transform;
-            _activeObjects[poolGo] = thing;
+            activeObjects[poolGo] = tileObject;
         }
 
-        private void BuildScriptableThing(ScriptableThing thing) {
-            var currentThingDef = thing.Definition;
-            var pos = new Vector3(thing.Position.x, thing.Position.y,
-                thing.Position.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
+        private void BuildScriptableThing(ScriptableTileObject tileObject) {
+            var currentThingDef = tileObject.Definition;
+            var pos = new Vector3(tileObject.TilePosition.x, tileObject.TilePosition.y,
+                tileObject.TilePosition.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
             var poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
             poolGo.GetComponent<SpriteRenderer>().sprite = ApiMappings.InfoToSprite(currentThingDef.SpriteInfo);
             var colliderComponent = poolGo.GetComponent<PolygonCollider2D>();
@@ -192,15 +197,15 @@ namespace Verse.Systems.Visual {
             }
 
             poolGo.transform.parent = ObjectRoot.transform;
-            _activeObjects[poolGo] = thing;
+            activeObjects[poolGo] = tileObject;
         }
 
-        private Vector3 GetLayeredPosition(Position position) {
-            return new Vector3(position.x, position.y,
-                position.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
+        private Vector3 GetLayeredPosition(TilePosition tilePosition) {
+            return new Vector3(tilePosition.x, tilePosition.y,
+                tilePosition.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
         }
 
-        private void UpdateColliderPaths(PolygonCollider2D colliderComponent, PlayerPosition[] paths) {
+        private void UpdateColliderPaths(PolygonCollider2D colliderComponent, Position[] paths) {
             EmptyPreviousColliders(colliderComponent);
 
             if (paths != null) {
@@ -208,7 +213,7 @@ namespace Verse.Systems.Visual {
             }
         }
 
-        private void CopyNewPaths(PolygonCollider2D colliderComponent, PlayerPosition[] paths) {
+        private void CopyNewPaths(PolygonCollider2D colliderComponent, Position[] paths) {
             colliderComponent.SetPath(0,
                 paths.Select(point => ApiMappings.Vector2FromPosition(point)).ToArray());
         }

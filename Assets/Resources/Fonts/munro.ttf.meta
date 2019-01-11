@@ -3,8 +3,8 @@ guid: 5ed1b8ccd69de1f489146b52e1b7499e
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
-  fontSize: 16
-  forceTextureCase: -2
+  fontSize: 10
+  forceTextureCase: -1
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
@@ -13,7 +13,7 @@ TrueTypeFontImporter:
   - Munro
   fallbackFontReferences: []
   customCharacters: 
-  fontRenderingMode: 3
+  fontRenderingMode: 2
   ascentCalculationMode: 1
   useLegacyBoundsCalculation: 1
   shouldRoundAdvanceValue: 1

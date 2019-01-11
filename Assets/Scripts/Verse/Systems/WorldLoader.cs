@@ -1,42 +1,39 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
 using UnityEngine;
-using Verse.API.Scripting;
 using Verse.API.Models;
-using Verse.Models.JSON;
+using Verse.API.Models.JSON;
 
 namespace Verse.Systems {
     //todo Cache each world with changes
     public static class WorldLoader {
-        public static TerrainMap GetTerrainMap(string room) {
-            var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/TerrainMap").text;
+        public static RoomColliders GetRoomColliders(string room) {
+            var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/MapDefinition").text;
 
-            TerrainMap terrainMap = JsonConvert.DeserializeObject<TerrainMap>(jsonString);
-
-            if (terrainMap.Colliders.BoxColliders == null) {
-                terrainMap.Colliders.BoxColliders = new List<BoxColliderInfo>();
-            }
-
-            return terrainMap;
+            return JsonConvert.DeserializeObject<RoomColliders>(jsonString);
         }
 
-        public static IList<Thing> GetThingMap(string room) {
+        public static List<Tile> GetTileMap(string room) {
+            var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/TileMap").text;
+
+            var serializableTiles = JsonConvert.DeserializeObject<List<SerializableTile>>(jsonString);
+            return serializableTiles.Select(sTile => (Tile) sTile).ToList();
+        }
+
+        public static List<TileObject> GetThingMap(string room) {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/ObjectMap").text;
             var serializableThings = JsonConvert.DeserializeObject<List<SerializableThing>>(jsonString);
-            return serializableThings.Select(sThing => (Thing) sThing).ToList();
+            return serializableThings.Select(sThing => (TileObject) sThing).ToList();
         }
 
-        public static IList<ScriptableThing> GetScriptableThings(string room) {
+        public static List<ScriptableTileObject> GetScriptableThings(string room) {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/ScriptableObjectMap").text;
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
 
             var sThings =
                 JsonConvert.DeserializeObject<List<SerializableScriptableThing>>(jsonString, settings);
-            return sThings.Select(sThing => (ScriptableThing) sThing).ToList();
+            return sThings.Select(sThing => (ScriptableTileObject) sThing).ToList();
         }
     }
 }

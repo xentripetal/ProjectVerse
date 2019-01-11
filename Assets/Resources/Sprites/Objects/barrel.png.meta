@@ -1,9 +1,9 @@
 fileFormatVersion: 2
-guid: f2ba724a02189bf41a8791fb7816a482
+guid: 7eb47f30d99129b4790a6b93a421b226
 TextureImporter:
-  internalIDToNameTable: []
+  fileIDToRecycleName: {}
   externalObjects: {}
-  serializedVersion: 8
+  serializedVersion: 7
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -45,9 +45,9 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 6
   spritePivot: {x: 0, y: 0}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: 0
@@ -83,28 +83,20 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline:
-    - - {x: -16, y: -16}
-      - {x: -16, y: 16}
-      - {x: 16, y: 16}
-      - {x: 16, y: -16}
+    outline: []
     physicsShape:
-    - - {x: -10, y: -10}
-      - {x: -5, y: -14}
-      - {x: 5, y: -14}
-      - {x: 11, y: -8}
-      - {x: 13, y: -3}
-      - {x: 5, y: 0}
-      - {x: -5, y: 0}
-      - {x: -13, y: -3}
+    - - {x: -4, y: -15}
+      - {x: -7, y: -12}
+      - {x: -4, y: -8}
+      - {x: 4, y: -8}
+      - {x: 7, y: -12}
+      - {x: 4, y: -15}
     bones: []
-    spriteID: 3e9eaa1cbb121724f80c531cc9f38f6f
-    internalID: 0
+    spriteID: 724554d565b92284a981aa546026bc9b
     vertices: []
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

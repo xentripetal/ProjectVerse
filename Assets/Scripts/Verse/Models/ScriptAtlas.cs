@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Verse.API.Scripting;
+using Verse.API.Interfaces;
 
-namespace Verse.Models {
+namespace Verse.API.Models {
     public class ScriptAtlas {
         private static Dictionary<String, IThingScript> _scriptAtlas;
 

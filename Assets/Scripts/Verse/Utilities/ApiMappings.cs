@@ -4,36 +4,36 @@ using Verse.API.Models;
 
 namespace Verse.Utilities {
     public static class ApiMappings {
-        public static Vector2 Vector2FromTilePosition(Position value) {
+        public static Vector2 Vector2FromTilePosition(TilePosition value) {
             return new Vector2(value.x, value.y);
         }
 
-        public static Position Vector2ToTilePosition(Vector2 value) {
-            return new Position(Mathf.RoundToInt(value.x), Mathf.RoundToInt(value.y));
+        public static TilePosition Vector2ToTilePosition(Vector2 value) {
+            return new TilePosition(Mathf.RoundToInt(value.x), Mathf.RoundToInt(value.y));
         }
 
-        public static Vector3 Vector3FromTilePosition(Position value) {
+        public static Vector3 Vector3FromTilePosition(TilePosition value) {
             return new Vector3(value.x, value.y, 0);
         }
 
-        public static Position Vector3ToTilePosition(Vector3 value) {
-            return new Position(Mathf.RoundToInt(value.x), Mathf.RoundToInt(value.y));
+        public static TilePosition Vector3ToTilePosition(Vector3 value) {
+            return new TilePosition(Mathf.RoundToInt(value.x), Mathf.RoundToInt(value.y));
         }
         
-        public static Vector2 Vector2FromPosition(PlayerPosition value) {
+        public static Vector2 Vector2FromPosition(Position value) {
             return new Vector2(value.x, value.y);
         }
 
-        public static PlayerPosition Vector2ToPosition(Vector2 value) {
-            return new PlayerPosition(value.x, value.y);
+        public static Position Vector2ToPosition(Vector2 value) {
+            return new Position(value.x, value.y);
         }
 
-        public static Vector3 Vector3FromPosition(PlayerPosition value) {
+        public static Vector3 Vector3FromPosition(Position value) {
             return new Vector3(value.x, value.y, 0);
         }
 
-        public static PlayerPosition Vector3ToPosition(Vector3 value) {
-            return new PlayerPosition(value.x, value.y);
+        public static Position Vector3ToPosition(Vector3 value) {
+            return new Position(value.x, value.y);
         }
         
         public static Sprite InfoToSprite(SpriteInfo info) {

@@ -1,32 +1,31 @@
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Verse.API.Scripting;
+using Verse.API.Interfaces;
 
 namespace Verse.API.Models {
     public class Tile {
         public TileDef Definition { get; }
-        public Position Position { get; }
+        public TilePosition TilePosition { get; }
 
-        public Tile(TileDef definition, Position position) {
+        public Tile(TileDef definition, TilePosition tilePosition) {
             Definition = definition;
-            Position = position;
+            TilePosition = tilePosition;
         }
     }
 
-    public class Thing : Tile {
-        public new readonly ThingDef Definition;
+    public class TileObject : Tile {
+        public new readonly TileObjectDef Definition;
 
-        public Thing(ThingDef definition, Position position) : base(definition, position) {
+        public TileObject(TileObjectDef definition, TilePosition tilePosition) : base(definition, tilePosition) {
             Definition = definition;
         }
     }
 
-    public class ScriptableThing : Thing {
-        public new readonly ScriptableThingDef Definition;
+    public class ScriptableTileObject : TileObject {
+        public new readonly ScriptableTileObjectDef Definition;
         public IList<IThingData> Datasets { get; }
 
-        public ScriptableThing(ScriptableThingDef definition, Position position, IList<IThingData> datasets) : base(
-            definition, position) {
+        public ScriptableTileObject(ScriptableTileObjectDef definition, TilePosition tilePosition, IList<IThingData> datasets) : base(
+            definition, tilePosition) {
             Definition = definition;
             Datasets = datasets;
         }

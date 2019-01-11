@@ -18,50 +18,59 @@ namespace Verse.Systems.Visual {
         public string VerticalAxis = "Vertical";
         public KeyCode SpeedModifierKey = KeyCode.LeftShift;
 
-        private Player _playerData;
-        private Vector2 _playerInput;
-        private bool _isMoving;
-        private bool _isRunning;
-
-        private bool _moveToCalled;
+        private PlayerActual _player;
 
         private Rigidbody2D _rigidbody2D;
         private ApiController _apiController;
 
         void Awake() {
             Instance = this;
-            _playerData = new Player();
+            MappedInput.AddMapping("Up", KeyCode.W);
+            MappedInput.AddMapping("Left", KeyCode.A);
+            MappedInput.AddMapping("Down", KeyCode.S);
+            MappedInput.AddMapping("Right", KeyCode.D);
+            MappedInput.AddMapping("Speed Modifier", KeyCode.LeftShift);
+            var position = transform.position;
+            _player = new PlayerActual();
+            _player.SetPosition(new Position(position.x, position.y));
+            _player.OnPlayerTeleported += OnPlayerTeleported;
         }
 
         private void Start() {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _apiController = ApiController.Instance;
-            _playerData.OnRequestedPlayerMove += OnRequestedPlayerMove;
-            _playerData.OnPlayerMoved += OnPlayerMoved;
         }
 
         void Update() {
-            GetPlayerInput();
             UpdateAnimator();
+            var pos = transform.position;
+            _player.SetPosition(new Position(pos.x, pos.y));
+            UpdatePlayerSortingPosition(pos.y);
         }
 
-        void LateUpdate() {
-            UpdateModel();
+        private void OnPlayerTeleported(Position newPos) {
+            _rigidbody2D.position = new Vector2(newPos.x, newPos.y);
         }
 
         private void FixedUpdate() {
-            HandlePlayerMovement();
+            if (_player.PositionDelta != Position.Zero) {
+                var pos = _player.PositionDelta + _player.Position;
+                var vectorizedPos = new Vector2(pos.x, pos.y);
+                _rigidbody2D.MovePosition(vectorizedPos);
+                _player.PositionDelta = Position.Zero;
+            }
         }
 
-        
+
         #region Triggers
+
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("TransparencyCollider")) {
                 var sr = other.GetComponentInParent<SpriteRenderer>();
                 sr.color = ToggleOpacity(sr.color);
             }
             else {
-                _apiController.OnPlayerEnter(_playerData, other.gameObject);
+                _apiController.OnPlayerEnter(other.gameObject);
             }
         }
 
@@ -84,66 +93,20 @@ namespace Verse.Systems.Visual {
         }
 
         #endregion
-        
-        #region ModelAndAnimator
-
-        private void OnPlayerMoved(PlayerPosition newPos, PlayerPosition oldPos) {
-            if (!_moveToCalled) {
-                Debug.Log("Scripted Teleport");
-                transform.position = ApiMappings.Vector2FromPosition(newPos);
-                UpdatePlayerSortingPosition(newPos.y);
-            }
-        }
-
-        private void UpdateModel() {
-            var currentPos = new PlayerPosition(transform.position.x, transform.position.y);
-            if (_playerData.Position != currentPos) {
-                UpdatePlayerSortingPosition(currentPos.y);
-                _moveToCalled = true;
-                _playerData.MoveToWithoutPhysics(currentPos);
-                _moveToCalled = false;
-            }
-        }
 
         private void UpdateAnimator() {
             float currentX = Animator.GetFloat("X");
             float currentY = Animator.GetFloat("Y");
 
-            if (!_isMoving && (!Mathf.Approximately(currentX, 0) || !Mathf.Approximately(currentY, 0))) {
+            if (!_player.IsMoving && (!Mathf.Approximately(currentX, 0) || !Mathf.Approximately(currentY, 0))) {
                 Animator.SetFloat("lastX", currentX);
                 Animator.SetFloat("lastY", currentY);
             }
 
-            Animator.SetBool("isMoving", _isMoving);
-            Animator.SetBool("isRunning", _isRunning);
-            Animator.SetFloat("X", _playerInput.x);
-            Animator.SetFloat("Y", _playerInput.y);
-        }
-
-        #endregion
-
-        #region Movement Code
-
-        private void OnRequestedPlayerMove(PlayerPosition pos) {
-            _rigidbody2D.MovePosition(transform.position + ApiMappings.Vector3FromPosition(pos));
-        }
-        
-        private void GetPlayerInput() {
-            _isRunning = !Input.GetKey(SpeedModifierKey);
-            _playerInput = new Vector2(Input.GetAxisRaw(HorizontalAxis), Input.GetAxisRaw(VerticalAxis));
-            _isMoving = Mathf.Abs(_playerInput.x) + Mathf.Abs(_playerInput.y) > 0;
-        }
-
-        private void HandlePlayerMovement() {
-            if (_isMoving) {
-                MovePlayer(_playerInput);
-            }
-        }
-
-        private void MovePlayer(Vector2 playerInput) {
-            float playerSpeed = GetPlayerSpeed();
-            Vector2 movePosition = CalculateMoveVector(playerInput, playerSpeed);
-            _playerData.Move(ApiMappings.Vector2ToPosition(movePosition));
+            Animator.SetBool("isMoving", _player.IsMoving);
+            Animator.SetBool("isRunning", _player.IsRunning);
+            Animator.SetFloat("X", _player.CurrentInputAxis.x);
+            Animator.SetFloat("Y", _player.CurrentInputAxis.y);
         }
 
         private void UpdatePlayerSortingPosition(float yPosition) {
@@ -151,15 +114,5 @@ namespace Verse.Systems.Visual {
             position.z = Constants.ZPositionMultiplier * yPosition + Constants.ZPositionOffset;
             transform.position = position;
         }
-
-        private float GetPlayerSpeed() {
-            return _isRunning ? RunSpeed : WalkSpeed;
-        }
-
-        private Vector2 CalculateMoveVector(Vector2 playerInput, float speed) {
-            return playerInput.normalized * Time.fixedDeltaTime * speed;
-        }
-
-        #endregion
     }
 }
