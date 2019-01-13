@@ -12,12 +12,15 @@ namespace Verse.Systems.Visual {
         public GameObject ObjectTilePrefab;
         public GameObject TransparencyColliderPrefab;
 
-        private ObjectAtlas _objectAtlas;
+        private TileAtlas _tileAtlas;
 
         public Dictionary<GameObject, TileObject> activeObjects;
+        public Dictionary<TileObject, GameObject> activeObjectsReverse;
         public Dictionary<GameObject, Tile> activeTerrainTiles;
+        public Dictionary<Tile, GameObject> activeTerrainTilesReverse;
 
-        public string CurrentRoom { get; private set; }
+        public string CurrentRoomName { get; private set; }
+        public Room CurrentRoom { get; private set; }
 
         public bool HasActiveRoom { get; private set; }
 
@@ -33,7 +36,9 @@ namespace Verse.Systems.Visual {
 
         private void Start() {
             activeObjects = new Dictionary<GameObject, TileObject>();
+            activeObjectsReverse = new Dictionary<TileObject, GameObject>();
             activeTerrainTiles = new Dictionary<GameObject, Tile>();
+            activeTerrainTilesReverse = new Dictionary<Tile, GameObject>();
             //BuildRoom("main");
         }
 
@@ -42,8 +47,8 @@ namespace Verse.Systems.Visual {
             BuildRoom(newRoom);
         }
 
-        public ScriptableTileObject GetScriptableThingFromGameObject(GameObject go) {
-            return (ScriptableTileObject) activeObjects[go];
+        public TileObjectEntity GetScriptableThingFromGameObject(GameObject go) {
+            return (TileObjectEntity) activeObjects[go];
         }
 
         public void DestroyRoom() {
@@ -60,13 +65,48 @@ namespace Verse.Systems.Visual {
             }
 
             activeObjects = new Dictionary<GameObject, TileObject>();
-            CurrentRoom = "";
+            activeObjectsReverse = new Dictionary<TileObject, GameObject>();
+            activeTerrainTiles = new Dictionary<GameObject, Tile>();
+            activeTerrainTilesReverse = new Dictionary<Tile, GameObject>();
+            CurrentRoomName = "";
+            CurrentRoom = null;
             HasActiveRoom = false;
         }
 
+        public void TileDestroyExlusive(Tile tile) {
+            if (tile.Room == CurrentRoom) {
+                var go = activeTerrainTilesReverse[tile];
+                activeTerrainTiles.Remove(go);
+                activeTerrainTilesReverse.Remove(tile);
+                SimplePool.Despawn(go);
+            }
+        }
+
+        public void TileObjectDestroy(TileObject tile) {
+            if (tile.Room == CurrentRoom) {
+                var go = activeObjectsReverse[tile];
+                activeObjects.Remove(go);
+                activeObjectsReverse.Remove(tile);
+                SimplePool.Despawn(go);
+            }
+        }
+
+        public void TileCreatedExclusive(Tile tile) {
+            BuildTile(tile);
+        }
+
+        public void TileObjectCreatedExclusive(TileObject tileObject) {
+            BuildTileObject(tileObject);
+        }
+
+        public void TileObjectEntityCreated(TileObjectEntity tileObjectEntity) {
+            BuildTileObjectEntity(tileObjectEntity);
+        }
+
         private void BuildRoom(string roomKey) {
-            CurrentRoom = roomKey;
-            var room = RoomAtlas.GetRoom(CurrentRoom);
+            CurrentRoomName = roomKey;
+            var room = RoomAtlas.GetRoom(CurrentRoomName);
+            CurrentRoom = room;
             HasActiveRoom = true;
 
             BuildColliders(room.RoomColliders);
@@ -76,11 +116,11 @@ namespace Verse.Systems.Visual {
             }
 
             foreach (var thing in room.TileProvider.GetTileObjects()) {
-                BuildThing(thing);
+                BuildTileObject(thing);
             }
 
             foreach (var thing in room.TileProvider.GetScriptableTileObjects()) {
-                BuildScriptableThing(thing);
+                BuildTileObjectEntity(thing);
             }
         }
 
@@ -145,16 +185,17 @@ namespace Verse.Systems.Visual {
         #region Tile Construction
 
         private void BuildTile(Tile tile) {
-            Vector3 pos = new Vector3(tile.TilePosition.x, tile.TilePosition.y, 0);
+            Vector3 pos = new Vector3(tile.Position.x, tile.Position.y, 0);
             GameObject poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
             poolGo.GetComponent<SpriteRenderer>().sprite = ApiMappings.InfoToSprite(tile.Definition.SpriteInfo);
             poolGo.transform.parent = TerrainRoot.transform;
             activeTerrainTiles.Add(poolGo, tile);
+            activeTerrainTilesReverse.Add(tile, poolGo);
         }
 
-        private void BuildThing(TileObject tileObject) {
+        private void BuildTileObject(TileObject tileObject) {
             var currentThingDef = tileObject.Definition;
-            var pos = GetLayeredPosition(tileObject.TilePosition);
+            var pos = GetLayeredPosition(tileObject.Position);
 
             GameObject poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
 
@@ -180,13 +221,14 @@ namespace Verse.Systems.Visual {
 
 
             poolGo.transform.parent = ObjectRoot.transform;
-            activeObjects[poolGo] = tileObject;
+            activeObjects.Add(poolGo, tileObject);
+            activeObjectsReverse.Add(tileObject, poolGo);
         }
 
-        private void BuildScriptableThing(ScriptableTileObject tileObject) {
-            var currentThingDef = tileObject.Definition;
-            var pos = new Vector3(tileObject.TilePosition.x, tileObject.TilePosition.y,
-                tileObject.TilePosition.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
+        private void BuildTileObjectEntity(TileObjectEntity tileObjectEntity) {
+            var currentThingDef = tileObjectEntity.Definition;
+            var pos = new Vector3(tileObjectEntity.Position.x, tileObjectEntity.Position.y,
+                tileObjectEntity.Position.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
             var poolGo = SimplePool.Spawn(ObjectTilePrefab, pos, Quaternion.identity);
             poolGo.GetComponent<SpriteRenderer>().sprite = ApiMappings.InfoToSprite(currentThingDef.SpriteInfo);
             var colliderComponent = poolGo.GetComponent<PolygonCollider2D>();
@@ -197,7 +239,8 @@ namespace Verse.Systems.Visual {
             }
 
             poolGo.transform.parent = ObjectRoot.transform;
-            activeObjects[poolGo] = tileObject;
+            activeObjects.Add(poolGo, tileObjectEntity);
+            activeObjectsReverse.Add(tileObjectEntity, poolGo);
         }
 
         private Vector3 GetLayeredPosition(TilePosition tilePosition) {

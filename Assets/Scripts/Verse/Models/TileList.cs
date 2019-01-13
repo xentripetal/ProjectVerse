@@ -23,6 +23,23 @@ namespace Verse.API.Models {
             return _positionList[position.x][position.y];
         }
 
+        public T GetOrDefault(TilePosition position) {
+            if (_positionList.Count <= position.x) {
+                return null;
+            }
+
+            var yList = _positionList[position.x];
+            if (yList == null) {
+                return null;
+            }
+
+            if (yList.Count <= position.y) {
+                return null;
+            }
+
+            return yList[position.y];
+        }
+
         public bool Contains(T tile) {
             return _uniqueList.Contains(tile);
         }
@@ -47,7 +64,7 @@ namespace Verse.API.Models {
         public void Remove(T tile) {
             _uniqueList.Remove(tile);
             foreach (var pos in tile.Definition.OccupiedPositions) {
-                var occupiedPos = tile.TilePosition + pos;
+                var occupiedPos = tile.Position + pos;
                 _positionList[occupiedPos.x][occupiedPos.y] = null;
             }
         }
@@ -59,7 +76,12 @@ namespace Verse.API.Models {
         public void Add(T tile) {
             _uniqueList.Add(tile);
             foreach (var pos in tile.Definition.OccupiedPositions) {
-                var occupiedPos = tile.TilePosition + pos;
+                var occupiedPos = tile.Position + pos;
+                var tileAtOccupiedPos = GetOrDefault(occupiedPos);
+                if (tileAtOccupiedPos != null) {
+                    tileAtOccupiedPos.Destroy();
+                }
+
                 if (_positionList.Count <= occupiedPos.x) {
                     for (int i = _positionList.Count; i <= occupiedPos.x; i++) {
                         _positionList.Add(new List<T>());

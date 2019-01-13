@@ -155,7 +155,7 @@ namespace Verse.API.Models {
         }
     }
 
-    public class ScriptableTileObjectDef : TileObjectDef {
+    public class TileObjectEntityDef : TileObjectDef {
         /// <value>
         /// True if the collider should act as a trigger.
         /// Must be true if using a script inheriting from ITrigger. IsCollidable must also be true
@@ -169,7 +169,7 @@ namespace Verse.API.Models {
         public readonly string[] ScriptNames;
 
         [JsonConstructor]
-        public ScriptableTileObjectDef(String fullName, SpriteInfo spriteInfo, bool isCollidable,
+        public TileObjectEntityDef(String fullName, SpriteInfo spriteInfo, bool isCollidable,
             bool isTransparentOnPlayerBehind, bool isTrigger,
             string[] scriptNames) : base(fullName, spriteInfo, isCollidable, isTransparentOnPlayerBehind) {
             IsTrigger = isTrigger;

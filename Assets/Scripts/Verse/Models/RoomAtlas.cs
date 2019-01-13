@@ -16,9 +16,7 @@ namespace Verse.API.Models {
         }
 
         private static void CreateAtlas() {
-            rooms = new Dictionary<string, Room>();
-            rooms.Add("main", new RoomActual("main"));
-            rooms.Add("test", new RoomActual("test"));
+            rooms = new Dictionary<string, Room> {{"main", new RoomActual("main")}, {"test", new RoomActual("test")}};
         }
     }
 }

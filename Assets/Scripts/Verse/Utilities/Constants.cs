@@ -8,5 +8,6 @@ namespace Verse.Utilities {
         public static string RoomsFolder = ContentFolder + "Rooms/";
         public static string SpritesFolder = ContentFolder + "Sprites/";
         public static string DefsFolder = ContentFolder + "Defs/";
+        public static string EditorThemesFolder = ContentFolder + "UI/EditorThemes/";
     }
 }

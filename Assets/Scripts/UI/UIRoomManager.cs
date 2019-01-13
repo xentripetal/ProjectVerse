@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Events;
+using Verse.API.Models;
 using Verse.Systems.Visual;
 
 public class UIRoomManager : MonoBehaviour {
     public static UIRoomManager Instance;
-    public MapEditorToolbarRules mapEditorToolbarRules;
-    public GameObject mapSelector;
-    public SelectedTileController TileController;
+
+    public RoomLoadedEvent onRoomLoaded = new RoomLoadedEvent();
+    public RoomUnloadedEvent onRoomUnloaded = new RoomUnloadedEvent();
 
     private RoomController _roomController;
+    private Room _currentRoom;
 
     void Awake() {
         Instance = this;
@@ -24,15 +28,19 @@ public class UIRoomManager : MonoBehaviour {
     public void CloseRoom() {
         if (_roomController.HasActiveRoom) {
             _roomController.DestroyRoom();
-            mapEditorToolbarRules.Refresh();
+            onRoomUnloaded.Invoke(_currentRoom);
         }
     }
 
     public void LoadRoom(string room) {
-        RoomController.Instance.ChangeRoom(room, null);
-        Camera.main.GetComponent<CameraPanAndZoom>().Reset();
-        mapEditorToolbarRules.Refresh();
-        mapSelector.SetActive(false);
-        TileController.LoadRoom(room);
+        _roomController.ChangeRoom(room, null);
+        _currentRoom = _roomController.CurrentRoom;
+        onRoomLoaded.Invoke(_currentRoom);
     }
+
+    [Serializable]
+    public class RoomLoadedEvent : UnityEvent<Room> { }
+
+    [Serializable]
+    public class RoomUnloadedEvent : UnityEvent<Room> { }
 }

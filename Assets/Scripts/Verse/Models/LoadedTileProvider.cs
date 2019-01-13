@@ -1,25 +1,46 @@
 using System.Collections.Generic;
-using Verse.API.Models;
 using Verse.Systems;
 
 namespace Verse.API.Models {
-    public sealed class LoadedTileProvider : TileProvider {
+    public sealed class LoadedTileProvider : TileProviderInternal {
         private TileList<Tile> _tiles = new TileList<Tile>();
         private TileList<TileObject> _tileObjects = new TileList<TileObject>();
-        private TileList<ScriptableTileObject> _scriptableTileObjects = new TileList<ScriptableTileObject>();
+        private TileList<TileObjectEntity> _scriptableTileObjects = new TileList<TileObjectEntity>();
 
-        public LoadedTileProvider(string roomName) {
-            RoomName = roomName;
-            _tiles.AddRange(WorldLoader.GetTileMap(RoomName));
-            _tileObjects.AddRange(WorldLoader.GetThingMap(RoomName));
-            _scriptableTileObjects.AddRange(WorldLoader.GetScriptableThings(RoomName));
+        public LoadedTileProvider(Room room) {
+            Room = room;
+            _tiles.AddRange(WorldLoader.GetTileMap(room));
+            _scriptableTileObjects.AddRange(WorldLoader.GetScriptableThings(room));
+            _tileObjects.AddRange(WorldLoader.GetThingMap(room));
         }
 
         public LoadedTileProvider(TileProvider provider) {
-            RoomName = provider.RoomName;
+            Room = provider.Room;
             _tiles.AddRange(provider.GetTiles());
             _tileObjects.AddRange(provider.GetTileObjects());
             _scriptableTileObjects.AddRange(provider.GetScriptableTileObjects());
+        }
+
+        //todo reconsider how to handle calling api controller
+        public override void Add(Tile tile) {
+            if (typeof(TileObjectEntity).IsInstanceOfType(tile)) {
+                TileObjectEntity entityTile = (TileObjectEntity) tile;
+                _scriptableTileObjects.Add(entityTile);
+                ApiController.Instance.OnTileObjectEntityCreated(entityTile);
+                ApiController.Instance.OnTileObjectCreated(entityTile);
+            }
+            else if (typeof(TileObject).IsInstanceOfType(tile)) {
+                TileObject tileObject = (TileObject) tile;
+                _tileObjects.Add(tileObject);
+                ApiController.Instance.OnTileObjectCreated(tileObject);
+                ApiController.Instance.OnTileObjectCreatedExclusive(tileObject);
+            }
+            else {
+                _tiles.Add(tile);
+                ApiController.Instance.OnTileCreatedExclusive(tile);
+            }
+
+            ApiController.Instance.OnTileCreated(tile);
         }
 
         public override Tile GetTileAt(TilePosition position) {
@@ -30,28 +51,28 @@ namespace Verse.API.Models {
             return _tileObjects.Get(position);
         }
 
-        public override ScriptableTileObject GetScriptableTileObjectAt(TilePosition position) {
+        public override TileObjectEntity GetScriptableTileObjectAt(TilePosition position) {
             return _scriptableTileObjects.Get(position);
         }
 
-        public override void RemoveTile(Tile tile) {
-            _tiles.Remove(tile);
+        public override void Remove(Tile tile) {
+            if (typeof(TileObjectEntity).IsInstanceOfType(tile)) {
+                _scriptableTileObjects.Remove((TileObjectEntity) tile);
+            }
+            else if (typeof(TileObject).IsInstanceOfType(tile)) {
+                _tileObjects.Remove((TileObject) tile);
+            }
+            else {
+                _tiles.Remove(tile);
+            }
         }
 
         public override void RemoveTileAt(TilePosition position) {
             _tiles.RemoveAt(position);
         }
 
-        public override void RemoveTileObject(TileObject tile) {
-            _tileObjects.Remove(tile);
-        }
-
         public override void RemoveTileObjectAt(TilePosition position) {
             _tileObjects.RemoveAt(position);
-        }
-
-        public override void RemoveScriptableTileObject(ScriptableTileObject tile) {
-            _scriptableTileObjects.Remove(tile);
         }
 
         public override void RemoveScriptableTileObjectAt(TilePosition position) {
@@ -78,7 +99,7 @@ namespace Verse.API.Models {
             return _tileObjects.GetAll();
         }
 
-        public override List<ScriptableTileObject> GetScriptableTileObjects() {
+        public override List<TileObjectEntity> GetScriptableTileObjects() {
             return _scriptableTileObjects.GetAll();
         }
     }

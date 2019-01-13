@@ -31,7 +31,7 @@ public class CameraPanAndZoom : MonoBehaviour {
         _initialRefResolutionY = _pixelCam.refResolutionY;
     }
 
-    public void Reset() {
+    public void ResetCamera() {
         transform.position = _initialPosition;
         _pixelCam.refResolutionX = _initialRefResolutionX;
         _pixelCam.refResolutionY = _initialRefResolutionY;

@@ -9,6 +9,7 @@ using Verse.Systems.Visual;
 
 namespace Verse.Systems {
     public class ApiController : MonoBehaviour {
+        public bool EditorMode;
         private RoomController _roomController;
 
         public static ApiController Instance;
@@ -38,24 +39,24 @@ namespace Verse.Systems {
 
         #region Utilities#Things
 
-        private ScriptableTileObject GetScriptableThingFromGameObject(GameObject go) {
+        private TileObjectEntity GetScriptableThingFromGameObject(GameObject go) {
             return _roomController.GetScriptableThingFromGameObject(go);
         }
 
-        private T[] GetScriptsImplementingInterface<T>(ScriptableTileObject tileObject) {
-            if (tileObject.Datasets == null) {
+        private T[] GetScriptsImplementingInterface<T>(TileObjectEntity tileObjectEntity) {
+            if (tileObjectEntity.Datasets == null) {
                 return new T[] { };
             }
 
-            return GetScriptsImplementingInterface<T>(tileObject.Definition.Scripts);
+            return GetScriptsImplementingInterface<T>(tileObjectEntity.Definition.Scripts);
         }
 
         private T[] GetScriptsImplementingInterface<T>(IThingScript[] scripts) {
             return scripts.OfType<T>().ToArray();
         }
 
-        private IThingData GetDatasetOfType(ScriptableTileObject tileObject, Type dataType) {
-            foreach (IThingData thingData in tileObject.Datasets) {
+        private IThingData GetDatasetOfType(TileObjectEntity tileObjectEntity, Type dataType) {
+            foreach (IThingData thingData in tileObjectEntity.Datasets) {
                 if (dataType.IsInstanceOfType(thingData)) {
                     return thingData;
                 }
@@ -70,6 +71,10 @@ namespace Verse.Systems {
         #region ITrigger
 
         public void OnPlayerEnter(GameObject go) {
+            if (EditorMode) {
+                return;
+            }
+
             var thing = GetScriptableThingFromGameObject(go);
             //todo Cache results
             ITrigger[] triggerScripts = GetScriptsImplementingInterface<ITrigger>(thing);
@@ -79,18 +84,62 @@ namespace Verse.Systems {
             }
         }
 
+        #endregion
+
         private void Update() {
+            if (EditorMode) {
+                return;
+            }
+
             foreach (var methodInfo in _frameUpdateMethods) {
                 methodInfo.Invoke(null, null);
             }
         }
 
         private void LateUpdate() {
+            if (EditorMode) {
+                return;
+            }
+
             foreach (var methodInfo in _lateFrameUpdateMethods) {
                 methodInfo.Invoke(null, null);
             }
         }
 
-        #endregion
+        public void OnTileCreated(Tile tile) { }
+
+        public void OnTileCreatedExclusive(Tile tile) {
+            _roomController.TileCreatedExclusive(tile);
+        }
+
+        public void OnTileObjectCreated(TileObject tileObject) { }
+
+        public void OnTileObjectCreatedExclusive(TileObject tileObject) {
+            _roomController.TileObjectCreatedExclusive(tileObject);
+        }
+
+        public void OnTileObjectEntityCreated(TileObjectEntity tileObjectEntity) {
+            _roomController.TileObjectEntityCreated(tileObjectEntity);
+        }
+
+        public void OnTileDestroy(Tile tile) {
+            ((TileProviderInternal) tile.Room.TileProvider).Remove(tile);
+
+            if (EditorMode) {
+                FindObjectOfType<SelectedTileController>().TileDestroyed(tile);
+            }
+        }
+
+        public void OnTileDestroyExclusive(Tile tile) {
+            _roomController.TileDestroyExlusive(tile);
+        }
+
+        public void OnTileObjectDestroy(TileObject tile) {
+            _roomController.TileObjectDestroy(tile);
+        }
+
+        public void OnTileObjectDestroyExclusive(TileObject tile) { }
+
+        public void OnTileObjectEntityDestroy(TileObjectEntity tile) { }
     }
 }

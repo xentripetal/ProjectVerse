@@ -10,9 +10,9 @@ namespace Verse.API.Models {
 
         public RoomActual(string roomName) {
             RoomName = roomName;
-            TileProvider = new LoadedTileProvider(RoomName);
             IsRoomLoaded = true;
             RoomColliders = WorldLoader.GetRoomColliders(RoomName);
+            TileProvider = new LoadedTileProvider(this);
         }
 
         public void LoadRoom() {

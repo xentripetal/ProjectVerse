@@ -2,7 +2,9 @@ using System.Collections.Generic;
 
 namespace Verse.API.Models {
     public abstract class TileProvider {
-        public virtual string RoomName { get; protected set; }
+        public virtual Room Room { get; protected set; }
+
+        public abstract void Add(Tile tile);
         public abstract Tile GetTileAt(TilePosition position);
 
         public virtual Tile GetTileAtOrDefault(TilePosition position) {
@@ -23,9 +25,9 @@ namespace Verse.API.Models {
             return GetTileObjectAt(position);
         }
 
-        public abstract ScriptableTileObject GetScriptableTileObjectAt(TilePosition position);
+        public abstract TileObjectEntity GetScriptableTileObjectAt(TilePosition position);
 
-        public virtual ScriptableTileObject GetScriptableTileObjectAtOrDefault(TilePosition position) {
+        public virtual TileObjectEntity GetScriptableTileObjectAtOrDefault(TilePosition position) {
             if (!ScriptableTileObjectOccupied(position)) {
                 return null;
             }
@@ -36,27 +38,11 @@ namespace Verse.API.Models {
         public virtual TileObject GetOptionalScriptableTileObject(TilePosition position) {
             var tileObject = (TileObject) GetScriptableTileObjectAtOrDefault(position);
             if (tileObject == null) {
-                tileObject = GetTileObjectAt(position);
-            }
-
-            return tileObject;
-        }
-
-        public virtual TileObject GetOptionalScriptableTileObjectOrDefault(TilePosition position) {
-            var tileObject = (TileObject) GetScriptableTileObjectAtOrDefault(position);
-            if (tileObject == null) {
                 tileObject = GetTileObjectAtOrDefault(position);
             }
 
             return tileObject;
         }
-
-        public abstract void RemoveTile(Tile tile);
-        public abstract void RemoveTileAt(TilePosition position);
-        public abstract void RemoveTileObject(TileObject tile);
-        public abstract void RemoveTileObjectAt(TilePosition position);
-        public abstract void RemoveScriptableTileObject(ScriptableTileObject tile);
-        public abstract void RemoveScriptableTileObjectAt(TilePosition position);
 
         public abstract bool TileOccupied(TilePosition position);
         public abstract bool TileObjectOccupied(TilePosition position);
@@ -68,6 +54,6 @@ namespace Verse.API.Models {
 
         public abstract List<Tile> GetTiles();
         public abstract List<TileObject> GetTileObjects();
-        public abstract List<ScriptableTileObject> GetScriptableTileObjects();
+        public abstract List<TileObjectEntity> GetScriptableTileObjects();
     }
 }

@@ -2,32 +2,34 @@ using System.Collections.Generic;
 using Verse.API.Interfaces;
 
 namespace Verse.API.Models {
-    public class Tile {
-        public TileDef Definition { get; }
-        public TilePosition TilePosition { get; }
+    public abstract class Tile {
+        protected TileDef m_TileDef { get; set; }
 
-        public Tile(TileDef definition, TilePosition tilePosition) {
-            Definition = definition;
-            TilePosition = tilePosition;
+        public TileDef Definition {
+            get => m_TileDef;
+        }
+
+        public virtual TilePosition Position { get; protected set; }
+        public virtual Room Room { get; protected set; }
+
+        public abstract void Destroy();
+    }
+
+    public abstract class TileObject : Tile {
+        protected TileObjectDef m_TileObjectDef { get; set; }
+
+        public new TileObjectDef Definition {
+            get => m_TileObjectDef;
         }
     }
 
-    public class TileObject : Tile {
-        public new readonly TileObjectDef Definition;
+    public abstract class TileObjectEntity : TileObject {
+        protected TileObjectEntityDef m_TileObjectEntityDef { get; set; }
 
-        public TileObject(TileObjectDef definition, TilePosition tilePosition) : base(definition, tilePosition) {
-            Definition = definition;
+        public new TileObjectEntityDef Definition {
+            get => m_TileObjectEntityDef;
         }
-    }
 
-    public class ScriptableTileObject : TileObject {
-        public new readonly ScriptableTileObjectDef Definition;
-        public IList<IThingData> Datasets { get; }
-
-        public ScriptableTileObject(ScriptableTileObjectDef definition, TilePosition tilePosition, IList<IThingData> datasets) : base(
-            definition, tilePosition) {
-            Definition = definition;
-            Datasets = datasets;
-        }
+        public virtual List<IThingData> Datasets { get; protected set; }
     }
 }

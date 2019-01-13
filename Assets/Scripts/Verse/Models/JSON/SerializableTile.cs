@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Verse.API.Interfaces;
-using Verse.API.Models;
 
 namespace Verse.API.Models.JSON {
     public class SerializableTile {
@@ -14,12 +13,12 @@ namespace Verse.API.Models.JSON {
 
         public SerializableTile() { }
 
-        static public implicit operator Tile(SerializableTile value) {
-            return new Tile(ObjectAtlas.GetTileDef(value.Definition), value.Position);
+        public Tile ToTile(Room room) {
+            return new TileActual(TileAtlas.GetTileDef(Definition), Position, room);
         }
 
         static public implicit operator SerializableTile(Tile value) {
-            return new SerializableTile(value.Definition.FullName, value.TilePosition);
+            return new SerializableTile(value.Definition.FullName, value.Position);
         }
     }
 
@@ -28,32 +27,32 @@ namespace Verse.API.Models.JSON {
 
         public SerializableThing() { }
 
-        static public implicit operator TileObject(SerializableThing value) {
-            return new TileObject(ObjectAtlas.GetThingDef(value.Definition), value.Position);
+        public TileObject ToTileObject(Room room) {
+            return new TileObjectActual(TileAtlas.GetTileObjectDef(Definition), Position, room);
         }
 
         static public implicit operator SerializableThing(TileObject value) {
-            return new SerializableThing(value.Definition.FullName, value.TilePosition);
+            return new SerializableThing(value.Definition.FullName, value.Position);
         }
     }
 
     public class SerializableScriptableThing : SerializableThing {
-        public IList<IThingData> Datasets;
+        public List<IThingData> Datasets;
 
-        public SerializableScriptableThing(string definition, TilePosition position, IList<IThingData> datasets) : base(
+        public SerializableScriptableThing(string definition, TilePosition position, List<IThingData> datasets) : base(
             definition, position) {
             Datasets = datasets;
         }
 
         public SerializableScriptableThing() { }
 
-        static public implicit operator ScriptableTileObject(SerializableScriptableThing value) {
-            return new ScriptableTileObject(ObjectAtlas.GetScriptableThingDef(value.Definition), value.Position,
-                value.Datasets);
+        public TileObjectEntity ToScriptableTileObject(Room room) {
+            return new TileObjectEntityActual(TileAtlas.GetScriptableTileObjectDef(Definition), Position, room,
+                Datasets);
         }
 
-        static public implicit operator SerializableScriptableThing(ScriptableTileObject value) {
-            return new SerializableScriptableThing(value.Definition.FullName, value.TilePosition, value.Datasets);
+        static public implicit operator SerializableScriptableThing(TileObjectEntity value) {
+            return new SerializableScriptableThing(value.Definition.FullName, value.Position, value.Datasets);
         }
     }
 }

@@ -1,22 +1,21 @@
 using System;
 using System.Collections.Generic;
-using Verse.API.Models;
 
 namespace Verse.API.Models {
-    public sealed class CachedTileProvider : TileProvider {
+    public sealed class CachedTileProvider : TileProviderInternal {
         private List<List<Tile>> _tiles;
         private List<TileObject> _tileObjects;
-        private List<ScriptableTileObject> _scriptableTileObjects;
+        private List<TileObjectEntity> _scriptableTileObjects;
 
-        public CachedTileProvider(string roomName) {
-            RoomName = roomName;
-        }
+        public CachedTileProvider(string roomName) { }
 
-        public CachedTileProvider(LoadedTileProvider provider) {
-            RoomName = provider.RoomName;
-        }
+        public CachedTileProvider(LoadedTileProvider provider) { }
 
         private void LoadData() { }
+
+        public override void Add(Tile tile) {
+            throw new NotImplementedException();
+        }
 
         public override Tile GetTileAt(TilePosition position) {
             throw new NotImplementedException();
@@ -26,11 +25,11 @@ namespace Verse.API.Models {
             throw new NotImplementedException();
         }
 
-        public override ScriptableTileObject GetScriptableTileObjectAt(TilePosition position) {
+        public override TileObjectEntity GetScriptableTileObjectAt(TilePosition position) {
             throw new NotImplementedException();
         }
 
-        public override void RemoveTile(Tile tile) {
+        public override void Remove(Tile tile) {
             throw new NotImplementedException();
         }
 
@@ -38,15 +37,7 @@ namespace Verse.API.Models {
             throw new NotImplementedException();
         }
 
-        public override void RemoveTileObject(TileObject tile) {
-            throw new NotImplementedException();
-        }
-
         public override void RemoveTileObjectAt(TilePosition position) {
-            throw new NotImplementedException();
-        }
-
-        public override void RemoveScriptableTileObject(ScriptableTileObject tile) {
             throw new NotImplementedException();
         }
 
@@ -74,7 +65,7 @@ namespace Verse.API.Models {
             throw new NotImplementedException();
         }
 
-        public override List<ScriptableTileObject> GetScriptableTileObjects() {
+        public override List<TileObjectEntity> GetScriptableTileObjects() {
             throw new NotImplementedException();
         }
     }
