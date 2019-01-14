@@ -21,6 +21,11 @@ public class SelectedRoomController : MonoBehaviour {
         _roomController = RoomController.Instance;
     }
 
+    public void SaveRoom() {
+        Debug.Log("Saving Room");
+        RoomFileSaver.SaveRoom((RoomActual) _currentRoom);
+    }
+
     public void CreateNewRoom() {
         Debug.Log("Create new room");
     }

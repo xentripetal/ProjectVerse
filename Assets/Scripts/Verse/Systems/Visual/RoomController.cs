@@ -119,7 +119,7 @@ namespace Verse.Systems.Visual {
                 BuildTileObject(thing);
             }
 
-            foreach (var thing in room.TileProvider.GetScriptableTileObjects()) {
+            foreach (var thing in room.TileProvider.GetTileObjectEntities()) {
                 BuildTileObjectEntity(thing);
             }
         }

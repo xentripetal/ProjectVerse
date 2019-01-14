@@ -19,7 +19,7 @@ namespace Verse.API.Models {
             Room = provider.Room;
             _tiles.AddRange(provider.GetTiles());
             _tileObjects.AddRange(provider.GetTileObjects());
-            _scriptableTileObjects.AddRange(provider.GetScriptableTileObjects());
+            _scriptableTileObjects.AddRange(provider.GetTileObjectEntities());
         }
 
         //todo reconsider how to handle calling api controller
@@ -100,7 +100,7 @@ namespace Verse.API.Models {
             return _tileObjects.GetAll();
         }
 
-        public override List<TileObjectEntity> GetScriptableTileObjects() {
+        public override List<TileObjectEntity> GetTileObjectEntities() {
             return _scriptableTileObjects.GetAll();
         }
     }

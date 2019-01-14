@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Verse.API.Models {
     public struct Position {
@@ -14,14 +15,17 @@ namespace Verse.API.Models {
             return "PlayerPosition(" + x + ", " + y + ")";
         }
 
+        [JsonIgnore]
         public float SqrMagnitude => (float) (x * (double) x + y * (double) y);
 
+        [JsonIgnore]
         public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
 
         public static float Distance(Position from, Position to) {
             return (from - to).Magnitude;
         }
 
+        [JsonIgnore]
         public Position normalized {
             get {
                 float magnitude = Magnitude;
@@ -31,7 +35,10 @@ namespace Verse.API.Models {
             }
         }
 
+        [JsonIgnore]
         public TilePosition NearestTilePosition => new TilePosition((int) Math.Round(x), (int) Math.Round(y));
+
+        [JsonIgnore]
         public TilePosition CurrentTilePosition => new TilePosition((int) x, (int) y);
 
         public static Position Zero = new Position(0, 0);

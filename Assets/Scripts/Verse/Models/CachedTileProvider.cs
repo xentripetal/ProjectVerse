@@ -65,7 +65,7 @@ namespace Verse.API.Models {
             throw new NotImplementedException();
         }
 
-        public override List<TileObjectEntity> GetScriptableTileObjects() {
+        public override List<TileObjectEntity> GetTileObjectEntities() {
             throw new NotImplementedException();
         }
     }

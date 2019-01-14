@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 
 namespace Verse.API.Models {
     public struct TilePosition {
@@ -14,8 +15,10 @@ namespace Verse.API.Models {
             return "TilePosition(" + x + ", " + y + ")";
         }
 
-        public float SqrMagnitude => x * x + y * y;
+        [JsonIgnore]
+        public int SqrMagnitude => x * x + y * y;
 
+        [JsonIgnore]
         public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
 
         public static float Distance(TilePosition from, TilePosition to) {

@@ -24,7 +24,7 @@ namespace Verse.Systems {
 
         public static List<TileObject> GetThingMap(Room room) {
             var jsonString = Resources.Load<TextAsset>("Rooms/" + room.RoomName + "/ObjectMap").text;
-            var serializableThings = JsonConvert.DeserializeObject<List<SerializableThing>>(jsonString);
+            var serializableThings = JsonConvert.DeserializeObject<List<SerializableTileObject>>(jsonString);
 
             return serializableThings.Select(sThing => sThing.ToTileObject(room)).ToList();
         }
@@ -34,7 +34,7 @@ namespace Verse.Systems {
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
 
             var sThings =
-                JsonConvert.DeserializeObject<List<SerializableScriptableThing>>(jsonString, settings);
+                JsonConvert.DeserializeObject<List<SerializableTileObjectEntity>>(jsonString, settings);
 
             return sThings.Select(sThing => sThing.ToScriptableTileObject(room)).ToList();
         }

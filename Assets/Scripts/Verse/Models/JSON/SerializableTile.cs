@@ -22,37 +22,37 @@ namespace Verse.API.Models.JSON {
         }
     }
 
-    public class SerializableThing : SerializableTile {
-        public SerializableThing(string definition, TilePosition position) : base(definition, position) { }
+    public class SerializableTileObject : SerializableTile {
+        public SerializableTileObject(string definition, TilePosition position) : base(definition, position) { }
 
-        public SerializableThing() { }
+        public SerializableTileObject() { }
 
         public TileObject ToTileObject(Room room) {
             return new TileObjectActual(TileAtlas.GetTileObjectDef(Definition), Position, room);
         }
 
-        static public implicit operator SerializableThing(TileObject value) {
-            return new SerializableThing(value.Definition.FullName, value.Position);
+        static public implicit operator SerializableTileObject(TileObject value) {
+            return new SerializableTileObject(value.Definition.FullName, value.Position);
         }
     }
 
-    public class SerializableScriptableThing : SerializableThing {
+    public class SerializableTileObjectEntity : SerializableTileObject {
         public List<IThingData> Datasets;
 
-        public SerializableScriptableThing(string definition, TilePosition position, List<IThingData> datasets) : base(
+        public SerializableTileObjectEntity(string definition, TilePosition position, List<IThingData> datasets) : base(
             definition, position) {
             Datasets = datasets;
         }
 
-        public SerializableScriptableThing() { }
+        public SerializableTileObjectEntity() { }
 
         public TileObjectEntity ToScriptableTileObject(Room room) {
             return new TileObjectEntityActual(TileAtlas.GetScriptableTileObjectDef(Definition), Position, room,
                 Datasets);
         }
 
-        static public implicit operator SerializableScriptableThing(TileObjectEntity value) {
-            return new SerializableScriptableThing(value.Definition.FullName, value.Position, value.Datasets);
+        static public implicit operator SerializableTileObjectEntity(TileObjectEntity value) {
+            return new SerializableTileObjectEntity(value.Definition.FullName, value.Position, value.Datasets);
         }
     }
 }

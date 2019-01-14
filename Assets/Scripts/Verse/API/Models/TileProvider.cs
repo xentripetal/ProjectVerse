@@ -54,6 +54,6 @@ namespace Verse.API.Models {
 
         public abstract List<Tile> GetTiles();
         public abstract List<TileObject> GetTileObjects();
-        public abstract List<TileObjectEntity> GetScriptableTileObjects();
+        public abstract List<TileObjectEntity> GetTileObjectEntities();
     }
 }

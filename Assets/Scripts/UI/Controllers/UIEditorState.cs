@@ -61,7 +61,7 @@ public class UIEditorState : MonoBehaviour {
 
     public void TileDefUnselected(TileDef def) {
         CurrentSelectedTileDef = null;
-        IsTileSelected = false;
+        IsTileDefSelected = false;
     }
 
     public void RoomLoaded(Room room) {
