@@ -8,21 +8,17 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
     public TileSelectedEvent onTileSelected = new TileSelectedEvent();
     public TileUnselectedEvent onTileUnselected = new TileUnselectedEvent();
 
-    private Room _room;
     private Camera _camera;
 
     private Tile _selectedTile;
+    private UIEditorState _state;
 
     private void Awake() {
         _camera = Camera.main;
-    }
-
-    public void LoadRoom(Room room) {
-        _room = room;
+        _state = GetComponent<UIEditorState>();
     }
 
     public void UnloadRoom(Room room) {
-        _room = null;
         TileUnselected();
     }
 
@@ -30,15 +26,6 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
         if (_selectedTile == tile) {
             TileUnselected();
         }
-    }
-
-    private Tile GetTileAt(TilePosition pos) {
-        Tile tile = _room.TileProvider.GetOptionalScriptableTileObject(pos);
-        if (tile == null) {
-            tile = _room.TileProvider.GetTileAtOrDefault(pos);
-        }
-
-        return tile;
     }
 
     private void TileUnselected() {
@@ -60,7 +47,7 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
 
     // Update is called once per frame
     void Update() {
-        if (_room == null) {
+        if (!_state.IsRoomLoaded) {
             return;
         }
 
@@ -80,7 +67,7 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
 
         var pos = new TilePosition((int) mousePos.x, (int) mousePos.y);
 
-        var tile = GetTileAt(pos);
+        var tile = _state.GetTileAt(pos);
         if (tile == null) {
             TileUnselected();
             return;

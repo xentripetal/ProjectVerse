@@ -4,7 +4,6 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using Verse.API.Interfaces;
-using Verse.API.Models;
 using Verse.Utilities;
 
 namespace Verse.API.Models {
@@ -30,6 +29,8 @@ namespace Verse.API.Models {
         /// </value>
         [JsonIgnore] public readonly string Provider;
 
+        [JsonIgnore] public readonly TileType TileType;
+
         [JsonIgnore]
         public TilePosition[] OccupiedPositions { get; protected set; }
 
@@ -45,6 +46,19 @@ namespace Verse.API.Models {
             Provider = splitFullName.First();
             SpriteInfo = spriteInfo;
             OccupiedPositions = CalculateOccupiedPositions(spriteInfo);
+            TileType = GetTileType();
+        }
+
+        private TileType GetTileType() {
+            if (typeof(TileObjectEntityDef).IsInstanceOfType(this)) {
+                return TileType.TileObjectEntity;
+            }
+
+            if (typeof(TileObjectDef).IsInstanceOfType(this)) {
+                return TileType.TileObject;
+            }
+
+            return TileType.Tile;
         }
 
         //Todo: Use pivot point in calculations

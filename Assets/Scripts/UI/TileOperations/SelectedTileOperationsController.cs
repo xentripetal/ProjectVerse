@@ -9,7 +9,7 @@ public class SelectedTileOperationsController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Z)) {
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftControl)) {
             _handler.Undo();
             return;
         }

@@ -7,6 +7,7 @@ namespace Verse.API.Models {
         private TileList<TileObject> _tileObjects = new TileList<TileObject>();
         private TileList<TileObjectEntity> _scriptableTileObjects = new TileList<TileObjectEntity>();
 
+
         public LoadedTileProvider(Room room) {
             Room = room;
             _tiles.AddRange(WorldLoader.GetTileMap(room));
@@ -23,13 +24,13 @@ namespace Verse.API.Models {
 
         //todo reconsider how to handle calling api controller
         public override void Add(Tile tile) {
-            if (typeof(TileObjectEntity).IsInstanceOfType(tile)) {
+            if (tile.Definition.TileType == TileType.TileObjectEntity) {
                 TileObjectEntity entityTile = (TileObjectEntity) tile;
                 _scriptableTileObjects.Add(entityTile);
                 ApiController.Instance.OnTileObjectEntityCreated(entityTile);
                 ApiController.Instance.OnTileObjectCreated(entityTile);
             }
-            else if (typeof(TileObject).IsInstanceOfType(tile)) {
+            else if (tile.Definition.TileType == TileType.TileObject) {
                 TileObject tileObject = (TileObject) tile;
                 _tileObjects.Add(tileObject);
                 ApiController.Instance.OnTileObjectCreated(tileObject);

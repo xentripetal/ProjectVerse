@@ -4,8 +4,8 @@ using UnityEngine.Events;
 using Verse.API.Models;
 using Verse.Systems.Visual;
 
-public class UIRoomManager : MonoBehaviour {
-    public static UIRoomManager Instance;
+public class SelectedRoomController : MonoBehaviour {
+    public static SelectedRoomController Instance;
 
     public RoomLoadedEvent onRoomLoaded = new RoomLoadedEvent();
     public RoomUnloadedEvent onRoomUnloaded = new RoomUnloadedEvent();

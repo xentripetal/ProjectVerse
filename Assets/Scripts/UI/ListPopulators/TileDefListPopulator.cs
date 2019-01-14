@@ -8,6 +8,7 @@ public class TileDefListPopulator : MonoBehaviour {
     public GameObject TileDefEntryPrefab;
     public Transform VerticalLayoutParent;
     public UIOptionalWindow WarningDialog;
+    public SelectedTileDefController SelectedTileDefController;
 
     private bool _includeTiles = true;
     private bool _includeTileObjects = true;
@@ -49,11 +50,12 @@ public class TileDefListPopulator : MonoBehaviour {
         _tileObjectEntityDefs = TileAtlas.GetScriptableTileObjectNames();
     }
 
-    public void TileDefSelected(string tileName) {
-        WarningDialog.ShowWindow();
+    private void TileDefSelected(string tileName) {
+        var tile = TileAtlas.GetDef(tileName);
+        SelectedTileDefController.TileDefSelectedInternal(tile);
     }
 
-    public void TileDefEditClicked(string tileName) {
+    private void TileDefEditClicked(string tileName) {
         WarningDialog.ShowWindow();
     }
 
