@@ -8,8 +8,6 @@ public class DoorTriggerData : IThingData {
     public string room;
     public float x;
     public float y;
-
-    public DoorTriggerData() { }
 }
 
 public class DoorTrigger : ITrigger {

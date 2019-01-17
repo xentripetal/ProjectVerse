@@ -25,6 +25,9 @@ namespace Verse.Systems {
             _roomController = RoomController.Instance;
             _frameUpdateMethods = GetMethodsWithAttribute<OnFrameUpdate>();
             _lateFrameUpdateMethods = GetMethodsWithAttribute<OnLateFrameUpdate>();
+            if (!EditorMode) {
+                _roomController.ChangeRoom("main", null);
+            }
         }
 
         #region Utilities#Systems

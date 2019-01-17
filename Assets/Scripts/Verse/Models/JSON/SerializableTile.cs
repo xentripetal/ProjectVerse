@@ -14,7 +14,7 @@ namespace Verse.API.Models.JSON {
         public SerializableTile() { }
 
         public Tile ToTile(Room room) {
-            return new TileActual(TileAtlas.GetTileDef(Definition), Position, room);
+            return new TileActual(TileDefMap.GetTileDef(Definition), Position, room);
         }
 
         static public implicit operator SerializableTile(Tile value) {
@@ -28,7 +28,7 @@ namespace Verse.API.Models.JSON {
         public SerializableTileObject() { }
 
         public TileObject ToTileObject(Room room) {
-            return new TileObjectActual(TileAtlas.GetTileObjectDef(Definition), Position, room);
+            return new TileObjectActual(TileDefMap.GetTileObjectDef(Definition), Position, room);
         }
 
         static public implicit operator SerializableTileObject(TileObject value) {
@@ -47,7 +47,7 @@ namespace Verse.API.Models.JSON {
         public SerializableTileObjectEntity() { }
 
         public TileObjectEntity ToScriptableTileObject(Room room) {
-            return new TileObjectEntityActual(TileAtlas.GetScriptableTileObjectDef(Definition), Position, room,
+            return new TileObjectEntityActual(TileDefMap.GetScriptableTileObjectDef(Definition), Position, room,
                 Datasets);
         }
 

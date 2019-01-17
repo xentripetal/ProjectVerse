@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Verse.API.Models {
     public static class RoomAtlas {
@@ -15,8 +16,23 @@ namespace Verse.API.Models {
             return rooms[roomName];
         }
 
+        public static Room[] GetRooms() {
+            InitializeAtlas();
+            return rooms.Values.ToArray();
+        }
+
         private static void CreateAtlas() {
-            rooms = new Dictionary<string, Room> {{"main", new RoomActual("main")}, {"test", new RoomActual("test")}};
+            rooms = new Dictionary<string, Room>();
+            foreach (var mod in ModMap.GetEnabledMods()) {
+                if (!mod.IsProvidingRooms) {
+                    continue;
+                }
+
+                foreach (var roomName in mod.RoomNames) {
+                    var room = new RoomActual(roomName, mod);
+                    rooms.Add(roomName, room);
+                }
+            }
         }
     }
 }

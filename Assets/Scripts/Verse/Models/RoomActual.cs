@@ -8,11 +8,14 @@ namespace Verse.API.Models {
         public override bool IsRoomLoaded { get; protected set; }
         public override RoomColliders RoomColliders { get; protected set; }
 
-        public RoomActual(string roomName) {
+        public override ModPackage ModPackage { get; protected set; }
+
+        public RoomActual(string roomName, ModPackage package) {
             RoomName = roomName;
             IsRoomLoaded = true;
             RoomColliders = WorldLoader.GetRoomColliders(RoomName);
             TileProvider = new LoadedTileProvider(this);
+            ModPackage = package;
         }
 
         public void LoadRoom() {

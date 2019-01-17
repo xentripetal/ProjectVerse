@@ -2,15 +2,11 @@
 using UnityEngine;
 
 public class SelectedTileOperationsController : MonoBehaviour {
-    private TileOperationsHandler _handler;
-
-    private void Awake() {
-        _handler = GetComponent<TileOperationsHandler>();
-    }
+    private void Awake() { }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftControl)) {
-            _handler.Undo();
+            TileOperationsHandler.Undo();
             return;
         }
 
@@ -20,7 +16,7 @@ public class SelectedTileOperationsController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Delete)) {
             var tile = UIEditorState.Instance.CurrentSelectedTile;
-            _handler.DestroyTile(tile);
+            TileOperationsHandler.DestroyTile(tile);
         }
     }
 }

@@ -2207,7 +2207,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentToolMode: 0
   UIEditorState: {fileID: 1966303906}
-  TileOperationsHandler: {fileID: 2056371326}
   SelectedTileDefController: {fileID: 1966303907}
 --- !u!1 &480655139
 GameObject:
@@ -10133,7 +10132,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2056371324}
   - component: {fileID: 2056371325}
-  - component: {fileID: 2056371326}
   m_Layer: 0
   m_Name: TileOperations
   m_TagString: Untagged
@@ -10165,18 +10163,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bfcc4abcbde6df4fb5235d5f86cb811, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2056371326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056371323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 674f9fd34fb842738efcb2832b4e2aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2058859671

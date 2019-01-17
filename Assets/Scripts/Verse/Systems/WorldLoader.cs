@@ -1,36 +1,51 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using UnityEngine;
 using Verse.API.Models;
 using Verse.API.Models.JSON;
+using Verse.Utilities;
 
 namespace Verse.Systems {
     //todo Cache each world with changes
     public static class WorldLoader {
         public static RoomColliders GetRoomColliders(string room) {
-            var jsonString = Resources.Load<TextAsset>("Rooms/" + room + "/MapDefinition").text;
-
+            var roomPath = GetPathToRoomFolder(room);
+            var jsonString = File.ReadAllText(Path.Combine(roomPath, FileConstants.RoomDefinitionFileName));
             return JsonConvert.DeserializeObject<RoomColliders>(jsonString);
         }
 
+        private static string GetPathToRoomFolder(string room) {
+            foreach (var mod in ModMap.GetEnabledMods()) {
+                for (int i = 0; i < mod.RoomNames.Length; i++) {
+                    if (mod.RoomNames[i] == room) {
+                        return mod.RoomPaths[i];
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public static List<Tile> GetTileMap(Room room) {
-            var jsonString = Resources.Load<TextAsset>("Rooms/" + room.RoomName + "/TileMap").text;
-
+            var filePath = Path.Combine(GetPathToRoomFolder(room.RoomName), FileConstants.RoomTileMapFileName);
+            var jsonString = File.ReadAllText(filePath);
             var serializableTiles = JsonConvert.DeserializeObject<List<SerializableTile>>(jsonString);
-
             return serializableTiles.Select(sTile => sTile.ToTile(room)).ToList();
         }
 
         public static List<TileObject> GetThingMap(Room room) {
-            var jsonString = Resources.Load<TextAsset>("Rooms/" + room.RoomName + "/ObjectMap").text;
+            var filePath = Path.Combine(GetPathToRoomFolder(room.RoomName), FileConstants.RoomTileObjectMapFileName);
+            var jsonString = File.ReadAllText(filePath);
             var serializableThings = JsonConvert.DeserializeObject<List<SerializableTileObject>>(jsonString);
 
             return serializableThings.Select(sThing => sThing.ToTileObject(room)).ToList();
         }
 
         public static List<TileObjectEntity> GetScriptableThings(Room room) {
-            var jsonString = Resources.Load<TextAsset>("Rooms/" + room.RoomName + "/ScriptableObjectMap").text;
+            var filePath = Path.Combine(GetPathToRoomFolder(room.RoomName),
+                FileConstants.RoomTileObjectEntityMapFileName);
+            var jsonString = File.ReadAllText(filePath);
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
 
             var sThings =

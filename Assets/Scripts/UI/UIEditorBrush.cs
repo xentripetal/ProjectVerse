@@ -8,7 +8,6 @@ using Verse.API.Models;
 public class UIEditorBrush : MonoBehaviour {
     public BrushToolMode currentToolMode = BrushToolMode.Create;
     public UIEditorState UIEditorState;
-    public TileOperationsHandler TileOperationsHandler;
     public SelectedTileDefController SelectedTileDefController;
 
     private EventSystem _eventSystem;

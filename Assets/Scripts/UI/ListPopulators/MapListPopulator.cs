@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Verse.Utilities;
+using Verse.API.Models;
 
 public class MapListPopulator : MonoBehaviour {
     public GameObject ItemPrefab;
@@ -40,13 +39,6 @@ public class MapListPopulator : MonoBehaviour {
     }
 
     private List<string> GetKnownRooms() {
-        var folders = Directory.GetDirectories(Constants.RoomsFolder);
-        var rooms = new List<string>();
-
-        for (int i = 0; i < folders.Length; i++) {
-            rooms.Add(folders[i].Split('/').Last());
-        }
-
-        return rooms;
+        return RoomAtlas.GetRooms().Select(room => room.RoomName).ToList();
     }
 }

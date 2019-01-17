@@ -8,5 +8,6 @@ namespace Verse.API.Models {
         public virtual RoomColliders RoomColliders { get; protected set; }
 
         public virtual TileProvider TileProvider { get; protected set; }
+        public virtual ModPackage ModPackage { get; protected set; }
     }
 }

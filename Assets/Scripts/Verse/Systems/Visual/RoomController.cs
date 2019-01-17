@@ -12,7 +12,7 @@ namespace Verse.Systems.Visual {
         public GameObject ObjectTilePrefab;
         public GameObject TransparencyColliderPrefab;
 
-        private TileAtlas _tileAtlas;
+        private TileDefMap _tileDefMap;
 
         public Dictionary<GameObject, TileObject> activeObjects;
         public Dictionary<TileObject, GameObject> activeObjectsReverse;

@@ -2,15 +2,17 @@
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
+using Verse.API;
 using Verse.API.Models;
 using Verse.API.Models.JSON;
-using Verse.Utilities;
 
 public static class RoomFileSaver {
     private static readonly string TilesFileName = "TileMap.json";
     private static readonly string TileObjectsFileName = "ObjectMap.json";
     private static readonly string TileObjectEntitiesFileName = "ScriptableObjectMap.json";
     private static readonly string RoomDefinitionFileName = "MapDefinition.json";
+
+    public static ModPackage ModPackage = ModMap.GetEnabledMods()[0];
 
     public static void SaveRoom(RoomActual room) {
         if (!room.IsRoomLoaded) {
@@ -51,10 +53,14 @@ public static class RoomFileSaver {
     }
 
     private static string GetOrCreateRoomDirectory(string roomName) {
-        var roomFolderPath = Path.Combine(Constants.RoomsFolder, roomName);
-        if (!Directory.Exists(roomFolderPath)) {
-            Directory.CreateDirectory(roomFolderPath);
+        for (int i = 0; i < ModPackage.RoomNames.Length; i++) {
+            if (ModPackage.RoomNames[i] == roomName) {
+                return ModPackage.RoomPaths[i];
+            }
         }
+
+        var roomFolderPath = Path.Combine(ModPackage.RoomsFolderPath, roomName);
+        Directory.CreateDirectory(roomFolderPath);
 
         return roomFolderPath;
     }
