@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 
 namespace Verse.API.Models {
-    public sealed class CachedTileProvider : TileProviderInternal {
+    public sealed class CachedTileProviderOld : TileProviderOldInternal {
         private List<List<Tile>> _tiles;
         private List<TileObject> _tileObjects;
         private List<TileObjectEntity> _scriptableTileObjects;
 
-        public CachedTileProvider(string roomName) { }
+        public CachedTileProviderOld(string roomName) { }
 
-        public CachedTileProvider(LoadedTileProvider provider) { }
+        public CachedTileProviderOld(LoadedTileProviderOld providerOld) { }
 
         private void LoadData() { }
 

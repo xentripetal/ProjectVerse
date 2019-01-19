@@ -1,0 +1,13 @@
+{
+	"Name": "core.static.barrel",
+	"OccupiedPositions": [
+		{
+			"x": 0,
+			"y": 0
+		}
+	],
+	"SpriteKey": "Sprites/Objects/barrel",
+	"CanBuildOn": false,
+	"HasCollision": true,
+	"HasTransparencyOnPlayerBehind": false
+}

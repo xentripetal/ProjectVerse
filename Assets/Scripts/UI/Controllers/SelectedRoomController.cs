@@ -11,7 +11,7 @@ public class SelectedRoomController : MonoBehaviour {
     public RoomUnloadedEvent onRoomUnloaded = new RoomUnloadedEvent();
 
     private RoomController _roomController;
-    private Room _currentRoom;
+    private RoomOld _currentRoomOld;
 
     void Awake() {
         Instance = this;
@@ -23,7 +23,7 @@ public class SelectedRoomController : MonoBehaviour {
 
     public void SaveRoom() {
         Debug.Log("Saving Room");
-        RoomFileSaver.SaveRoom((RoomActual) _currentRoom);
+        RoomFileSaver.SaveRoom((RoomOldActual) _currentRoomOld);
     }
 
     public void CreateNewRoom() {
@@ -33,19 +33,19 @@ public class SelectedRoomController : MonoBehaviour {
     public void CloseRoom() {
         if (_roomController.HasActiveRoom) {
             _roomController.DestroyRoom();
-            onRoomUnloaded.Invoke(_currentRoom);
+            onRoomUnloaded.Invoke(_currentRoomOld);
         }
     }
 
     public void LoadRoom(string room) {
         _roomController.ChangeRoom(room, null);
-        _currentRoom = _roomController.CurrentRoom;
-        onRoomLoaded.Invoke(_currentRoom);
+        //_currentRoomOld = _roomController.CurrentRoom;
+        onRoomLoaded.Invoke(_currentRoomOld);
     }
 
     [Serializable]
-    public class RoomLoadedEvent : UnityEvent<Room> { }
+    public class RoomLoadedEvent : UnityEvent<RoomOld> { }
 
     [Serializable]
-    public class RoomUnloadedEvent : UnityEvent<Room> { }
+    public class RoomUnloadedEvent : UnityEvent<RoomOld> { }
 }

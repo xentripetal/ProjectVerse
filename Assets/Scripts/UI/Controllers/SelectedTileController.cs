@@ -18,7 +18,7 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
         _state = GetComponent<UIEditorState>();
     }
 
-    public void UnloadRoom(Room room) {
+    public void UnloadRoom(RoomOld roomOld) {
         TileUnselected();
     }
 

@@ -45,13 +45,13 @@ public class TileDefListPopulator : MonoBehaviour {
     }
 
     public void BuildLists() {
-        _tileDefs = TileDefMap.GetTileNames();
-        _tileObjectDefs = TileDefMap.GetTileObjectNames();
-        _tileObjectEntityDefs = TileDefMap.GetTileObjectEntityDefsNames();
+        _tileDefs = TileDefMapOld.GetTileNames();
+        _tileObjectDefs = TileDefMapOld.GetTileObjectNames();
+        _tileObjectEntityDefs = TileDefMapOld.GetTileObjectEntityDefsNames();
     }
 
     private void TileDefSelected(string tileName) {
-        var tile = TileDefMap.GetDef(tileName);
+        var tile = TileDefMapOld.GetDef(tileName);
         SelectedTileDefController.TileDefSelectedInternal(tile);
     }
 
@@ -66,7 +66,7 @@ public class TileDefListPopulator : MonoBehaviour {
 
         var filteredDefs = FilterLists();
         foreach (var defName in filteredDefs) {
-            var def = TileDefMap.GetDef(defName);
+            var def = TileDefMapOld.GetDef(defName);
             var go = SimplePool.Spawn(TileDefEntryPrefab, Vector3.zero, Quaternion.identity);
             go.transform.SetParent(VerticalLayoutParent);
             go.transform.localScale = Vector3.one;

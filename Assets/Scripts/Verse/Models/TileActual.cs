@@ -6,12 +6,12 @@ namespace Verse.API.Models {
     public sealed class TileActual : Tile {
         public override TilePosition Position { get; protected set; }
 
-        public override Room Room { get; protected set; }
+        public override RoomOld RoomOld { get; protected set; }
 
-        public TileActual(TileDef definition, TilePosition position, Room room) {
+        public TileActual(TileDef definition, TilePosition position, RoomOld roomOld) {
             m_TileDef = definition;
             Position = position;
-            Room = room;
+            RoomOld = roomOld;
         }
 
         public override void Destroy() {
@@ -23,13 +23,13 @@ namespace Verse.API.Models {
 
     public sealed class TileObjectActual : TileObject {
         public override TilePosition Position { get; protected set; }
-        public override Room Room { get; protected set; }
+        public override RoomOld RoomOld { get; protected set; }
 
-        public TileObjectActual(TileObjectDef definition, TilePosition position, Room room) {
+        public TileObjectActual(TileObjectDef definition, TilePosition position, RoomOld roomOld) {
             m_TileDef = definition;
             m_TileObjectDef = definition;
             Position = position;
-            Room = room;
+            RoomOld = roomOld;
         }
 
         public override void Destroy() {
@@ -42,16 +42,16 @@ namespace Verse.API.Models {
 
     public sealed class TileObjectEntityActual : TileObjectEntity {
         public override TilePosition Position { get; protected set; }
-        public override Room Room { get; protected set; }
+        public override RoomOld RoomOld { get; protected set; }
         public override List<IThingData> Datasets { get; protected set; }
 
-        public TileObjectEntityActual(TileObjectEntityDef definition, TilePosition position, Room room,
+        public TileObjectEntityActual(TileObjectEntityDef definition, TilePosition position, RoomOld roomOld,
             List<IThingData> datasets) {
             m_TileDef = definition;
             m_TileObjectDef = definition;
             m_TileObjectEntityDef = definition;
             Position = position;
-            Room = room;
+            RoomOld = roomOld;
             Datasets = datasets;
         }
 

@@ -14,41 +14,41 @@ public static class RoomFileSaver {
 
     public static ModPackage ModPackage = ModMap.GetEnabledMods()[0];
 
-    public static void SaveRoom(RoomActual room) {
-        if (!room.IsRoomLoaded) {
-            Debug.LogError("Room " + room.RoomName + " needs to be loaded to be saved");
+    public static void SaveRoom(RoomOldActual roomOld) {
+        if (!roomOld.IsRoomLoaded) {
+            Debug.LogError("Room " + roomOld.RoomName + " needs to be loaded to be saved");
             return;
         }
 
-        var roomFolderPath = GetOrCreateRoomDirectory(room.RoomName);
-        WriteRoomDefinitionFile(room, roomFolderPath);
-        WriteTilesFile((TileProviderInternal) room.TileProvider, roomFolderPath);
-        WriteTileObjectsFile((TileProviderInternal) room.TileProvider, roomFolderPath);
-        WriteTileObjectEntitiesFile((TileProviderInternal) room.TileProvider, roomFolderPath);
+        var roomFolderPath = GetOrCreateRoomDirectory(roomOld.RoomName);
+        WriteRoomDefinitionFile(roomOld, roomFolderPath);
+        WriteTilesFile((TileProviderOldInternal) roomOld.TileProviderOld, roomFolderPath);
+        WriteTileObjectsFile((TileProviderOldInternal) roomOld.TileProviderOld, roomFolderPath);
+        WriteTileObjectEntitiesFile((TileProviderOldInternal) roomOld.TileProviderOld, roomFolderPath);
     }
 
-    private static void WriteTilesFile(TileProviderInternal provider, string path) {
+    private static void WriteTilesFile(TileProviderOldInternal providerOld, string path) {
         var jsonString =
-            JsonConvert.SerializeObject(provider.GetTiles().Select(tile => (SerializableTile) tile).ToArray());
+            JsonConvert.SerializeObject(providerOld.GetTiles().Select(tile => (SerializableTile) tile).ToArray());
         File.WriteAllText(Path.Combine(path, TilesFileName), jsonString);
     }
 
-    private static void WriteTileObjectsFile(TileProviderInternal provider, string path) {
+    private static void WriteTileObjectsFile(TileProviderOldInternal providerOld, string path) {
         var jsonString =
-            JsonConvert.SerializeObject(provider.GetTileObjects().Select(tile => (SerializableTileObject) tile)
+            JsonConvert.SerializeObject(providerOld.GetTileObjects().Select(tile => (SerializableTileObject) tile)
                 .ToArray());
         File.WriteAllText(Path.Combine(path, TileObjectsFileName), jsonString);
     }
 
-    private static void WriteTileObjectEntitiesFile(TileProviderInternal provider, string path) {
+    private static void WriteTileObjectEntitiesFile(TileProviderOldInternal providerOld, string path) {
         var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
         var jsonString = JsonConvert.SerializeObject(
-            provider.GetTileObjectEntities().Select(tile => (SerializableTileObjectEntity) tile).ToArray(), settings);
+            providerOld.GetTileObjectEntities().Select(tile => (SerializableTileObjectEntity) tile).ToArray(), settings);
         File.WriteAllText(Path.Combine(path, TileObjectEntitiesFileName), jsonString);
     }
 
-    private static void WriteRoomDefinitionFile(RoomActual room, string path) {
-        var jsonString = JsonConvert.SerializeObject(room.RoomColliders);
+    private static void WriteRoomDefinitionFile(RoomOldActual roomOld, string path) {
+        var jsonString = JsonConvert.SerializeObject(roomOld.RoomColliders);
         File.WriteAllText(Path.Combine(path, RoomDefinitionFileName), jsonString);
     }
 

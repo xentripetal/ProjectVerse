@@ -2,24 +2,24 @@ using System.Collections.Generic;
 using Verse.Systems;
 
 namespace Verse.API.Models {
-    public sealed class LoadedTileProvider : TileProviderInternal {
+    public sealed class LoadedTileProviderOld : TileProviderOldInternal {
         private TileList<Tile> _tiles = new TileList<Tile>();
         private TileList<TileObject> _tileObjects = new TileList<TileObject>();
         private TileList<TileObjectEntity> _scriptableTileObjects = new TileList<TileObjectEntity>();
 
 
-        public LoadedTileProvider(Room room) {
-            Room = room;
-            _tiles.AddRange(WorldLoader.GetTileMap(room));
-            _scriptableTileObjects.AddRange(WorldLoader.GetScriptableThings(room));
-            _tileObjects.AddRange(WorldLoader.GetThingMap(room));
+        public LoadedTileProviderOld(RoomOld roomOld) {
+            RoomOld = roomOld;
+            _tiles.AddRange(WorldLoader.GetTileMap(roomOld));
+            _scriptableTileObjects.AddRange(WorldLoader.GetScriptableThings(roomOld));
+            _tileObjects.AddRange(WorldLoader.GetThingMap(roomOld));
         }
 
-        public LoadedTileProvider(TileProvider provider) {
-            Room = provider.Room;
-            _tiles.AddRange(provider.GetTiles());
-            _tileObjects.AddRange(provider.GetTileObjects());
-            _scriptableTileObjects.AddRange(provider.GetTileObjectEntities());
+        public LoadedTileProviderOld(TileProviderOld providerOld) {
+            RoomOld = providerOld.RoomOld;
+            _tiles.AddRange(providerOld.GetTiles());
+            _tileObjects.AddRange(providerOld.GetTileObjects());
+            _scriptableTileObjects.AddRange(providerOld.GetTileObjectEntities());
         }
 
         //todo reconsider how to handle calling api controller

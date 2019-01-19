@@ -44,40 +44,31 @@ namespace Verse.API.Models.JSON {
             if (!Directory.Exists(mod.RoomsFolderPath)) {
                 mod.IsProvidingRooms = false;
                 mod.RoomPaths = new string[0];
+                return mod;
             }
 
-            var validRooms = new List<string>();
-            foreach (var roomFolder in Directory.GetDirectories(mod.RoomsFolderPath)) {
-                if (File.Exists(Path.Combine(roomFolder, FileConstants.RoomDefinitionFileName))) {
-                    validRooms.Add(roomFolder);
-                }
-                else {
-                    Debug.LogError("Mod " + Name + " provides room folder " + roomFolder + " but no " +
-                                   FileConstants.RoomDefinitionFileName + " exists");
-                }
-            }
-
-            if (validRooms.Count == 0) {
+            var files = Directory.GetFiles(mod.RoomsFolderPath, "*.json");
+            if (files.Length == 0) {
                 mod.IsProvidingRooms = false;
                 mod.RoomPaths = new string[0];
                 return mod;
             }
 
+
             mod.IsProvidingRooms = true;
-            mod.RoomPaths = validRooms.ToArray();
-            mod.RoomNames = validRooms.Select(Path.GetFileNameWithoutExtension).ToArray();
+            mod.RoomPaths = files;
+            mod.RoomNames = files.Select(Path.GetFileNameWithoutExtension).ToArray();
             return mod;
         }
 
         private ModPackage AssignTileDefProperties(ModPackage mod) {
             mod.TileDefsPath = Path.Combine(mod.ContentPath, FileConstants.TileDefsFolder);
-            mod.TileObjectDefsPath = Path.Combine(mod.ContentPath, FileConstants.TileObjectDefsFolder);
-            mod.TileObjectEntityDefsPath = Path.Combine(mod.ContentPath, FileConstants.TileObjectEntitiesDefsFolder);
+            //mod.TileObjectDefsPath = Path.Combine(mod.ContentPath, FileConstants.TileObjectDefsFolder);
+            //mod.TileObjectEntityDefsPath = Path.Combine(mod.ContentPath, FileConstants.TileObjectEntitiesDefsFolder);
             mod.IsProvidingTileDefs = DirectoryExistsAndHasFiles(mod.TileDefsPath, "*.json");
-            mod.IsProvidingTileObjectDefs = DirectoryExistsAndHasFiles(mod.TileObjectDefsPath, "*.json");
-            mod.IsProvidingTileObjectEntityDefs = DirectoryExistsAndHasFiles(mod.TileObjectEntityDefsPath, "*.json");
-            mod.IsProvidingDefs = (mod.IsProvidingTileDefs || mod.IsProvidingTileObjectDefs ||
-                                   mod.IsProvidingTileObjectEntityDefs);
+            //mod.IsProvidingTileObjectDefs = DirectoryExistsAndHasFiles(mod.TileObjectDefsPath, "*.json");
+            //mod.IsProvidingTileObjectEntityDefs = DirectoryExistsAndHasFiles(mod.TileObjectEntityDefsPath, "*.json");
+            mod.IsProvidingDefs = (mod.IsProvidingTileDefs || mod.IsProvidingDefs);
 
             return mod;
         }

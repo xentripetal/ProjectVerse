@@ -21,7 +21,7 @@ namespace UI {
         }
 
         public void Undo() {
-            _tile.Room.TileProvider.Add(_tile);
+            _tile.RoomOld.TileProviderOld.Add(_tile);
         }
     }
 }

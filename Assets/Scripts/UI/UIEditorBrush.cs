@@ -90,14 +90,14 @@ public class UIEditorBrush : MonoBehaviour {
         switch (UIEditorState.CurrentSelectedTileDef.TileType) {
             case TileType.TileObjectEntity:
                 newtile = new TileObjectEntityActual((TileObjectEntityDef) UIEditorState.CurrentSelectedTileDef, pos,
-                    UIEditorState.CurrentRoom, new List<IThingData>());
+                    UIEditorState.CurrentRoomOld, new List<IThingData>());
                 break;
             case TileType.TileObject:
                 newtile = new TileObjectActual((TileObjectDef) UIEditorState.CurrentSelectedTileDef, pos,
-                    UIEditorState.CurrentRoom);
+                    UIEditorState.CurrentRoomOld);
                 break;
             case TileType.Tile:
-                newtile = new TileActual(UIEditorState.CurrentSelectedTileDef, pos, UIEditorState.CurrentRoom);
+                newtile = new TileActual(UIEditorState.CurrentSelectedTileDef, pos, UIEditorState.CurrentRoomOld);
                 break;
         }
 

@@ -1,7 +1,18 @@
 using System.Collections.Generic;
+using UnityEngine;
 using Verse.API.Interfaces;
 
 namespace Verse.API.Models.JSON {
+    public class SerializableTileUnified {
+        public string Definition;
+        public Vector2Int Position;
+        public TileEntity TileEntity;
+
+        public TileUnified ToTile(Room room, TileLayer layer) {
+            return new TileUnified(TileDefMap.GetTileDef(Definition), Position, room, layer, TileEntity);
+        }
+    }
+
     public class SerializableTile {
         public string Definition;
         public TilePosition Position;
@@ -13,8 +24,8 @@ namespace Verse.API.Models.JSON {
 
         public SerializableTile() { }
 
-        public Tile ToTile(Room room) {
-            return new TileActual(TileDefMap.GetTileDef(Definition), Position, room);
+        public Tile ToTile(RoomOld roomOld) {
+            return new TileActual(TileDefMapOld.GetTileDef(Definition), Position, roomOld);
         }
 
         static public implicit operator SerializableTile(Tile value) {
@@ -27,8 +38,8 @@ namespace Verse.API.Models.JSON {
 
         public SerializableTileObject() { }
 
-        public TileObject ToTileObject(Room room) {
-            return new TileObjectActual(TileDefMap.GetTileObjectDef(Definition), Position, room);
+        public TileObject ToTileObject(RoomOld roomOld) {
+            return new TileObjectActual(TileDefMapOld.GetTileObjectDef(Definition), Position, roomOld);
         }
 
         static public implicit operator SerializableTileObject(TileObject value) {
@@ -46,8 +57,8 @@ namespace Verse.API.Models.JSON {
 
         public SerializableTileObjectEntity() { }
 
-        public TileObjectEntity ToScriptableTileObject(Room room) {
-            return new TileObjectEntityActual(TileDefMap.GetScriptableTileObjectDef(Definition), Position, room,
+        public TileObjectEntity ToScriptableTileObject(RoomOld roomOld) {
+            return new TileObjectEntityActual(TileDefMapOld.GetScriptableTileObjectDef(Definition), Position, roomOld,
                 Datasets);
         }
 

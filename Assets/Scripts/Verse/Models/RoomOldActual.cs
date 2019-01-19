@@ -2,19 +2,19 @@ using UnityEngine;
 using Verse.Systems;
 
 namespace Verse.API.Models {
-    public sealed class RoomActual : Room {
-        public override TileProvider TileProvider { get; protected set; }
+    public sealed class RoomOldActual : RoomOld {
+        public override TileProviderOld TileProviderOld { get; protected set; }
         public override string RoomName { get; protected set; }
         public override bool IsRoomLoaded { get; protected set; }
         public override RoomColliders RoomColliders { get; protected set; }
 
         public override ModPackage ModPackage { get; protected set; }
 
-        public RoomActual(string roomName, ModPackage package) {
+        public RoomOldActual(string roomName, ModPackage package) {
             RoomName = roomName;
             IsRoomLoaded = true;
             RoomColliders = WorldLoader.GetRoomColliders(RoomName);
-            TileProvider = new LoadedTileProvider(this);
+            TileProviderOld = new LoadedTileProviderOld(this);
             ModPackage = package;
         }
 
@@ -24,7 +24,7 @@ namespace Verse.API.Models {
                 return;
             }
 
-            TileProvider = new LoadedTileProvider((CachedTileProvider) TileProvider);
+            TileProviderOld = new LoadedTileProviderOld((CachedTileProviderOld) TileProviderOld);
             IsRoomLoaded = true;
         }
 
@@ -34,7 +34,7 @@ namespace Verse.API.Models {
                 return;
             }
 
-            TileProvider = new CachedTileProvider((LoadedTileProvider) TileProvider);
+            TileProviderOld = new CachedTileProviderOld((LoadedTileProviderOld) TileProviderOld);
             IsRoomLoaded = false;
         }
     }

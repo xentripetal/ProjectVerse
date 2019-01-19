@@ -1,0 +1,53 @@
+{
+  "Name": "main",
+  "Colliders": {
+    "EdgePoints": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 10,
+        "y": 0
+      },
+      {
+        "x": 10,
+        "y": 10
+      },
+      {
+        "x": 0,
+        "y": 10
+      },
+      {
+        "x": 0,
+        "y": 0
+      }
+    ]
+  },
+  "Layers": [
+    {
+      "LayerType": "Verse.Core.TileLayers.GroundTileLayer, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null",
+      "Tiles": [
+        {
+          "Definition": "core.tiles.grass",
+          "Position": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      ]
+    },
+    {
+      "LayerType": "Verse.Core.TileLayers.ObjectTileLayer, Assembly-CSharp",
+      "Tiles": [
+        {
+          "Definition": "core.static.barrel",
+          "Position": {
+            "x": 1,
+            "y": 1
+          }
+        }
+      ]
+    }
+  ]
+}

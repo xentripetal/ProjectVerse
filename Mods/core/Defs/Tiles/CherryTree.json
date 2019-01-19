@@ -1,0 +1,13 @@
+{
+	"Name": "core.vegetation.tree",
+	"OccupiedPositions": [
+		{
+			"x": 0,
+			"y": 0
+		}
+	],
+	"SpriteKey": "Sprites/Objects/cherrytree",
+	"CanBuildOn": false,
+	"HasCollision": true,
+	"HasTransparencyOnPlayerBehind": false
+}

@@ -111,35 +111,25 @@ namespace Verse.Systems {
 
         public void OnTileCreated(Tile tile) { }
 
-        public void OnTileCreatedExclusive(Tile tile) {
-            _roomController.TileCreatedExclusive(tile);
-        }
+        public void OnTileCreatedExclusive(Tile tile) { }
 
         public void OnTileObjectCreated(TileObject tileObject) { }
 
-        public void OnTileObjectCreatedExclusive(TileObject tileObject) {
-            _roomController.TileObjectCreatedExclusive(tileObject);
-        }
+        public void OnTileObjectCreatedExclusive(TileObject tileObject) { }
 
-        public void OnTileObjectEntityCreated(TileObjectEntity tileObjectEntity) {
-            _roomController.TileObjectEntityCreated(tileObjectEntity);
-        }
+        public void OnTileObjectEntityCreated(TileObjectEntity tileObjectEntity) { }
 
         public void OnTileDestroy(Tile tile) {
-            ((TileProviderInternal) tile.Room.TileProvider).Remove(tile);
+            ((TileProviderOldInternal) tile.RoomOld.TileProviderOld).Remove(tile);
 
             if (EditorMode) {
                 FindObjectOfType<SelectedTileController>().TileDestroyed(tile);
             }
         }
 
-        public void OnTileDestroyExclusive(Tile tile) {
-            _roomController.TileDestroyExlusive(tile);
-        }
+        public void OnTileDestroyExclusive(Tile tile) { }
 
-        public void OnTileObjectDestroy(TileObject tile) {
-            _roomController.TileObjectDestroy(tile);
-        }
+        public void OnTileObjectDestroy(TileObject tile) { }
 
         public void OnTileObjectDestroyExclusive(TileObject tile) { }
 

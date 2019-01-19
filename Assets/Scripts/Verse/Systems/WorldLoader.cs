@@ -27,23 +27,23 @@ namespace Verse.Systems {
             return null;
         }
 
-        public static List<Tile> GetTileMap(Room room) {
-            var filePath = Path.Combine(GetPathToRoomFolder(room.RoomName), FileConstants.RoomTileMapFileName);
+        public static List<Tile> GetTileMap(RoomOld roomOld) {
+            var filePath = Path.Combine(GetPathToRoomFolder(roomOld.RoomName), FileConstants.RoomTileMapFileName);
             var jsonString = File.ReadAllText(filePath);
             var serializableTiles = JsonConvert.DeserializeObject<List<SerializableTile>>(jsonString);
-            return serializableTiles.Select(sTile => sTile.ToTile(room)).ToList();
+            return serializableTiles.Select(sTile => sTile.ToTile(roomOld)).ToList();
         }
 
-        public static List<TileObject> GetThingMap(Room room) {
-            var filePath = Path.Combine(GetPathToRoomFolder(room.RoomName), FileConstants.RoomTileObjectMapFileName);
+        public static List<TileObject> GetThingMap(RoomOld roomOld) {
+            var filePath = Path.Combine(GetPathToRoomFolder(roomOld.RoomName), FileConstants.RoomTileObjectMapFileName);
             var jsonString = File.ReadAllText(filePath);
             var serializableThings = JsonConvert.DeserializeObject<List<SerializableTileObject>>(jsonString);
 
-            return serializableThings.Select(sThing => sThing.ToTileObject(room)).ToList();
+            return serializableThings.Select(sThing => sThing.ToTileObject(roomOld)).ToList();
         }
 
-        public static List<TileObjectEntity> GetScriptableThings(Room room) {
-            var filePath = Path.Combine(GetPathToRoomFolder(room.RoomName),
+        public static List<TileObjectEntity> GetScriptableThings(RoomOld roomOld) {
+            var filePath = Path.Combine(GetPathToRoomFolder(roomOld.RoomName),
                 FileConstants.RoomTileObjectEntityMapFileName);
             var jsonString = File.ReadAllText(filePath);
             var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.Auto};
@@ -51,7 +51,7 @@ namespace Verse.Systems {
             var sThings =
                 JsonConvert.DeserializeObject<List<SerializableTileObjectEntity>>(jsonString, settings);
 
-            return sThings.Select(sThing => sThing.ToScriptableTileObject(room)).ToList();
+            return sThings.Select(sThing => sThing.ToScriptableTileObject(roomOld)).ToList();
         }
     }
 }
