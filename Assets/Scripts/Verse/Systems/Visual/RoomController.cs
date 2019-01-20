@@ -71,8 +71,8 @@ namespace Verse.Systems.Visual {
             HasActiveRoom = true;
 
             BuildColliders(room.Colliders);
-            foreach (var layer in CurrentRoom.Layers) {
-                foreach (var tile in CurrentRoom.Provider.GetTiles(layer)) {
+            foreach (var layer in CurrentRoom.Tiles.TileLayers) {
+                foreach (var tile in CurrentRoom.Tiles.GetAll(layer)) {
                     BuildTile(tile);
                 }
             }

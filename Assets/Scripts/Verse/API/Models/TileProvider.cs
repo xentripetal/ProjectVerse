@@ -2,25 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Verse.API.Models {
-    public class TileProvider {
-        private Dictionary<TileLayer, TileUnified[]> _tiles;
-
-        public TileProvider(Dictionary<TileLayer, TileUnified[]> tiles) {
-            _tiles = tiles;
-        }
-
-        public TileUnified[] GetTiles(TileLayer layer) {
-            return _tiles[layer];
-        }
-
-        public TileUnified GetTileAt(Vector2Int pos, TileLayer layer) {
-            foreach (var tile in _tiles[layer]) {
-                if (tile.Position == pos) {
-                    return tile;
-                }
-            }
-
-            return null;
-        }
+    public abstract class TileProvider {
+        public abstract Room Room { get; protected set; }
+        public abstract List<TileLayer> TileLayers { get; protected set; }
+        public abstract List<TileUnified> GetAll(TileLayer layer);
+        public abstract TileUnified GetAt(Vector2Int position, TileLayer layer);
+        public abstract TileUnified GetAtOrDefault(Vector2Int position, TileLayer layer);
+        public abstract List<TileUnified> GetTilesWithEntities(TileLayer layer);
+        public abstract List<TileUnified> GetTilesWithEntities();
+        public abstract bool Remove(TileUnified tile);
+        public abstract bool RemoveAt(Vector2Int position, TileLayer layer);
+        public abstract void Add(TileUnified tile);
     }
 }
