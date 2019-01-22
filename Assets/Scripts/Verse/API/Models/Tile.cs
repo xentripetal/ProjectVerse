@@ -1,53 +1,36 @@
-using System.Collections.Generic;
 using UnityEngine;
-using Verse.API.Interfaces;
 
 namespace Verse.API.Models {
-    public class TileUnified {
-        public TileUnifiedDef Definition { get; protected set; }
-        public Vector2Int Position { get; set; }
-        public Room Room { get; protected set; }
-        public TileLayer TileLayer { get; protected set; }
-        public TileEntity TileEntity { get; protected set; }
-
-        public TileUnified(TileUnifiedDef definition, Vector2Int position, Room room, TileLayer layer, TileEntity
-            tileEntity) {
-            Definition = definition;
-            Position = position;
-            Room = room;
-            TileLayer = layer;
-            TileEntity = tileEntity;
-        }
-    }
-
     public abstract class Tile {
-        protected TileDef m_TileDef { get; set; }
+        public abstract TileDef Definition { get; protected set; }
+        public abstract Vector2Int Position { get; set; }
+        public abstract Room Room { get; protected set; }
+        public abstract TileLayer Layer { get; protected set; }
+        public abstract TileEntity Entity { get; protected set; }
+        public abstract bool IsRegistered { get; protected set; }
 
-        public TileDef Definition {
-            get => m_TileDef;
+        //Todo seperate TileActual call from API assembly
+        /// <summary>
+        /// Creates an unregisted tile.
+        /// </summary>
+        /// <param name="definition"></param>
+        /// <param name="position"></param>
+        /// <param name="room"></param>
+        /// <param name="layer"></param>
+        /// <returns></returns>
+        public static Tile Create(TileDef definition, Vector2Int position, Room room, TileLayer layer) {
+            return new TileActual(definition, position, room, layer);
         }
 
-        public virtual TilePosition Position { get; protected set; }
-        public virtual RoomOld RoomOld { get; protected set; }
+        /// <summary>
+        /// Unregisters the tile from the world
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool Unregister();
 
-        public abstract void Destroy();
-    }
-
-    public abstract class TileObject : Tile {
-        protected TileObjectDef m_TileObjectDef { get; set; }
-
-        public new TileObjectDef Definition {
-            get => m_TileObjectDef;
-        }
-    }
-
-    public abstract class TileObjectEntity : TileObject {
-        protected TileObjectEntityDef m_TileObjectEntityDef { get; set; }
-
-        public new TileObjectEntityDef Definition {
-            get => m_TileObjectEntityDef;
-        }
-
-        public virtual List<IThingData> Datasets { get; protected set; }
+        /// <summary>
+        /// Registers the current tile into the Room.
+        /// </summary>
+        public abstract bool Register();
     }
 }

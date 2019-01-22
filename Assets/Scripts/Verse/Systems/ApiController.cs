@@ -4,7 +4,6 @@ using System.Reflection;
 using UnityEngine;
 using Verse.API.Interfaces;
 using Verse.API.Interfaces.Events;
-using Verse.API.Models;
 using Verse.Systems.Visual;
 
 namespace Verse.Systems {
@@ -42,31 +41,8 @@ namespace Verse.Systems {
 
         #region Utilities#Things
 
-        private TileObjectEntity GetScriptableThingFromGameObject(GameObject go) {
-            return _roomController.GetScriptableThingFromGameObject(go);
-        }
-
-        private T[] GetScriptsImplementingInterface<T>(TileObjectEntity tileObjectEntity) {
-            if (tileObjectEntity.Datasets == null) {
-                return new T[] { };
-            }
-
-            return GetScriptsImplementingInterface<T>(tileObjectEntity.Definition.Scripts);
-        }
-
         private T[] GetScriptsImplementingInterface<T>(IThingScript[] scripts) {
             return scripts.OfType<T>().ToArray();
-        }
-
-        private IThingData GetDatasetOfType(TileObjectEntity tileObjectEntity, Type dataType) {
-            foreach (IThingData thingData in tileObjectEntity.Datasets) {
-                if (dataType.IsInstanceOfType(thingData)) {
-                    return thingData;
-                }
-            }
-
-            Debug.Log("No dataType " + dataType + " was found");
-            return null;
         }
 
         #endregion
@@ -76,14 +52,6 @@ namespace Verse.Systems {
         public void OnPlayerEnter(GameObject go) {
             if (EditorMode) {
                 return;
-            }
-
-            var thing = GetScriptableThingFromGameObject(go);
-            //todo Cache results
-            ITrigger[] triggerScripts = GetScriptsImplementingInterface<ITrigger>(thing);
-            foreach (ITrigger trigger in triggerScripts) {
-                IThingData dataset = GetDatasetOfType(thing, trigger.DataModel);
-                trigger.OnPlayerEnter(dataset);
             }
         }
 
@@ -108,31 +76,5 @@ namespace Verse.Systems {
                 methodInfo.Invoke(null, null);
             }
         }
-
-        public void OnTileCreated(Tile tile) { }
-
-        public void OnTileCreatedExclusive(Tile tile) { }
-
-        public void OnTileObjectCreated(TileObject tileObject) { }
-
-        public void OnTileObjectCreatedExclusive(TileObject tileObject) { }
-
-        public void OnTileObjectEntityCreated(TileObjectEntity tileObjectEntity) { }
-
-        public void OnTileDestroy(Tile tile) {
-            ((TileProviderOldInternal) tile.RoomOld.TileProviderOld).Remove(tile);
-
-            if (EditorMode) {
-                FindObjectOfType<SelectedTileController>().TileDestroyed(tile);
-            }
-        }
-
-        public void OnTileDestroyExclusive(Tile tile) { }
-
-        public void OnTileObjectDestroy(TileObject tile) { }
-
-        public void OnTileObjectDestroyExclusive(TileObject tile) { }
-
-        public void OnTileObjectEntityDestroy(TileObjectEntity tile) { }
     }
 }

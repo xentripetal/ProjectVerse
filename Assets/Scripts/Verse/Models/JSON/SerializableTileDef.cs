@@ -10,9 +10,9 @@ namespace Verse.API.Models.JSON {
         public bool HasTransparencyOnPlayerBehind;
         public TileEntity TileEntityDefaults;
 
-        public TileUnifiedDef ToTileUnifiedDef(ModPackage modPackage) {
+        public TileDef ToTileUnifiedDef(ModPackage modPackage) {
             var sprite = Resources.Load<Sprite>(SpriteKey);
-            return new TileUnifiedDef(Name, modPackage, OccupiedPositions, sprite, CanBuildOn, HasCollision,
+            return new TileDef(Name, modPackage, OccupiedPositions, sprite, CanBuildOn, HasCollision,
                 HasTransparencyOnPlayerBehind, TileEntityDefaults);
         }
     }

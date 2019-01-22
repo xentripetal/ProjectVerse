@@ -11,28 +11,9 @@ public class TileDefListPopulator : MonoBehaviour {
     public SelectedTileDefController SelectedTileDefController;
 
     private bool _includeTiles = true;
-    private bool _includeTileObjects = true;
-    private bool _includeTileObjectEntities = true;
     private string _searchString;
 
-    private string[] _tileDefs;
-    private string[] _tileObjectDefs;
-    private string[] _tileObjectEntityDefs;
-
-    public void SetIncludeTiles(bool value) {
-        _includeTiles = value;
-        DisplayLists();
-    }
-
-    public void SetIncludeTileObjects(bool value) {
-        _includeTileObjects = value;
-        DisplayLists();
-    }
-
-    public void SetIncludeTileObjectEntities(bool value) {
-        _includeTileObjectEntities = value;
-        DisplayLists();
-    }
+    private List<string> _tileDefs;
 
     public void SetSearchString(string value) {
         _searchString = value;
@@ -45,13 +26,11 @@ public class TileDefListPopulator : MonoBehaviour {
     }
 
     public void BuildLists() {
-        _tileDefs = TileDefMapOld.GetTileNames();
-        _tileObjectDefs = TileDefMapOld.GetTileObjectNames();
-        _tileObjectEntityDefs = TileDefMapOld.GetTileObjectEntityDefsNames();
+        _tileDefs = TileDefMap.GetKeys();
     }
 
     private void TileDefSelected(string tileName) {
-        var tile = TileDefMapOld.GetDef(tileName);
+        var tile = TileDefMap.GetTileDef(tileName);
         SelectedTileDefController.TileDefSelectedInternal(tile);
     }
 
@@ -66,15 +45,15 @@ public class TileDefListPopulator : MonoBehaviour {
 
         var filteredDefs = FilterLists();
         foreach (var defName in filteredDefs) {
-            var def = TileDefMapOld.GetDef(defName);
+            var def = TileDefMap.GetTileDef(defName);
             var go = SimplePool.Spawn(TileDefEntryPrefab, Vector3.zero, Quaternion.identity);
             go.transform.SetParent(VerticalLayoutParent);
             go.transform.localScale = Vector3.one;
-            go.GetComponentInChildren<TextMeshProUGUI>().text = def.FullName;
+            go.GetComponentInChildren<TextMeshProUGUI>().text = def.Name;
             var images = go.GetComponentsInChildren<Image>();
             foreach (var image in images) {
                 if (image.gameObject.name == "Preview Image") {
-                    image.sprite = def.SpriteInfo.sprite;
+                    image.sprite = def.Sprite;
                 }
             }
 
@@ -91,18 +70,7 @@ public class TileDefListPopulator : MonoBehaviour {
     }
 
     private List<string> FilterLists() {
-        var candidates = new List<string>();
-        if (_includeTiles) {
-            candidates.AddRange(_tileDefs);
-        }
-
-        if (_includeTileObjects) {
-            candidates.AddRange(_tileObjectDefs);
-        }
-
-        if (_includeTileObjectEntities) {
-            candidates.AddRange(_tileObjectEntityDefs);
-        }
+        var candidates = _tileDefs;
 
         var included = new List<string>();
         if (_searchString != null && _searchString != "") {

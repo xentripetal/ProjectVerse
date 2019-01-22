@@ -18,7 +18,7 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
         _state = GetComponent<UIEditorState>();
     }
 
-    public void UnloadRoom(RoomOld roomOld) {
+    public void UnloadRoom(Room roomOld) {
         TileUnselected();
     }
 
@@ -65,7 +65,7 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
             return;
         }
 
-        var pos = new TilePosition((int) mousePos.x, (int) mousePos.y);
+        var pos = new Vector2Int((int) mousePos.x, (int) mousePos.y);
 
         var tile = _state.GetTileAt(pos);
         if (tile == null) {

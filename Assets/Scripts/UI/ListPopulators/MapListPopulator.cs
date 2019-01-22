@@ -39,6 +39,6 @@ public class MapListPopulator : MonoBehaviour {
     }
 
     private List<string> GetKnownRooms() {
-        return RoomAtlasOld.GetRooms().Select(room => room.RoomName).ToList();
+        return RoomMap.GetRooms().Select(room => room.Name).ToList();
     }
 }

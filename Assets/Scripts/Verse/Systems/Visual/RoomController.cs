@@ -12,10 +12,8 @@ namespace Verse.Systems.Visual {
         public GameObject ObjectTilePrefab;
         public GameObject TransparencyColliderPrefab;
 
-        private TileDefMapOld _tileDefMapOld;
-
-        public Dictionary<GameObject, TileUnified> activeTiles;
-        public Dictionary<TileUnified, GameObject> activeTilesReverse;
+        public Dictionary<GameObject, Tile> activeTiles;
+        public Dictionary<Tile, GameObject> activeTilesReverse;
 
         public string CurrentRoomName { get; private set; }
         public Room CurrentRoom { get; private set; }
@@ -33,18 +31,14 @@ namespace Verse.Systems.Visual {
         }
 
         private void Start() {
-            activeTiles = new Dictionary<GameObject, TileUnified>();
-            activeTilesReverse = new Dictionary<TileUnified, GameObject>();
+            activeTiles = new Dictionary<GameObject, Tile>();
+            activeTilesReverse = new Dictionary<Tile, GameObject>();
             BuildRoom("main");
         }
 
         public void ChangeRoom(string newRoom, string oldRoom) {
             DestroyRoom();
             BuildRoom(newRoom);
-        }
-
-        public TileObjectEntity GetScriptableThingFromGameObject(GameObject go) {
-            return null;
         }
 
         public void DestroyRoom() {
@@ -57,8 +51,8 @@ namespace Verse.Systems.Visual {
             }
 
 
-            activeTiles = new Dictionary<GameObject, TileUnified>();
-            activeTilesReverse = new Dictionary<TileUnified, GameObject>();
+            activeTiles = new Dictionary<GameObject, Tile>();
+            activeTilesReverse = new Dictionary<Tile, GameObject>();
             CurrentRoomName = "";
             CurrentRoom = null;
             HasActiveRoom = false;
@@ -78,15 +72,15 @@ namespace Verse.Systems.Visual {
             }
         }
 
-        void BuildTile(TileUnified tile) {
+        void BuildTile(Tile tile) {
             var tileDef = tile.Definition;
-            var pos = tile.TileLayer.TilePositionToVisualPosition(tile.Position);
+            var pos = tile.Layer.TilePositionToVisualPosition(tile.Position);
 
             GameObject poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
 
             var spriteRenderer = poolGo.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = tileDef.Sprite;
-            spriteRenderer.sortingOrder = tile.TileLayer.SortingOrder;
+            spriteRenderer.sortingOrder = tile.Layer.SortingOrder;
 
             if (tileDef.HasCollision) {
                 var colliderComponent = poolGo.AddComponent<PolygonCollider2D>();

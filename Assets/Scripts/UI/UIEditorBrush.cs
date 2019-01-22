@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using UI;
+﻿using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Verse.API.Interfaces;
 using Verse.API.Models;
 
 public class UIEditorBrush : MonoBehaviour {
@@ -14,7 +12,7 @@ public class UIEditorBrush : MonoBehaviour {
     private Camera _cam;
 
     private Tile _lastCreatedTile;
-    private TilePosition _lastPos;
+    private Vector2Int _lastPos;
 
     public void SetModeCreate(bool value) {
         if (value) {
@@ -77,7 +75,7 @@ public class UIEditorBrush : MonoBehaviour {
             return;
         }
 
-        var pos = new TilePosition((int) mousePos.x, (int) mousePos.y);
+        var pos = new Vector2Int((int) mousePos.x, (int) mousePos.y);
         var tile = UIEditorState.GetTileAt(pos);
         if (tile != null) {
             if (tile.Definition == UIEditorState.CurrentSelectedTileDef && tile.Position == pos ||
@@ -87,19 +85,7 @@ public class UIEditorBrush : MonoBehaviour {
         }
 
         Tile newtile = null;
-        switch (UIEditorState.CurrentSelectedTileDef.TileType) {
-            case TileType.TileObjectEntity:
-                newtile = new TileObjectEntityActual((TileObjectEntityDef) UIEditorState.CurrentSelectedTileDef, pos,
-                    UIEditorState.CurrentRoomOld, new List<IThingData>());
-                break;
-            case TileType.TileObject:
-                newtile = new TileObjectActual((TileObjectDef) UIEditorState.CurrentSelectedTileDef, pos,
-                    UIEditorState.CurrentRoomOld);
-                break;
-            case TileType.Tile:
-                newtile = new TileActual(UIEditorState.CurrentSelectedTileDef, pos, UIEditorState.CurrentRoomOld);
-                break;
-        }
+        //
 
         TileOperationsHandler.AddTile(newtile);
         _lastCreatedTile = newtile;
@@ -111,7 +97,7 @@ public class UIEditorBrush : MonoBehaviour {
             return;
         }
 
-        var pos = new TilePosition((int) mousePos.x, (int) mousePos.y);
+        var pos = new Vector2Int((int) mousePos.x, (int) mousePos.y);
         if (pos == _lastPos) {
             return;
         }
@@ -132,7 +118,7 @@ public class UIEditorBrush : MonoBehaviour {
             return;
         }
 
-        var pos = new TilePosition((int) mousePos.x, (int) mousePos.y);
+        var pos = new Vector2Int((int) mousePos.x, (int) mousePos.y);
         var tile = UIEditorState.GetTileAt(pos);
         if (tile == null) {
             return;

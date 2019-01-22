@@ -3,22 +3,22 @@ using UnityEngine;
 
 namespace Verse.API.Models {
     public class TileList {
-        private List<List<TileUnified>> _positionList;
-        private List<TileUnified> _uniqueList;
-        private List<TileUnified> _entityList;
+        private List<List<Tile>> _positionList;
+        private List<Tile> _uniqueList;
+        private List<Tile> _entityList;
 
         public TileList() {
-            _positionList = new List<List<TileUnified>>();
-            _uniqueList = new List<TileUnified>();
-            _entityList = new List<TileUnified>();
+            _positionList = new List<List<Tile>>();
+            _uniqueList = new List<Tile>();
+            _entityList = new List<Tile>();
         }
 
 
-        public TileUnified Get(Vector2Int position) {
+        public Tile Get(Vector2Int position) {
             return _positionList[position.x][position.y];
         }
 
-        public TileUnified GetOrDefault(Vector2Int position) {
+        public Tile GetOrDefault(Vector2Int position) {
             if (_positionList.Count <= position.x) {
                 return null;
             }
@@ -35,7 +35,7 @@ namespace Verse.API.Models {
             return yList[position.y];
         }
 
-        public bool Contains(TileUnified tile) {
+        public bool Contains(Tile tile) {
             return _uniqueList.Contains(tile);
         }
 
@@ -46,27 +46,27 @@ namespace Verse.API.Models {
                    && _positionList[position.x][position.y] != null;
         }
 
-        public List<TileUnified> GetAll() {
-            return new List<TileUnified>(_uniqueList);
+        public List<Tile> GetAll() {
+            return new List<Tile>(_uniqueList);
         }
 
-        public List<TileUnified> GetAllWithTileEntities() {
-            return new List<TileUnified>(_entityList);
+        public List<Tile> GetAllWithTileEntities() {
+            return new List<Tile>(_entityList);
         }
 
-        public void AddRange(IEnumerable<TileUnified> tiles) {
+        public void AddRange(IEnumerable<Tile> tiles) {
             foreach (var tile in tiles) {
                 Add(tile);
             }
         }
 
-        public bool Remove(TileUnified tile) {
+        public bool Remove(Tile tile) {
             var exists = _uniqueList.Remove(tile);
             if (!exists) {
                 return false;
             }
 
-            if (tile.TileEntity != null) {
+            if (tile.Entity != null) {
                 _entityList.Remove(tile);
             }
 
@@ -87,9 +87,9 @@ namespace Verse.API.Models {
             return Remove(tile);
         }
 
-        public void Add(TileUnified tile) {
+        public void Add(Tile tile) {
             _uniqueList.Add(tile);
-            if (tile.TileEntity != null) {
+            if (tile.Entity != null) {
                 _entityList.Add(tile);
             }
 
@@ -102,7 +102,7 @@ namespace Verse.API.Models {
 
                 if (_positionList.Count <= occupiedPos.x) {
                     for (int i = _positionList.Count; i <= occupiedPos.x; i++) {
-                        _positionList.Add(new List<TileUnified>());
+                        _positionList.Add(new List<Tile>());
                     }
                 }
 

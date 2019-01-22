@@ -15,7 +15,7 @@ namespace Verse.API.Models {
         }
 
         private void LoadSerializedTiles(SerializableRoom sRoom) {
-            var layerDict = new Dictionary<TileLayer, List<TileUnified>>();
+            var layerDict = new Dictionary<TileLayer, List<Tile>>();
             var layers = new List<TileLayer>();
             foreach (var sLayer in sRoom.Layers) {
                 var layer = (TileLayer) Activator.CreateInstance(sLayer.LayerType);
@@ -27,40 +27,40 @@ namespace Verse.API.Models {
         public override Room Room { get; protected set; }
         public override List<TileLayer> TileLayers { get; protected set; }
 
-        public override List<TileUnified> GetAll(TileLayer layer) {
+        public override List<Tile> GetAll(TileLayer layer) {
             return _tiles[layer].GetAll();
         }
 
-        public override TileUnified GetAt(Vector2Int position, TileLayer layer) {
+        public override Tile GetAt(Vector2Int position, TileLayer layer) {
             return _tiles[layer].Get(position);
         }
 
-        public override TileUnified GetAtOrDefault(Vector2Int position, TileLayer layer) {
+        public override Tile GetAtOrDefault(Vector2Int position, TileLayer layer) {
             return _tiles[layer].GetOrDefault(position);
         }
 
-        public override List<TileUnified> GetTilesWithEntities(TileLayer layer) {
+        public override List<Tile> GetTilesWithEntities(TileLayer layer) {
             return _tiles[layer].GetAllWithTileEntities();
         }
 
-        public override List<TileUnified> GetTilesWithEntities() {
+        public override List<Tile> GetTilesWithEntities() {
             return _tiles.Values.SelectMany(layer => layer.GetAllWithTileEntities()).ToList();
         }
 
-        public override bool Remove(TileUnified tile) {
+        public override bool Remove(Tile tile) {
             if (tile.Room != Room) {
                 Debug.LogError(String.Format(
                     "The provided tile \'{0}\' at {1} for room {2} does not belong to room {3}", tile.Definition.Name,
                     tile.Position, tile.Room.Name, Room.Name));
             }
 
-            if (!_tiles.ContainsKey(tile.TileLayer)) {
+            if (!_tiles.ContainsKey(tile.Layer)) {
                 Debug.LogError(String.Format("TileProvider for room {0} does not contain the TileLayer {1}.", Room.Name,
-                    tile.TileLayer.Name));
+                    tile.Layer.Name));
                 return false;
             }
 
-            return _tiles[tile.TileLayer].Remove(tile);
+            return _tiles[tile.Layer].Remove(tile);
         }
 
         public override bool RemoveAt(Vector2Int position, TileLayer layer) {
@@ -73,7 +73,7 @@ namespace Verse.API.Models {
             return _tiles[layer].RemoveAt(position);
         }
 
-        public override void Add(TileUnified tile) {
+        public override void Add(Tile tile) {
             if (tile.Room != Room) {
                 Debug.LogError(String.Format(
                     "The provided tile \'{0}\' at {1} for room {2} does not belong to room {3}", tile.Definition.Name,
@@ -81,11 +81,11 @@ namespace Verse.API.Models {
                 return;
             }
 
-            if (!_tiles.ContainsKey(tile.TileLayer)) {
-                _tiles.Add(tile.TileLayer, new TileList());
+            if (!_tiles.ContainsKey(tile.Layer)) {
+                _tiles.Add(tile.Layer, new TileList());
             }
 
-            _tiles[tile.TileLayer].Add(tile);
+            _tiles[tile.Layer].Add(tile);
         }
     }
 }

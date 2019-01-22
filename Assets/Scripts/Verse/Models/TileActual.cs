@@ -1,64 +1,54 @@
-using System.Collections.Generic;
-using Verse.API.Interfaces;
-using Verse.Systems;
+using UnityEngine;
 
 namespace Verse.API.Models {
     public sealed class TileActual : Tile {
-        public override TilePosition Position { get; protected set; }
+        public override TileDef Definition { get; protected set; }
 
-        public override RoomOld RoomOld { get; protected set; }
+        public override Vector2Int Position {
+            get { return _position; }
+            set {
+                Debug.LogError("Tile Position change not yet implemented");
+                _position = value;
+            }
+        }
 
-        public TileActual(TileDef definition, TilePosition position, RoomOld roomOld) {
-            m_TileDef = definition;
+        private Vector2Int _position;
+
+        public override Room Room { get; protected set; }
+        public override TileLayer Layer { get; protected set; }
+        public override TileEntity Entity { get; protected set; }
+
+        public override bool IsRegistered { get; protected set; }
+
+        public override bool Unregister() {
+            return false;
+        }
+
+        public override bool Register() {
+            return false;
+        }
+
+        public TileActual(TileDef definition, Vector2Int position, Room room, TileLayer layer) {
+            Definition = definition;
             Position = position;
-            RoomOld = roomOld;
+            Room = room;
+            Layer = layer;
+            Entity = definition.TileEntityDefault.Clone();
+            RegisterTile();
         }
 
-        public override void Destroy() {
-            var apiController = ApiController.Instance;
-            apiController.OnTileDestroyExclusive(this);
-            apiController.OnTileDestroy(this);
-        }
-    }
-
-    public sealed class TileObjectActual : TileObject {
-        public override TilePosition Position { get; protected set; }
-        public override RoomOld RoomOld { get; protected set; }
-
-        public TileObjectActual(TileObjectDef definition, TilePosition position, RoomOld roomOld) {
-            m_TileDef = definition;
-            m_TileObjectDef = definition;
+        public TileActual(TileDef definition, Vector2Int position, Room room, TileLayer layer,
+            TileEntity entity) {
+            Definition = definition;
             Position = position;
-            RoomOld = roomOld;
+            Room = room;
+            Layer = layer;
+            Entity = entity;
+            RegisterTile();
         }
 
-        public override void Destroy() {
-            var apiController = ApiController.Instance;
-            apiController.OnTileObjectDestroyExclusive(this);
-            apiController.OnTileObjectDestroy(this);
-            apiController.OnTileDestroy(this);
-        }
-    }
-
-    public sealed class TileObjectEntityActual : TileObjectEntity {
-        public override TilePosition Position { get; protected set; }
-        public override RoomOld RoomOld { get; protected set; }
-        public override List<IThingData> Datasets { get; protected set; }
-
-        public TileObjectEntityActual(TileObjectEntityDef definition, TilePosition position, RoomOld roomOld,
-            List<IThingData> datasets) {
-            m_TileDef = definition;
-            m_TileObjectDef = definition;
-            m_TileObjectEntityDef = definition;
-            Position = position;
-            RoomOld = roomOld;
-            Datasets = datasets;
-        }
-
-        public override void Destroy() {
-            ApiController.Instance.OnTileObjectEntityDestroy(this);
-            ApiController.Instance.OnTileObjectDestroy(this);
-            ApiController.Instance.OnTileDestroy(this);
+        private void RegisterTile() {
+            Room.Tiles.Add(this);
         }
     }
 }

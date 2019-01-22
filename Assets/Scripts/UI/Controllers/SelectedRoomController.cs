@@ -11,7 +11,7 @@ public class SelectedRoomController : MonoBehaviour {
     public RoomUnloadedEvent onRoomUnloaded = new RoomUnloadedEvent();
 
     private RoomController _roomController;
-    private RoomOld _currentRoomOld;
+    private Room _currentRoomOld;
 
     void Awake() {
         Instance = this;
@@ -23,7 +23,7 @@ public class SelectedRoomController : MonoBehaviour {
 
     public void SaveRoom() {
         Debug.Log("Saving Room");
-        RoomFileSaver.SaveRoom((RoomOldActual) _currentRoomOld);
+        RoomFileSaver.SaveRoom(_currentRoomOld);
     }
 
     public void CreateNewRoom() {
@@ -44,8 +44,8 @@ public class SelectedRoomController : MonoBehaviour {
     }
 
     [Serializable]
-    public class RoomLoadedEvent : UnityEvent<RoomOld> { }
+    public class RoomLoadedEvent : UnityEvent<Room> { }
 
     [Serializable]
-    public class RoomUnloadedEvent : UnityEvent<RoomOld> { }
+    public class RoomUnloadedEvent : UnityEvent<Room> { }
 }

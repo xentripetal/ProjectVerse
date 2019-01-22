@@ -1,10 +1,6 @@
-﻿using System.IO;
-using System.Linq;
-using Newtonsoft.Json;
-using UnityEngine;
+﻿using UnityEngine;
 using Verse.API;
 using Verse.API.Models;
-using Verse.API.Models.JSON;
 
 public static class RoomFileSaver {
     private static readonly string TilesFileName = "TileMap.json";
@@ -14,18 +10,16 @@ public static class RoomFileSaver {
 
     public static ModPackage ModPackage = ModMap.GetEnabledMods()[0];
 
-    public static void SaveRoom(RoomOldActual roomOld) {
+    public static void SaveRoom(Room roomOld) {
         if (!roomOld.IsRoomLoaded) {
-            Debug.LogError("Room " + roomOld.RoomName + " needs to be loaded to be saved");
+            Debug.LogError("Room " + roomOld.Name + " needs to be loaded to be saved");
             return;
         }
-
-        var roomFolderPath = GetOrCreateRoomDirectory(roomOld.RoomName);
-        WriteRoomDefinitionFile(roomOld, roomFolderPath);
-        WriteTilesFile((TileProviderOldInternal) roomOld.TileProviderOld, roomFolderPath);
-        WriteTileObjectsFile((TileProviderOldInternal) roomOld.TileProviderOld, roomFolderPath);
-        WriteTileObjectEntitiesFile((TileProviderOldInternal) roomOld.TileProviderOld, roomFolderPath);
+        Debug.LogError("Not yet implemented");
+        //var roomFolderPath = GetOrCreateRoomDirectory(roomOld.Name);
+        //WriteRoomDefinitionFile(roomOld, roomFolderPath);
     }
+    /**
 
     private static void WriteTilesFile(TileProviderOldInternal providerOld, string path) {
         var jsonString =
@@ -47,8 +41,8 @@ public static class RoomFileSaver {
         File.WriteAllText(Path.Combine(path, TileObjectEntitiesFileName), jsonString);
     }
 
-    private static void WriteRoomDefinitionFile(RoomOldActual roomOld, string path) {
-        var jsonString = JsonConvert.SerializeObject(roomOld.RoomColliders);
+    private static void WriteRoomDefinitionFile(Room roomOld, string path) {
+        var jsonString = JsonConvert.SerializeObject(roomOld.Colliders);
         File.WriteAllText(Path.Combine(path, RoomDefinitionFileName), jsonString);
     }
 
@@ -63,5 +57,5 @@ public static class RoomFileSaver {
         Directory.CreateDirectory(roomFolderPath);
 
         return roomFolderPath;
-    }
+    }**/
 }

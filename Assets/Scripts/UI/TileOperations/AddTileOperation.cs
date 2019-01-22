@@ -9,11 +9,11 @@ namespace UI {
         }
 
         public void Execute() {
-            _tile.RoomOld.TileProviderOld.Add(_tile);
+            _tile.Register();
         }
 
         public void Undo() {
-            _tile.Destroy();
+            _tile.Unregister();
         }
     }
 }

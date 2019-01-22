@@ -7,7 +7,7 @@ using Verse.API.Models.JSON;
 
 namespace Verse.API.Models {
     public class TileDefMap {
-        private static Dictionary<String, TileUnifiedDef> _tileMap;
+        private static Dictionary<String, TileDef> _tileMap;
 
         public static void Verify() {
             if (_tileMap == null) {
@@ -16,7 +16,7 @@ namespace Verse.API.Models {
         }
 
         public static void RegenerateAtlas() {
-            _tileMap = new Dictionary<string, TileUnifiedDef>();
+            _tileMap = new Dictionary<string, TileDef>();
             foreach (var mod in ModMap.GetEnabledMods()) {
                 if (mod.IsProvidingTileDefs) {
                     var filenames = Directory.GetFiles(mod.TileDefsPath, "*.json");
@@ -29,12 +29,12 @@ namespace Verse.API.Models {
             }
         }
 
-        public static string[] GetKeys() {
+        public static List<String> GetKeys() {
             Verify();
-            return _tileMap.Keys.ToArray();
+            return _tileMap.Keys.ToList();
         }
 
-        public static TileUnifiedDef GetTileDef(String objectName) {
+        public static TileDef GetTileDef(String objectName) {
             Verify();
             return _tileMap[objectName];
         }

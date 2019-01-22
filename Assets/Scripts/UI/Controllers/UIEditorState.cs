@@ -2,7 +2,7 @@
 using Verse.API.Models;
 
 public class UIEditorState : MonoBehaviour {
-    public RoomOld CurrentRoomOld { get; protected set; }
+    public Room CurrentRoom { get; protected set; }
     public Tile CurrentSelectedTile { get; protected set; }
     public TileDef CurrentSelectedTileDef { get; protected set; }
     public bool IsRoomLoaded { get; protected set; }
@@ -37,21 +37,12 @@ public class UIEditorState : MonoBehaviour {
         IsTileObjectsLayerVisible = value;
     }
 
-    public Tile GetTileAt(TilePosition pos) {
-        if (CurrentRoomOld == null) {
+    public Tile GetTileAt(Vector2Int pos) {
+        if (CurrentRoom == null) {
             return null;
         }
 
-        Tile value = null;
-        if (IsTileObjectsLayerVisible) {
-            value = CurrentRoomOld.TileProviderOld.GetOptionalScriptableTileObject(pos);
-        }
-
-        if (IsTilesLayerVisible && value == null) {
-            value = CurrentRoomOld.TileProviderOld.GetTileAtOrDefault(pos);
-        }
-
-        return value;
+        return null;
     }
 
     public void TileDefSelected(TileDef def) {
@@ -64,14 +55,14 @@ public class UIEditorState : MonoBehaviour {
         IsTileDefSelected = false;
     }
 
-    public void RoomLoaded(RoomOld roomOld) {
+    public void RoomLoaded(Room roomOld) {
         IsRoomLoaded = true;
-        CurrentRoomOld = roomOld;
+        CurrentRoom = roomOld;
     }
 
-    public void RoomUnloaded(RoomOld roomOld) {
+    public void RoomUnloaded(Room roomOld) {
         IsRoomLoaded = false;
-        CurrentRoomOld = null;
+        CurrentRoom = null;
     }
 
     public void TileSelected(Tile tile) {
