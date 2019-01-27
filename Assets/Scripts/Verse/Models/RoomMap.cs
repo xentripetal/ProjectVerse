@@ -16,6 +16,7 @@ namespace Verse.API.Models {
 
         public static Room GetRoom(string roomName) {
             VerifyAtlas();
+
             return rooms[roomName];
         }
 

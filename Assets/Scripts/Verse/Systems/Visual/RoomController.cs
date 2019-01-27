@@ -41,6 +41,15 @@ namespace Verse.Systems.Visual {
             BuildRoom(newRoom);
         }
 
+        public Tile GameObjectToTile(GameObject go) {
+            Tile tile;
+            if (!activeTiles.TryGetValue(go, out tile)) {
+                return null;
+            }
+
+            return tile;
+        }
+
         public void DestroyRoom() {
             foreach (var go in activeTiles.Keys) {
                 foreach (Transform child in go.transform) {

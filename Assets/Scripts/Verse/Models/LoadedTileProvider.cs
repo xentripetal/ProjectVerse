@@ -2,26 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Verse.API.Models.JSON;
 
 namespace Verse.API.Models {
-    public class LoadedTileProvider : TileProvider {
+    public sealed class LoadedTileProvider : TileProvider {
         private Dictionary<TileLayer, TileList> _tiles;
 
-        public LoadedTileProvider(SerializableRoom sRoom, Room room) {
-            _tiles = null;
+        public LoadedTileProvider(Room room) {
+            _tiles = new Dictionary<TileLayer, TileList>();
+            TileLayers = new List<TileLayer>();
             Room = room;
-            LoadSerializedTiles(sRoom);
-        }
-
-        private void LoadSerializedTiles(SerializableRoom sRoom) {
-            var layerDict = new Dictionary<TileLayer, List<Tile>>();
-            var layers = new List<TileLayer>();
-            foreach (var sLayer in sRoom.Layers) {
-                var layer = (TileLayer) Activator.CreateInstance(sLayer.LayerType);
-                layers.Add(layer);
-                layerDict.Add(layer, sLayer.Tiles.Select(tile => tile.ToTile(Room, layer)).ToList());
-            }
         }
 
         public override Room Room { get; protected set; }
@@ -83,6 +72,7 @@ namespace Verse.API.Models {
 
             if (!_tiles.ContainsKey(tile.Layer)) {
                 _tiles.Add(tile.Layer, new TileList());
+                TileLayers.Add(tile.Layer);
             }
 
             _tiles[tile.Layer].Add(tile);

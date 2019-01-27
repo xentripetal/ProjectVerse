@@ -18,10 +18,7 @@ namespace Verse.API.Models {
         }
 
         private static void CreateAtlas() {
-            IThingScript script = new DoorTrigger();
             _scriptAtlas = new Dictionary<string, IThingScript>();
-            var name = script.GetType().FullName;
-            _scriptAtlas.Add(name, script);
         }
     }
 }

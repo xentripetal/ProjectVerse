@@ -25,30 +25,25 @@ namespace Verse.API.Models {
         }
 
         public override bool Register() {
-            return false;
+            Room.Tiles.Add(this);
+            return true;
         }
 
         public TileActual(TileDef definition, Vector2Int position, Room room, TileLayer layer) {
             Definition = definition;
-            Position = position;
+            _position = position;
             Room = room;
             Layer = layer;
             Entity = definition.TileEntityDefault.Clone();
-            RegisterTile();
         }
 
         public TileActual(TileDef definition, Vector2Int position, Room room, TileLayer layer,
             TileEntity entity) {
             Definition = definition;
-            Position = position;
+            _position = position;
             Room = room;
             Layer = layer;
             Entity = entity;
-            RegisterTile();
-        }
-
-        private void RegisterTile() {
-            Room.Tiles.Add(this);
         }
     }
 }

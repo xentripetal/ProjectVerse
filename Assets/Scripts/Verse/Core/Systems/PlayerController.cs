@@ -1,12 +1,13 @@
 using UnityEngine;
 using Verse.API;
-using Verse.API.Interfaces.Events;
+using Verse.API.Events;
+using Verse.API.Events.EventBus;
 using Verse.API.Models;
 
 namespace Verse.Core.Systems {
     public static class PlayerController {
-        [OnFrameUpdate]
-        public static void OnFrameUpdate() {
+        [Subscribe]
+        public static void OnFrameUpdate(FrameUpdateEvent frameUpdateEvent) {
             var player = Player.Main;
             var input = GetInputAxis();
 

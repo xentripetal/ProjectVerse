@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using Verse.API;
+using Verse.API.Events;
 using Verse.API.Interfaces;
-using Verse.API.Interfaces.Events;
 using Verse.Systems.Visual;
 
 namespace Verse.Systems {
@@ -13,8 +14,6 @@ namespace Verse.Systems {
 
         public static ApiController Instance;
 
-        private static MethodInfo[] _frameUpdateMethods;
-        private static MethodInfo[] _lateFrameUpdateMethods;
 
         private void Awake() {
             Instance = this;
@@ -22,8 +21,6 @@ namespace Verse.Systems {
 
         void Start() {
             _roomController = RoomController.Instance;
-            _frameUpdateMethods = GetMethodsWithAttribute<OnFrameUpdate>();
-            _lateFrameUpdateMethods = GetMethodsWithAttribute<OnLateFrameUpdate>();
             if (!EditorMode) {
                 _roomController.ChangeRoom("main", null);
             }
@@ -53,27 +50,29 @@ namespace Verse.Systems {
             if (EditorMode) {
                 return;
             }
+
+            var tile = _roomController.GameObjectToTile(go);
+            if (tile != null) {
+                if (tile.Entity != null) {
+                    tile.Entity.OnCharacterEnter();
+                }
+            }
         }
 
         #endregion
 
         private void Update() {
-            if (EditorMode) {
-                return;
-            }
-
-            foreach (var methodInfo in _frameUpdateMethods) {
-                methodInfo.Invoke(null, null);
+            World.EventBus.Post(new FrameUpdateEvent());
+            //Todo find a better way to do this
+            var tiles = _roomController.CurrentRoom.Tiles.GetTilesWithEntities();
+            foreach (var tile in tiles) {
+                tile.Entity.OnFrameUpdate();
             }
         }
 
         private void LateUpdate() {
             if (EditorMode) {
                 return;
-            }
-
-            foreach (var methodInfo in _lateFrameUpdateMethods) {
-                methodInfo.Invoke(null, null);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
     public class SwappableSpriteAnimationController : MonoBehaviour {
@@ -32,7 +31,7 @@ namespace Verse.Systems.Visual {
 
         private GameObject CreateSpriteObject(int order) {
             var go = new GameObject();
-            go.AddComponent<SpriteRenderer>();
+            go.AddComponent<SpriteRenderer>().sortingOrder = 5;
             go.transform.parent = transform;
             go.transform.localPosition = new Vector3(0, 0, -.00005f * order);
             return go;
