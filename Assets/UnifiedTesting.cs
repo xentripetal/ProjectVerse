@@ -1,23 +1,33 @@
 ﻿using UnityEngine;
+using Verse.API;
 using Verse.API.Events;
+using Verse.API.Events.EventBus;
 
 public class UnifiedTesting : MonoBehaviour {
-    private int ia = 0;
-    private int ib = 0;
-    private int ic = 0;
+    private static int ia = 0;
+    private static int ib = 0;
+    private static int ic = 0;
 
     // Start is called before the first frame update
-    void Start() { }
+    void Start() {
+        World.EventBus.Post(new TestEvent("Message"));
+    }
 
-    private void Test(TestEvent testEvent) {
+    [Subscribe(1)]
+    public static void Test(TestEvent testEvent) {
         ia++;
+        Debug.Log("A");
     }
 
-    private void Test2(TestEvent testEvent) {
+    [Subscribe(3)]
+    public static void Test2(TestEvent testEvent) {
         ib++;
+        Debug.Log("B");
     }
 
-    private void Test3(TestEvent testEvent) {
+    [Subscribe(2)]
+    public static void Test3(TestEvent testEvent) {
         ic++;
+        Debug.Log("C");
     }
 }

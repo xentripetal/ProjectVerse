@@ -81,12 +81,14 @@ namespace Verse.Systems {
         #endregion
 
         private void Update() {
-            World.EventBus.Post(new FrameUpdateEvent());
-            
-            //Todo find a better way to do this
-            var tiles = _roomController.CurrentRoom.Tiles.GetTilesWithEntities();
-            foreach (var tile in tiles) {
-                tile.Entity.OnFrameUpdate();
+            if (!EditorMode) {
+                World.EventBus.Post(new FrameUpdateEvent());
+
+                //Todo find a better way to do this
+                var tiles = _roomController.CurrentRoom.Tiles.GetTilesWithEntities();
+                foreach (var tile in tiles) {
+                    tile.Entity.OnFrameUpdate();
+                }
             }
         }
 
