@@ -1,59 +1,47 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Fasterflect;
 using UnityEngine;
 using Verse.API.Models;
 using Object = System.Object;
 
 namespace Verse.API.Events.EventBus {
-    public abstract class SortedEventList {
-        public abstract void Invoke(Object @event);
-        public abstract Type Type { get; protected set; }
-    }
-
-    public class SortedEventList<T> : SortedEventList {
-        private SortedList<int, Action<T>> list;
+    public class SortedEventList {
+        private SortedList<int, IEventHandler> list;
 
         public SortedEventList() {
-            list = new SortedList<int, Action<T>>(new DuplicateKeyComparer<int>());
-            Type = typeof(T);
+            list = new SortedList<int, IEventHandler>(new DuplicateKeyComparer<int>());
         }
 
-        public override void Invoke(Object @event) {
-            if (!(@event is T)) {
-                Debug.LogError("Event called for " + typeof(T).FullName + " has wrong type");
-                return;
-            }
-
+        public void Invoke(Object @event) {
             foreach (var action in list) {
-                action.Value.Invoke((T) @event);
+                action.Value.Invoke(@event);
             }
         }
 
-        public override Type Type { get; protected set; }
-
-        public void Add(Action<T> action, int priority) {
-            list.Add(priority, action);
+        public void Add(MethodInfo info, int priority) {
+            var invoker = info.DelegateForCallMethod();
+            list.Add(priority, new CachedEventHandler(invoker));
         }
 
-        public bool Contains(Action<T> action) {
-            return list.ContainsValue(action);
+        public void Add<T>(Action<T> action, int priority) {
+            list.Add(priority, new ActionEventHandler<T>(action));
         }
 
-        public bool Remove(Action<T> action) {
-            var pos = list.IndexOfValue(action);
+        public bool Contains<T>(Action<T> action) {
+            var compare = new ActionEventHandler<T>(action);
+            return list.ContainsValue(compare);
+        }
+
+        public bool Remove<T>(Action<T> action) {
+            var compare = new ActionEventHandler<T>(action);
+            var pos = list.IndexOfValue(compare);
             if (pos == -1) {
                 return false;
             }
 
-            return RemoveAt(pos);
-        }
-
-        public bool RemoveAt(int position) {
-            if (position < 0 || position > list.Count) {
-                return false;
-            }
-
-            list.RemoveAt(position);
+            list.RemoveAt(pos);
             return true;
         }
     }

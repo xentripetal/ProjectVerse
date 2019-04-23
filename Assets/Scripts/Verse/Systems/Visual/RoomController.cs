@@ -228,25 +228,6 @@ namespace Verse.Systems.Visual {
                 tilePosition.y * Constants.ZPositionMultiplier + Constants.ZPositionOffset);
         } **/
 
-        private void UpdateColliderPaths(PolygonCollider2D colliderComponent, Position[] paths) {
-            EmptyPreviousColliders(colliderComponent);
-
-            if (paths != null) {
-                CopyNewPaths(colliderComponent, paths);
-            }
-        }
-
-        private void CopyNewPaths(PolygonCollider2D colliderComponent, Position[] paths) {
-            colliderComponent.SetPath(0,
-                paths.Select(point => ApiMappings.Vector2FromPosition(point)).ToArray());
-        }
-
-        private void EmptyPreviousColliders(PolygonCollider2D colliderComponent) {
-            for (var i = 0; i < colliderComponent.pathCount; i++) {
-                colliderComponent.SetPath(i, null);
-            }
-        }
-
         #endregion
     }
 }

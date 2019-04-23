@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Fasterflect;
+using UnityEngine;
 using Verse.API.Events.EventBus;
 
 namespace Verse.API.Events {
@@ -10,23 +13,11 @@ namespace Verse.API.Events {
 
         public DictEventBus() {
             eventHandlers = new Dictionary<Type, SortedEventList>();
-        }
+       }
 
-        private bool StoreEventHandler<T>(Action<T> handler, Type eventType) {
-            return StoreEventHandler(handler, eventType, CoreEventPriorities.DefaultPriority);
-        }
-
-        private bool StoreEventHandler<T>(Action<T> handler, Type eventType, int priority) {
-            SortedEventList eventListGeneric;
-            SortedEventList<T> eventList;
-            if (!eventHandlers.TryGetValue(eventType, out eventListGeneric)) {
-                eventList = new SortedEventList<T>();
-                eventHandlers.Add(eventType, eventList);
-            }
-            else {
-                eventList = (SortedEventList<T>) eventListGeneric;
-            }
-
+        private bool StoreEventHandler<T>(Action<T> handler, Type eventType, int priority = CoreEventPriorities.DefaultPriority) {
+            SortedEventList eventList = GetOrCreateEventList(eventType);
+            
             if (eventList.Contains(handler)) {
                 return false;
             }
@@ -35,7 +26,17 @@ namespace Verse.API.Events {
             return true;
         }
 
-        public void Post(Object @event) {
+        private SortedEventList GetOrCreateEventList(Type eventType) {
+            SortedEventList eventList;
+            if (!eventHandlers.TryGetValue(eventType, out eventList)) {
+                eventList = new SortedEventList();
+                eventHandlers.Add(eventType, eventList);
+            }
+
+            return eventList;
+        }
+        
+        public void Post(object @event) {
             SortedEventList eventListGeneric;
             if (!eventHandlers.TryGetValue(@event.GetType(), out eventListGeneric)) {
                 return;
@@ -44,6 +45,19 @@ namespace Verse.API.Events {
             eventListGeneric.Invoke(@event);
         }
 
+        public bool Register(MethodInfo info, int priority) {
+            var parameters = info.GetParameters();
+            if (parameters.Length != 1) {
+                return false; 
+            }
+            var type = parameters[0].ParameterType;
+            Debug.Log(type.FullName);
+            var eventList = GetOrCreateEventList(type);
+            eventList.Add(info, priority);
+            Debug.Log($"Registered event {info.Name} with priority {priority}");
+            return true;
+        }
+        
         public bool Register<T>(Action<T> listener) {
             return StoreEventHandler(listener, typeof(T));
         }
@@ -58,7 +72,7 @@ namespace Verse.API.Events {
                 return false;
             }
 
-            var eventList = (SortedEventList<T>) eventListGeneric;
+            var eventList = eventListGeneric;
             return eventList.Remove(listener);
         }
     }

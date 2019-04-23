@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using Fasterflect;
 using UnityEngine;
 using Verse.API;
 using Verse.API.Events;
+using Verse.API.Events.EventBus;
 using Verse.API.Interfaces;
 using Verse.Systems.Visual;
+using Debug = UnityEngine.Debug;
 
 namespace Verse.Systems {
     public class ApiController : MonoBehaviour {
@@ -17,6 +22,20 @@ namespace Verse.Systems {
 
         private void Awake() {
             Instance = this;
+            RegisterStaticSubscribers();
+        }
+
+        private void RegisterStaticSubscribers() {
+            var subscribers = GetMethodsWithAttribute<Subscribe>();
+            foreach (var subscriber in subscribers) {
+                if (subscriber.GetParameters().Length != 1) {
+                    continue;
+                }
+
+                var priority = ((Subscribe) subscriber.GetCustomAttribute(typeof(Subscribe))).priority;
+                ((DictEventBus) World.EventBus).Register(subscriber, priority);
+
+            }
         }
 
         void Start() {
@@ -63,6 +82,7 @@ namespace Verse.Systems {
 
         private void Update() {
             World.EventBus.Post(new FrameUpdateEvent());
+            
             //Todo find a better way to do this
             var tiles = _roomController.CurrentRoom.Tiles.GetTilesWithEntities();
             foreach (var tile in tiles) {
