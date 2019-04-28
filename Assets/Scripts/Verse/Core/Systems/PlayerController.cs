@@ -39,7 +39,7 @@ namespace Verse.Core.Systems {
         }
 
         private static Position GetInputAxis() {
-            Position pos = new Position();
+            var pos = new Position();
             if (MappedInput.GetKey("Up"))
                 pos += new Position(0, 1);
             if (MappedInput.GetKey("Down"))

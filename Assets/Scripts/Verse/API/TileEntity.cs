@@ -8,26 +8,37 @@ namespace Verse.API {
             return new TileEntity();
         }
 
-        public void OnStart() { }
+        public void OnStart() {
+        }
 
-        public void OnRoomEntered() { }
+        public void OnRoomEntered() {
+        }
 
-        public void OnRoomLoaded() { }
+        public void OnRoomLoaded() {
+        }
 
-        public void OnRoomUnloaded() { }
-        
-        public void OnCharacterHit() { }
-        
-        public void OnCharacterInteract() { }
+        public void OnRoomUnloaded() {
+        }
 
-        public void OnCharacterEnter() { }
+        public void OnCharacterHit() {
+        }
 
-        public void OnCharacterExit() { }
+        public void OnCharacterInteract() {
+        }
 
-        public void OnFrameUpdate() { }
+        public void OnCharacterEnter() {
+        }
 
-        public void OnTickUpdate() { }
+        public void OnCharacterExit() {
+        }
 
-        public void OnRareTickUpdate() { }
+        public void OnFrameUpdate() {
+        }
+
+        public void OnTickUpdate() {
+        }
+
+        public void OnRareTickUpdate() {
+        }
     }
 }

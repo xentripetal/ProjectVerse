@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,11 +6,11 @@ using Verse.Utilities;
 
 namespace Verse.API.Models.JSON {
     public class SerializableModPackage {
-        public string Name;
-        public string Version;
         public string Author;
         public string[] ContributingAuthors;
         public string[] DLLs;
+        public string Name;
+        public string Version;
 
         public ModPackage ToModPackage(string folderPath) {
             var mod = BuildDefaults(folderPath);
@@ -33,7 +32,7 @@ namespace Verse.API.Models.JSON {
         // Not yet implemented
         private ModPackage AssignRoomPatchPropertues(ModPackage mod) {
             mod.IsProvidingRoomPatches = false;
-            mod.RoomPatchesFolderPath = String.Empty;
+            mod.RoomPatchesFolderPath = string.Empty;
             mod.RoomPatchPaths = new string[0];
             mod.RoomPatchNames = new string[0];
             return mod;
@@ -68,15 +67,13 @@ namespace Verse.API.Models.JSON {
             mod.IsProvidingTileDefs = DirectoryExistsAndHasFiles(mod.TileDefsPath, "*.json");
             //mod.IsProvidingTileObjectDefs = DirectoryExistsAndHasFiles(mod.TileObjectDefsPath, "*.json");
             //mod.IsProvidingTileObjectEntityDefs = DirectoryExistsAndHasFiles(mod.TileObjectEntityDefsPath, "*.json");
-            mod.IsProvidingDefs = (mod.IsProvidingTileDefs || mod.IsProvidingDefs);
+            mod.IsProvidingDefs = mod.IsProvidingTileDefs || mod.IsProvidingDefs;
 
             return mod;
         }
 
         private bool DirectoryExistsAndHasFiles(string directory, string searchPattern) {
-            if (!Directory.Exists(directory)) {
-                return false;
-            }
+            if (!Directory.Exists(directory)) return false;
 
             return Directory.GetFiles(directory, searchPattern).Length > 0;
         }
@@ -91,13 +88,11 @@ namespace Verse.API.Models.JSON {
             var validDLLPaths = new List<string>();
             foreach (var dllName in DLLs) {
                 var path = Path.Combine(mod.ContentPath, dllName);
-                if (File.Exists(path)) {
+                if (File.Exists(path))
                     validDLLPaths.Add(path);
-                }
-                else {
+                else
                     Debug.LogError("Mod " + Name + " is attempting to register DLL " + dllName +
                                    " but no such dll exists in its directory.");
-                }
             }
 
             if (validDLLPaths.Count == 0) {

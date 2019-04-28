@@ -1,3 +1,4 @@
 namespace Verse.API.Models.Colliders {
-    public interface ICollider { }
+    public interface ICollider {
+    }
 }

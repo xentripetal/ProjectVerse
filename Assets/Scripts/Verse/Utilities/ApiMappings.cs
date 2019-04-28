@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Verse.API.Models;
 
@@ -19,7 +18,7 @@ namespace Verse.Utilities {
         public static TilePosition Vector3ToTilePosition(Vector3 value) {
             return new TilePosition(Mathf.RoundToInt(value.x), Mathf.RoundToInt(value.y));
         }
-        
+
         public static Vector2 Vector2FromPosition(Position value) {
             return new Vector2(value.x, value.y);
         }
@@ -35,11 +34,12 @@ namespace Verse.Utilities {
         public static Position Vector3ToPosition(Vector3 value) {
             return new Position(value.x, value.y);
         }
-        
+
         public static Sprite InfoToSprite(SpriteInfo info) {
-            Texture2D image = Resources.Load<Texture2D>(info.SpritePath);
-            Rect rect = new Rect(0, 0, image.width, image.height);
-            Sprite sprite = Sprite.Create(image, rect, Vector2FromPosition(info.PivotPoint), info.PixelsPerUnit, uint.MinValue,
+            var image = Resources.Load<Texture2D>(info.SpritePath);
+            var rect = new Rect(0, 0, image.width, image.height);
+            var sprite = Sprite.Create(image, rect, Vector2FromPosition(info.PivotPoint), info.PixelsPerUnit,
+                uint.MinValue,
                 SpriteMeshType.Tight);
 
             return sprite;

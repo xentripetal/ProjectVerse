@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
 using Verse.API;
-using Verse.API.Models;
 
 namespace Verse.Systems.Visual {
     public class CameraController : MonoBehaviour {
-        public Transform Target;
-        public float SmoothSpeed = .125f;
-        public Vector3 Offset;
-        private Vector3 _smoothedPosition;
-        private RoomController _roomController;
         private Camera _camera;
+        private RoomController _roomController;
+        private Vector3 _smoothedPosition;
+        public Vector3 Offset;
+        public float SmoothSpeed = .125f;
+        public Transform Target;
 
         private void Start() {
             _roomController = RoomController.Instance;
@@ -17,20 +16,20 @@ namespace Verse.Systems.Visual {
         }
 
 
-        void FixedUpdate() {
-            Vector3 desiredPosition = Target.position + Offset;
+        private void FixedUpdate() {
+            var desiredPosition = Target.position + Offset;
             _smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothSpeed);
 
-            float camVertExtent = _camera.orthographicSize;
-            float camHorzExtent = _camera.aspect * camVertExtent;
+            var camVertExtent = _camera.orthographicSize;
+            var camHorzExtent = _camera.aspect * camVertExtent;
 
-            Position topRightBound = _roomController.TopRight;
-            Position bottomLeftBound = _roomController.BottomLeft;
+            var topRightBound = _roomController.TopRight;
+            var bottomLeftBound = _roomController.BottomLeft;
 
-            float leftBound = bottomLeftBound.x + camHorzExtent;
-            float rightBound = topRightBound.x - camHorzExtent;
-            float bottomBound = bottomLeftBound.y + camVertExtent;
-            float topBound = topRightBound.y - camVertExtent + Player.Main.Height;
+            var leftBound = bottomLeftBound.x + camHorzExtent;
+            var rightBound = topRightBound.x - camHorzExtent;
+            var bottomBound = bottomLeftBound.y + camVertExtent;
+            var topBound = topRightBound.y - camVertExtent + Player.Main.Height;
 
             if (topBound < bottomBound) {
                 topBound = _roomController.Center.y;

@@ -6,18 +6,18 @@ using Verse.Systems.Visual;
 
 public class SelectedRoomController : MonoBehaviour {
     public static SelectedRoomController Instance;
+    private Room _currentRoomOld;
+
+    private RoomController _roomController;
 
     public RoomLoadedEvent onRoomLoaded = new RoomLoadedEvent();
     public RoomUnloadedEvent onRoomUnloaded = new RoomUnloadedEvent();
 
-    private RoomController _roomController;
-    private Room _currentRoomOld;
-
-    void Awake() {
+    private void Awake() {
         Instance = this;
     }
 
-    void Start() {
+    private void Start() {
         _roomController = RoomController.Instance;
     }
 
@@ -44,8 +44,10 @@ public class SelectedRoomController : MonoBehaviour {
     }
 
     [Serializable]
-    public class RoomLoadedEvent : UnityEvent<Room> { }
+    public class RoomLoadedEvent : UnityEvent<Room> {
+    }
 
     [Serializable]
-    public class RoomUnloadedEvent : UnityEvent<Room> { }
+    public class RoomUnloadedEvent : UnityEvent<Room> {
+    }
 }

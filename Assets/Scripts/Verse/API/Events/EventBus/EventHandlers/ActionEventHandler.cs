@@ -3,10 +3,11 @@ using System;
 namespace Verse.API.Events.EventBus {
     public class ActionEventHandler<T> : IEventHandler {
         public Action<T> action;
+
         public ActionEventHandler(Action<T> action) {
             this.action = action;
         }
-        
+
         public void Invoke(object param) {
             action.Invoke((T) param);
         }

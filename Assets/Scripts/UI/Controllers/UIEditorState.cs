@@ -2,6 +2,7 @@
 using Verse.API.Models;
 
 public class UIEditorState : MonoBehaviour {
+    public static UIEditorState Instance;
     public Room CurrentRoom { get; protected set; }
     public Tile CurrentSelectedTile { get; protected set; }
     public TileDef CurrentSelectedTileDef { get; protected set; }
@@ -11,8 +12,6 @@ public class UIEditorState : MonoBehaviour {
     public bool IsTilesLayerVisible { get; protected set; }
     public bool IsTileObjectsLayerVisible { get; protected set; }
     public bool IsBrushOpen { get; protected set; }
-
-    public static UIEditorState Instance;
 
 
     private void Awake() {
@@ -38,9 +37,7 @@ public class UIEditorState : MonoBehaviour {
     }
 
     public Tile GetTileAt(Vector2Int pos) {
-        if (CurrentRoom == null) {
-            return null;
-        }
+        if (CurrentRoom == null) return null;
 
         return null;
     }

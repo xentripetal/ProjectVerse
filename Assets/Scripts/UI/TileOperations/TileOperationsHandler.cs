@@ -3,7 +3,7 @@ using Verse.API.Models;
 
 namespace UI {
     public static class TileOperationsHandler {
-        private static Stack<ITileOperation> _operations = new Stack<ITileOperation>();
+        private static readonly Stack<ITileOperation> _operations = new Stack<ITileOperation>();
 
         public static void ExecuteOperation(ITileOperation operation) {
             _operations.Push(operation);

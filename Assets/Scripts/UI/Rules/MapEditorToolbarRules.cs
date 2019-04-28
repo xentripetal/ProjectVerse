@@ -11,8 +11,6 @@ public class MapEditorToolbarRules : MonoBehaviour {
 
     public void Refresh() {
         var hasActiveRoom = RoomController.Instance.HasActiveRoom;
-        foreach (var button in OptionsToDisableOnNoActiveRoom) {
-            button.interactable = hasActiveRoom;
-        }
+        foreach (var button in OptionsToDisableOnNoActiveRoom) button.interactable = hasActiveRoom;
     }
 }

@@ -1,5 +1,6 @@
 namespace Verse.API.Events {
-    public class FrameUpdateEvent { }
+    public class FrameUpdateEvent {
+    }
 
     public class TestEvent {
         public readonly string Message;

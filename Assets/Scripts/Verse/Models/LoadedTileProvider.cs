@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Verse.API.Models {
     public sealed class LoadedTileProvider : TileProvider {
-        private Dictionary<TileLayer, TileList> _tiles;
+        private readonly Dictionary<TileLayer, TileList> _tiles;
 
         public LoadedTileProvider(Room room) {
             _tiles = new Dictionary<TileLayer, TileList>();
@@ -37,14 +36,13 @@ namespace Verse.API.Models {
         }
 
         public override bool Remove(Tile tile) {
-            if (tile.Room != Room) {
-                Debug.LogError(String.Format(
+            if (tile.Room != Room)
+                Debug.LogError(string.Format(
                     "The provided tile \'{0}\' at {1} for room {2} does not belong to room {3}", tile.Definition.Name,
                     tile.Position, tile.Room.Name, Room.Name));
-            }
 
             if (!_tiles.ContainsKey(tile.Layer)) {
-                Debug.LogError(String.Format("TileProvider for room {0} does not contain the TileLayer {1}.", Room.Name,
+                Debug.LogError(string.Format("TileProvider for room {0} does not contain the TileLayer {1}.", Room.Name,
                     tile.Layer.Name));
                 return false;
             }
@@ -54,7 +52,7 @@ namespace Verse.API.Models {
 
         public override bool RemoveAt(Vector2Int position, TileLayer layer) {
             if (!_tiles.ContainsKey(layer)) {
-                Debug.LogError(String.Format("TileProvider for room {0} does not contain the TileLayer {1}.", Room.Name,
+                Debug.LogError(string.Format("TileProvider for room {0} does not contain the TileLayer {1}.", Room.Name,
                     layer.Name));
                 return false;
             }
@@ -64,7 +62,7 @@ namespace Verse.API.Models {
 
         public override void Add(Tile tile) {
             if (tile.Room != Room) {
-                Debug.LogError(String.Format(
+                Debug.LogError(string.Format(
                     "The provided tile \'{0}\' at {1} for room {2} does not belong to room {3}", tile.Definition.Name,
                     tile.Position, tile.Room.Name, Room.Name));
                 return;

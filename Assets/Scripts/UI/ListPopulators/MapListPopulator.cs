@@ -6,10 +6,9 @@ using UnityEngine.UI;
 using Verse.API.Models;
 
 public class MapListPopulator : MonoBehaviour {
+    private SelectedRoomController _selectedRoomController;
     public GameObject ItemPrefab;
     public Transform VerticalLayoutParent;
-
-    private SelectedRoomController _selectedRoomController;
 
     private void Awake() {
         _selectedRoomController = SelectedRoomController.Instance;
@@ -33,9 +32,7 @@ public class MapListPopulator : MonoBehaviour {
     }
 
     private void OnDisable() {
-        foreach (Transform child in VerticalLayoutParent) {
-            Destroy(child.gameObject);
-        }
+        foreach (Transform child in VerticalLayoutParent) Destroy(child.gameObject);
     }
 
     private List<string> GetKnownRooms() {

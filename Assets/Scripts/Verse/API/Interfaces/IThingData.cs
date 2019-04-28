@@ -1,3 +1,4 @@
 namespace Verse.API.Interfaces {
-    public interface IThingData { }
+    public interface IThingData {
+    }
 }

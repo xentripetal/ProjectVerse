@@ -6,24 +6,23 @@ using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
     public class PlayerController : MonoBehaviour {
-        [FormerlySerializedAs("walkSpeed")] public float WalkSpeed = 2.2f;
-        [FormerlySerializedAs("runSpeed")] public float RunSpeed = 4f;
-
-        [FormerlySerializedAs("animator")] [SerializeField]
-        public Animator Animator;
-
         public static PlayerController Instance;
-
-        public string HorizontalAxis = "Horizontal";
-        public string VerticalAxis = "Vertical";
-        public KeyCode SpeedModifierKey = KeyCode.LeftShift;
+        private ApiController _apiController;
 
         private PlayerActual _player;
 
         private Rigidbody2D _rigidbody2D;
-        private ApiController _apiController;
 
-        void Awake() {
+        [FormerlySerializedAs("animator")] [SerializeField]
+        public Animator Animator;
+
+        public string HorizontalAxis = "Horizontal";
+        [FormerlySerializedAs("runSpeed")] public float RunSpeed = 4f;
+        public KeyCode SpeedModifierKey = KeyCode.LeftShift;
+        public string VerticalAxis = "Vertical";
+        [FormerlySerializedAs("walkSpeed")] public float WalkSpeed = 2.2f;
+
+        private void Awake() {
             Instance = this;
             MappedInput.AddMapping("Up", KeyCode.W);
             MappedInput.AddMapping("Left", KeyCode.A);
@@ -41,7 +40,7 @@ namespace Verse.Systems.Visual {
             _apiController = ApiController.Instance;
         }
 
-        void Update() {
+        private void Update() {
             UpdateAnimator();
             var pos = transform.position;
             _player.SetPosition(new Position(pos.x, pos.y));
@@ -59,6 +58,27 @@ namespace Verse.Systems.Visual {
                 _rigidbody2D.MovePosition(vectorizedPos);
                 _player.PositionDelta = Position.Zero;
             }
+        }
+
+        private void UpdateAnimator() {
+            var currentX = Animator.GetFloat("X");
+            var currentY = Animator.GetFloat("Y");
+
+            if (!_player.IsMoving && (!Mathf.Approximately(currentX, 0) || !Mathf.Approximately(currentY, 0))) {
+                Animator.SetFloat("lastX", currentX);
+                Animator.SetFloat("lastY", currentY);
+            }
+
+            Animator.SetBool("isMoving", _player.IsMoving);
+            Animator.SetBool("isRunning", _player.IsRunning);
+            Animator.SetFloat("X", _player.CurrentInputAxis.x);
+            Animator.SetFloat("Y", _player.CurrentInputAxis.y);
+        }
+
+        private void UpdatePlayerSortingPosition(float yPosition) {
+            var position = transform.position;
+            position.z = Constants.ZPositionMultiplier * yPosition + Constants.ZPositionOffset;
+            transform.position = position;
         }
 
 
@@ -82,37 +102,14 @@ namespace Verse.Systems.Visual {
         }
 
         private Color ToggleOpacity(Color color) {
-            if (Mathf.Approximately(color.a, 1.0000f)) {
+            if (Mathf.Approximately(color.a, 1.0000f))
                 color.a = .8f;
-            }
-            else {
+            else
                 color.a = 1;
-            }
 
             return color;
         }
 
         #endregion
-
-        private void UpdateAnimator() {
-            float currentX = Animator.GetFloat("X");
-            float currentY = Animator.GetFloat("Y");
-
-            if (!_player.IsMoving && (!Mathf.Approximately(currentX, 0) || !Mathf.Approximately(currentY, 0))) {
-                Animator.SetFloat("lastX", currentX);
-                Animator.SetFloat("lastY", currentY);
-            }
-
-            Animator.SetBool("isMoving", _player.IsMoving);
-            Animator.SetBool("isRunning", _player.IsRunning);
-            Animator.SetFloat("X", _player.CurrentInputAxis.x);
-            Animator.SetFloat("Y", _player.CurrentInputAxis.y);
-        }
-
-        private void UpdatePlayerSortingPosition(float yPosition) {
-            Vector3 position = transform.position;
-            position.z = Constants.ZPositionMultiplier * yPosition + Constants.ZPositionOffset;
-            transform.position = position;
-        }
     }
 }

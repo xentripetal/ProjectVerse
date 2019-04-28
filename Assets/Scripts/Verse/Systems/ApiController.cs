@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using Fasterflect;
 using UnityEngine;
 using Verse.API;
 using Verse.API.Events;
 using Verse.API.Events.EventBus;
 using Verse.API.Interfaces;
 using Verse.Systems.Visual;
-using Debug = UnityEngine.Debug;
 
 namespace Verse.Systems {
     public class ApiController : MonoBehaviour {
-        public bool EditorMode;
-        private RoomController _roomController;
-
         public static ApiController Instance;
+        private RoomController _roomController;
+        public bool EditorMode;
 
 
         private void Awake() {
@@ -28,21 +23,16 @@ namespace Verse.Systems {
         private void RegisterStaticSubscribers() {
             var subscribers = GetMethodsWithAttribute<Subscribe>();
             foreach (var subscriber in subscribers) {
-                if (subscriber.GetParameters().Length != 1) {
-                    continue;
-                }
+                if (subscriber.GetParameters().Length != 1) continue;
 
                 var priority = ((Subscribe) subscriber.GetCustomAttribute(typeof(Subscribe))).priority;
                 ((DictEventBus) World.EventBus).Register(subscriber, priority);
-
             }
         }
 
-        void Start() {
+        private void Start() {
             _roomController = RoomController.Instance;
-            if (!EditorMode) {
-                _roomController.ChangeRoom("main", null);
-            }
+            if (!EditorMode) _roomController.ChangeRoom("main", null);
         }
 
         #region Utilities#Systems
@@ -66,16 +56,12 @@ namespace Verse.Systems {
         #region ITrigger
 
         public void OnPlayerEnter(GameObject go) {
-            if (EditorMode) {
-                return;
-            }
+            if (EditorMode) return;
 
             var tile = _roomController.GameObjectToTile(go);
-            if (tile != null) {
-                if (tile.Entity != null) {
+            if (tile != null)
+                if (tile.Entity != null)
                     tile.Entity.OnCharacterEnter();
-                }
-            }
         }
 
         #endregion
@@ -86,16 +72,12 @@ namespace Verse.Systems {
 
                 //Todo find a better way to do this
                 var tiles = _roomController.CurrentRoom.Tiles.GetTilesWithEntities();
-                foreach (var tile in tiles) {
-                    tile.Entity.OnFrameUpdate();
-                }
+                foreach (var tile in tiles) tile.Entity.OnFrameUpdate();
             }
         }
 
         private void LateUpdate() {
-            if (EditorMode) {
-                return;
-            }
+            if (EditorMode) return;
         }
     }
 }

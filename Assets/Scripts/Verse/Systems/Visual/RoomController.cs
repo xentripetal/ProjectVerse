@@ -6,14 +6,15 @@ using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
     public class RoomController : MonoBehaviour {
-        public GameObject TerrainRoot;
-        public GameObject ObjectRoot;
-        public GameObject TerrainTilePrefab;
-        public GameObject ObjectTilePrefab;
-        public GameObject TransparencyColliderPrefab;
+        public static RoomController Instance;
 
         public Dictionary<GameObject, Tile> activeTiles;
         public Dictionary<Tile, GameObject> activeTilesReverse;
+        public GameObject ObjectRoot;
+        public GameObject ObjectTilePrefab;
+        public GameObject TerrainRoot;
+        public GameObject TerrainTilePrefab;
+        public GameObject TransparencyColliderPrefab;
 
         public string CurrentRoomName { get; private set; }
         public Room CurrentRoom { get; private set; }
@@ -23,8 +24,6 @@ namespace Verse.Systems.Visual {
         public Position TopRight { get; private set; }
         public Position BottomLeft { get; private set; }
         public Position Center { get; private set; }
-
-        public static RoomController Instance;
 
         private void Awake() {
             Instance = this;
@@ -43,18 +42,14 @@ namespace Verse.Systems.Visual {
 
         public Tile GameObjectToTile(GameObject go) {
             Tile tile;
-            if (!activeTiles.TryGetValue(go, out tile)) {
-                return null;
-            }
+            if (!activeTiles.TryGetValue(go, out tile)) return null;
 
             return tile;
         }
 
         public void DestroyRoom() {
             foreach (var go in activeTiles.Keys) {
-                foreach (Transform child in go.transform) {
-                    SimplePool.Despawn(child.gameObject);
-                }
+                foreach (Transform child in go.transform) SimplePool.Despawn(child.gameObject);
 
                 SimplePool.Despawn(go);
             }
@@ -74,18 +69,16 @@ namespace Verse.Systems.Visual {
             HasActiveRoom = true;
 
             BuildColliders(room.Colliders);
-            foreach (var layer in CurrentRoom.Tiles.TileLayers) {
-                foreach (var tile in CurrentRoom.Tiles.GetAll(layer)) {
-                    BuildTile(tile);
-                }
-            }
+            foreach (var layer in CurrentRoom.Tiles.TileLayers)
+            foreach (var tile in CurrentRoom.Tiles.GetAll(layer))
+                BuildTile(tile);
         }
 
-        void BuildTile(Tile tile) {
+        private void BuildTile(Tile tile) {
             var tileDef = tile.Definition;
             var pos = tile.Layer.TilePositionToVisualPosition(tile.Position);
 
-            GameObject poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
+            var poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
 
             var spriteRenderer = poolGo.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = tileDef.Sprite;
@@ -117,10 +110,10 @@ namespace Verse.Systems.Visual {
             var minY = colliderPoints[0].y;
             var maxY = colliderPoints[0].y;
             foreach (var pos in colliderPoints) {
-                minX = (pos.x < minX) ? pos.x : minX;
-                maxX = (pos.x > maxX) ? pos.x : maxX;
-                minY = (pos.y < minY) ? pos.y : minY;
-                maxY = (pos.x > maxY) ? pos.y : maxY;
+                minX = pos.x < minX ? pos.x : minX;
+                maxX = pos.x > maxX ? pos.x : maxX;
+                minY = pos.y < minY ? pos.y : minY;
+                maxY = pos.x > maxY ? pos.y : maxY;
             }
 
             TopRight = new Position(maxX, maxY);
@@ -129,25 +122,20 @@ namespace Verse.Systems.Visual {
         }
 
         private void BuildBoxColliders(IList<BoxColliderInfo> boxColliders) {
-            if (boxColliders == null) {
-                return;
-            }
+            if (boxColliders == null) return;
 
             IList<BoxCollider2D> colliderComponents = TerrainRoot.GetComponents<BoxCollider2D>().ToList();
             var diff = boxColliders.Count - colliderComponents.Count;
-            if (diff > 0) {
-                for (int i = 0; i < diff; i++) {
+            if (diff > 0)
+                for (var i = 0; i < diff; i++)
                     colliderComponents.Add(TerrainRoot.AddComponent<BoxCollider2D>());
-                }
-            }
-            else if (diff < 0) {
-                for (int i = colliderComponents.Count - 1; i >= boxColliders.Count; i--) {
+            else if (diff < 0)
+                for (var i = colliderComponents.Count - 1; i >= boxColliders.Count; i--) {
                     Destroy(colliderComponents[i]);
                     colliderComponents.RemoveAt(i);
                 }
-            }
 
-            for (int i = 0; i < boxColliders.Count; i++) {
+            for (var i = 0; i < boxColliders.Count; i++) {
                 var currentComponent = colliderComponents[i];
                 currentComponent.offset = ApiMappings.Vector2FromPosition(boxColliders[i].Position);
                 currentComponent.size = ApiMappings.Vector2FromPosition(boxColliders[i].Size);
@@ -155,7 +143,7 @@ namespace Verse.Systems.Visual {
         }
 
         private void BuildEdgeColliders(IList<Position> colliderPoints) {
-            EdgeCollider2D colliderRoot = TerrainRoot.GetComponent<EdgeCollider2D>();
+            var colliderRoot = TerrainRoot.GetComponent<EdgeCollider2D>();
             colliderRoot.points = colliderPoints.Select(pos => ApiMappings.Vector2FromPosition(pos)).ToArray();
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace Verse.API.Events.EventBus {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class Subscribe : Attribute {
         public int priority;
 

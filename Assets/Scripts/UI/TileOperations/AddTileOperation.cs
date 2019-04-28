@@ -2,7 +2,7 @@ using Verse.API.Models;
 
 namespace UI {
     public class AddTileOperation : ITileOperation {
-        private Tile _tile;
+        private readonly Tile _tile;
 
         public AddTileOperation(Tile tile) {
             _tile = tile;

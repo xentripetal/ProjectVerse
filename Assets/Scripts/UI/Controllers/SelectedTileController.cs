@@ -5,13 +5,12 @@ using UnityEngine.EventSystems;
 using Verse.API.Models;
 
 public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
-    public TileSelectedEvent onTileSelected = new TileSelectedEvent();
-    public TileUnselectedEvent onTileUnselected = new TileUnselectedEvent();
-
     private Camera _camera;
 
     private Tile _selectedTile;
     private UIEditorState _state;
+    public TileSelectedEvent onTileSelected = new TileSelectedEvent();
+    public TileUnselectedEvent onTileUnselected = new TileUnselectedEvent();
 
     private void Awake() {
         _camera = Camera.main;
@@ -23,41 +22,29 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
     }
 
     public void TileDestroyed(Tile tile) {
-        if (_selectedTile == tile) {
-            TileUnselected();
-        }
+        if (_selectedTile == tile) TileUnselected();
     }
 
     private void TileUnselected() {
-        if (_selectedTile == null) {
-            return;
-        }
+        if (_selectedTile == null) return;
 
         onTileUnselected.Invoke(_selectedTile);
         _selectedTile = null;
     }
 
     private void TileSelected() {
-        if (_selectedTile == null) {
-            return;
-        }
+        if (_selectedTile == null) return;
 
         onTileSelected.Invoke(_selectedTile);
     }
 
     // Update is called once per frame
-    void Update() {
-        if (!_state.IsRoomLoaded) {
-            return;
-        }
+    private void Update() {
+        if (!_state.IsRoomLoaded) return;
 
-        if (!Input.GetMouseButtonDown(0)) {
-            return;
-        }
+        if (!Input.GetMouseButtonDown(0)) return;
 
-        if (EventSystem.current.IsPointerOverGameObject()) {
-            return;
-        }
+        if (EventSystem.current.IsPointerOverGameObject()) return;
 
         var mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < 0 || mousePos.y < 0) {
@@ -78,8 +65,10 @@ public class SelectedTileController : MonoBehaviour, IEventSystemHandler {
     }
 
     [Serializable]
-    public class TileSelectedEvent : UnityEvent<Tile> { }
+    public class TileSelectedEvent : UnityEvent<Tile> {
+    }
 
     [Serializable]
-    public class TileUnselectedEvent : UnityEvent<Tile> { }
+    public class TileUnselectedEvent : UnityEvent<Tile> {
+    }
 }

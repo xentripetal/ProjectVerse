@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Verse.API {
     public static class MappedInput {
-        private static Dictionary<string, KeyCode> mappedKeys = new Dictionary<string, KeyCode>();
+        private static readonly Dictionary<string, KeyCode> mappedKeys = new Dictionary<string, KeyCode>();
 
         public static void AddMapping(string mapName, KeyCode input) {
             mappedKeys.Add(mapName, input);

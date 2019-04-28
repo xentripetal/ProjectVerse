@@ -11,7 +11,7 @@ namespace Verse.API.Models {
 
         //Todo seperate TileActual call from API assembly
         /// <summary>
-        /// Creates an unregisted tile.
+        ///     Creates an unregisted tile.
         /// </summary>
         /// <param name="definition"></param>
         /// <param name="position"></param>
@@ -23,13 +23,13 @@ namespace Verse.API.Models {
         }
 
         /// <summary>
-        /// Unregisters the tile from the world
+        ///     Unregisters the tile from the world
         /// </summary>
         /// <returns></returns>
         public abstract bool Unregister();
 
         /// <summary>
-        /// Registers the current tile into the Room.
+        ///     Registers the current tile into the Room.
         /// </summary>
         public abstract bool Register();
     }

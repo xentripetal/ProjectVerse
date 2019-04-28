@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace Verse.API.Models.JSON {
     public class SerializableTileDef {
-        public string Name;
-        public Vector2Int[] OccupiedPositions;
-        public string SpriteKey;
         public bool CanBuildOn;
         public bool HasCollision;
         public bool HasTransparencyOnPlayerBehind;
+        public string Name;
+        public Vector2Int[] OccupiedPositions;
+        public string SpriteKey;
         public TileEntity TileEntityDefaults;
 
         public TileDef ToTileUnifiedDef(ModPackage modPackage) {

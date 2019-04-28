@@ -15,11 +15,9 @@ namespace Verse.API.Models {
             return "TilePosition(" + x + ", " + y + ")";
         }
 
-        [JsonIgnore]
-        public int SqrMagnitude => x * x + y * y;
+        [JsonIgnore] public int SqrMagnitude => x * x + y * y;
 
-        [JsonIgnore]
-        public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
+        [JsonIgnore] public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
 
         public static float Distance(TilePosition from, TilePosition to) {
             return (from - to).Magnitude;
@@ -47,7 +45,7 @@ namespace Verse.API.Models {
         }
 
         public static bool operator ==(TilePosition a, TilePosition b) {
-            return (a.x == b.x && a.y == b.y);
+            return a.x == b.x && a.y == b.y;
         }
 
         public static bool operator !=(TilePosition a, TilePosition b) {

@@ -9,9 +9,7 @@ namespace Verse.API.Models {
         private static Dictionary<string, Room> rooms;
 
         public static void VerifyAtlas() {
-            if (rooms == null) {
-                CreateAtlas();
-            }
+            if (rooms == null) CreateAtlas();
         }
 
         public static Room GetRoom(string roomName) {
@@ -28,9 +26,7 @@ namespace Verse.API.Models {
         private static void CreateAtlas() {
             rooms = new Dictionary<string, Room>();
             foreach (var mod in ModMap.GetEnabledMods()) {
-                if (!mod.IsProvidingRooms) {
-                    continue;
-                }
+                if (!mod.IsProvidingRooms) continue;
 
                 foreach (var path in mod.RoomPaths) {
                     var data = File.ReadAllText(path);

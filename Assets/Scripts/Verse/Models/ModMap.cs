@@ -12,9 +12,7 @@ namespace Verse.API.Models {
         private static ModPackage[] disabledMods;
 
         private static void VerifyMap() {
-            if (mods == null) {
-                RebuildMap();
-            }
+            if (mods == null) RebuildMap();
         }
 
         public static void RebuildMap() {
@@ -25,7 +23,7 @@ namespace Verse.API.Models {
                 return;
             }
 
-            List<ModPackage> validMods = new List<ModPackage>();
+            var validMods = new List<ModPackage>();
             foreach (var directory in Directory.GetDirectories(FileConstants.ModsFolder)) {
                 var modPackagePath = Path.Combine(directory, FileConstants.ModPackageFileName);
                 if (!File.Exists(modPackagePath)) {

@@ -2,7 +2,7 @@ using Verse.API.Models;
 
 namespace UI {
     public class DestroyTileOperation : ITileOperation {
-        private Tile _tile;
+        private readonly Tile _tile;
 
         public DestroyTileOperation(Tile tile) {
             _tile = tile;

@@ -15,11 +15,9 @@ namespace Verse.API.Models {
             return "PlayerPosition(" + x + ", " + y + ")";
         }
 
-        [JsonIgnore]
-        public float SqrMagnitude => (float) (x * (double) x + y * (double) y);
+        [JsonIgnore] public float SqrMagnitude => (float) (x * (double) x + y * (double) y);
 
-        [JsonIgnore]
-        public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
+        [JsonIgnore] public float Magnitude => (float) Math.Sqrt(SqrMagnitude);
 
         public static float Distance(Position from, Position to) {
             return (from - to).Magnitude;
@@ -28,8 +26,8 @@ namespace Verse.API.Models {
         [JsonIgnore]
         public Position normalized {
             get {
-                float magnitude = Magnitude;
-                if ((double) magnitude > 9.99999974737875E-06)
+                var magnitude = Magnitude;
+                if (magnitude > 9.99999974737875E-06)
                     return this / magnitude;
                 return Zero;
             }
@@ -38,8 +36,7 @@ namespace Verse.API.Models {
         [JsonIgnore]
         public TilePosition NearestTilePosition => new TilePosition((int) Math.Round(x), (int) Math.Round(y));
 
-        [JsonIgnore]
-        public TilePosition CurrentTilePosition => new TilePosition((int) x, (int) y);
+        [JsonIgnore] public TilePosition CurrentTilePosition => new TilePosition((int) x, (int) y);
 
         public static Position Zero = new Position(0, 0);
         public static Position Max = new Position(float.MaxValue, float.MaxValue);

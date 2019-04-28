@@ -6,9 +6,9 @@ namespace Verse.API.Models {
         public Position Size;
     }
 
-    public class RoomColliders{
-        public List<Position> EdgePoints;
+    public class RoomColliders {
         public List<BoxColliderInfo> BoxColliders;
+        public List<Position> EdgePoints;
 
         public RoomColliders(List<Position> edgePoints, List<BoxColliderInfo> boxColliders) {
             EdgePoints = edgePoints;

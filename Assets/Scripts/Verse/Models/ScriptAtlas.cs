@@ -1,18 +1,15 @@
-using System;
 using System.Collections.Generic;
 using Verse.API.Interfaces;
 
 namespace Verse.API.Models {
     public class ScriptAtlas {
-        private static Dictionary<String, IThingScript> _scriptAtlas;
+        private static Dictionary<string, IThingScript> _scriptAtlas;
 
         public static void InitializeAtlas() {
-            if (_scriptAtlas == null) {
-                CreateAtlas();
-            }
+            if (_scriptAtlas == null) CreateAtlas();
         }
 
-        public static IThingScript GetScript(String scriptName) {
+        public static IThingScript GetScript(string scriptName) {
             InitializeAtlas();
             return _scriptAtlas[scriptName];
         }
