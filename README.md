@@ -17,8 +17,8 @@ reference to Stardew Valley. All objects, events, worlds, cutscenes, and
 scripted actions will be implemented using the API. 
 
 The game itself will be taking place in the far future with heavy influences from the T.V. series Firefly.
-The player will crash into a town similar to Stardew Valley and eventually gain enough wealth to fix his ship
-and explore other worlds with different themes and quests all while promoting his budding enterprise of cargo
+The player will crash into a town similar to Stardew Valley and eventually gain enough wealth to fix their ship
+and explore other worlds with different themes and quests all while promoting their budding enterprise of cargo
 trading, production, and crime.
 
 
