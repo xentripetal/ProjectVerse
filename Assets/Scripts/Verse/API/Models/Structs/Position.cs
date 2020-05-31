@@ -3,6 +3,20 @@ using Newtonsoft.Json;
 
 namespace Verse.API.Models {
     public struct Position {
+        public bool Equals(Position other) {
+            return x.Equals(other.x) && y.Equals(other.y);
+        }
+
+        public override bool Equals(object obj) {
+            return obj is Position other && Equals(other);
+        }
+
+        public override int GetHashCode() {
+            unchecked {
+                return (x.GetHashCode() * 397) ^ y.GetHashCode();
+            }
+        }
+
         public readonly float x;
         public readonly float y;
 

@@ -7,14 +7,11 @@ using Verse.Utilities;
 namespace Verse.Systems.Visual {
     public class RoomController : MonoBehaviour {
         public static RoomController Instance;
+        public GameObject TilePrefab;
 
         public Dictionary<GameObject, Tile> activeTiles;
         public Dictionary<Tile, GameObject> activeTilesReverse;
-        public GameObject ObjectRoot;
-        public GameObject ObjectTilePrefab;
-        public GameObject TerrainRoot;
-        public GameObject TerrainTilePrefab;
-        public GameObject TransparencyColliderPrefab;
+        public Dictionary<TileLayer, GameObject> layerGameobjects;
 
         public string CurrentRoomName { get; private set; }
         public Room CurrentRoom { get; private set; }
@@ -32,10 +29,11 @@ namespace Verse.Systems.Visual {
         private void Start() {
             activeTiles = new Dictionary<GameObject, Tile>();
             activeTilesReverse = new Dictionary<Tile, GameObject>();
+            layerGameobjects = new Dictionary<TileLayer, GameObject>();
             BuildRoom("main");
         }
 
-        public void ChangeRoom(string newRoom, string oldRoom) {
+        public void ChangeRoom(string newRoom) {
             DestroyRoom();
             BuildRoom(newRoom);
         }
@@ -69,16 +67,23 @@ namespace Verse.Systems.Visual {
             HasActiveRoom = true;
 
             BuildColliders(room.Colliders);
-            foreach (var layer in CurrentRoom.Tiles.TileLayers)
-            foreach (var tile in CurrentRoom.Tiles.GetAll(layer))
-                BuildTile(tile);
+            foreach (var layer in CurrentRoom.Tiles.TileLayers) {
+                var tiles = CurrentRoom.Tiles.GetAll(layer);
+                var go = new GameObject(layer.Name);
+                go.transform.parent = transform;
+                layerGameobjects.Add(layer, go);
+                foreach (var tile in tiles) {
+                    Debug.Log($"Building Tile For Layer {layer.Name}");
+                    BuildTile(tile, go.transform);
+                }
+            }
         }
 
-        private void BuildTile(Tile tile) {
+        private void BuildTile(Tile tile, Transform parent) {
             var tileDef = tile.Definition;
             var pos = tile.Layer.TilePositionToVisualPosition(tile.Position);
 
-            var poolGo = SimplePool.Spawn(TerrainTilePrefab, pos, Quaternion.identity);
+            var poolGo = SimplePool.Spawn(TilePrefab, pos, Quaternion.identity);
 
             var spriteRenderer = poolGo.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = tileDef.Sprite;
@@ -90,7 +95,7 @@ namespace Verse.Systems.Visual {
             }
 
 
-            poolGo.transform.parent = ObjectRoot.transform;
+            poolGo.transform.parent = parent.transform;
             activeTiles.Add(poolGo, tile);
             activeTilesReverse.Add(tile, poolGo);
         }
@@ -124,11 +129,11 @@ namespace Verse.Systems.Visual {
         private void BuildBoxColliders(IList<BoxColliderInfo> boxColliders) {
             if (boxColliders == null) return;
 
-            IList<BoxCollider2D> colliderComponents = TerrainRoot.GetComponents<BoxCollider2D>().ToList();
+            IList<BoxCollider2D> colliderComponents = GetComponents<BoxCollider2D>().ToList();
             var diff = boxColliders.Count - colliderComponents.Count;
             if (diff > 0)
                 for (var i = 0; i < diff; i++)
-                    colliderComponents.Add(TerrainRoot.AddComponent<BoxCollider2D>());
+                    colliderComponents.Add(gameObject.AddComponent<BoxCollider2D>());
             else if (diff < 0)
                 for (var i = colliderComponents.Count - 1; i >= boxColliders.Count; i--) {
                     Destroy(colliderComponents[i]);
@@ -143,7 +148,7 @@ namespace Verse.Systems.Visual {
         }
 
         private void BuildEdgeColliders(IList<Position> colliderPoints) {
-            var colliderRoot = TerrainRoot.GetComponent<EdgeCollider2D>();
+            var colliderRoot = GetComponent<EdgeCollider2D>();
             colliderRoot.points = colliderPoints.Select(pos => ApiMappings.Vector2FromPosition(pos)).ToArray();
         }
 

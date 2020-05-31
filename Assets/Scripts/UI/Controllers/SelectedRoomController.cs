@@ -13,6 +13,11 @@ public class SelectedRoomController : MonoBehaviour {
     public RoomLoadedEvent onRoomLoaded = new RoomLoadedEvent();
     public RoomUnloadedEvent onRoomUnloaded = new RoomUnloadedEvent();
 
+    public SelectedRoomController(Room currentRoomOld) {
+        // WTF was this?
+        _currentRoomOld = currentRoomOld;
+    }
+
     private void Awake() {
         Instance = this;
     }
@@ -38,7 +43,7 @@ public class SelectedRoomController : MonoBehaviour {
     }
 
     public void LoadRoom(string room) {
-        _roomController.ChangeRoom(room, null);
+        _roomController.ChangeRoom(room);
         //_currentRoomOld = _roomController.CurrentRoom;
         onRoomLoaded.Invoke(_currentRoomOld);
     }

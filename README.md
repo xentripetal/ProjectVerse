@@ -79,6 +79,9 @@ Note that most of the art assets are from [Hyptosis](https://opengameart.org/con
 
 Additionally JSON.NET library is licensed under Apache License Version 2.0.
 
+## Installing
+Project requires git-lfs for the pre-existing images. If nothing is showing when running the demo scenes make sure to run 'git lfs pull'.
+
 
 ## Contributing
 

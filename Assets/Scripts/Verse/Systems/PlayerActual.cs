@@ -27,7 +27,7 @@ namespace Verse.API {
         }
 
         public override void ChangeRoom(string room, Position pos) {
-            RoomController.Instance.ChangeRoom(room, CurrentRoom);
+            RoomController.Instance.ChangeRoom(room);
             CurrentRoom = room;
             TeleportPlayer(pos);
         }

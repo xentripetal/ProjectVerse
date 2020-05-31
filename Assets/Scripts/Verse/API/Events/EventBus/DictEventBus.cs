@@ -6,7 +6,7 @@ using Verse.API.Events.EventBus;
 
 namespace Verse.API.Events {
     public class DictEventBus : IEventBus {
-        private readonly int defaultPriority = 5000;
+        public readonly int DefaultPriority = 5000;
 
         private readonly Dictionary<Type, SortedEventList> eventHandlers;
 

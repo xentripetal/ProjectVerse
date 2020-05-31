@@ -1,3 +1,4 @@
+
 using Newtonsoft.Json;
 using UnityEngine;
 using Verse.Utilities;
@@ -13,6 +14,7 @@ namespace Verse.API.Models {
         /// <value>The pixels per unit of the tile. Should normally be 32.</value>
         public readonly int PixelsPerUnit;
 
+        
         [JsonIgnore] public readonly Sprite sprite;
 
         /// <value>The file path of the image resource for the Tile. It can contain directories.</value>

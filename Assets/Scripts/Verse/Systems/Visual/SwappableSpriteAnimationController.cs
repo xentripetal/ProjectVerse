@@ -7,7 +7,7 @@ namespace Verse.Systems.Visual {
         private const string CharacterFolderPath = "Sprites/Character/";
 
         private string _lastState;
-        private List<GameObject> _partRenderers;
+        private List<SpriteRenderer> _partRenderers;
 
         private List<Dictionary<string, Sprite>> _spriteMappings;
         public RuntimeAnimatorController Animator;
@@ -16,24 +16,25 @@ namespace Verse.Systems.Visual {
 
         private void Start() {
             _spriteMappings = new List<Dictionary<string, Sprite>>();
-            _partRenderers = new List<GameObject>();
+            _partRenderers = new List<SpriteRenderer>();
 
             for (var i = 0; i < BodyParts.Length; i++) {
                 _spriteMappings.Add(LoadSpriteSheet(BodyParts[i]));
                 _partRenderers.Add(CreateSpriteObject(i));
             }
 
-            var anim = _partRenderers[0].AddComponent<Animator>();
+            var anim = _partRenderers[0].gameObject.AddComponent<Animator>();
             anim.runtimeAnimatorController = Animator;
             GetComponent<PlayerController>().Animator = anim;
         }
 
-        private GameObject CreateSpriteObject(int order) {
+        private SpriteRenderer CreateSpriteObject(int order) {
             var go = new GameObject();
-            go.AddComponent<SpriteRenderer>().sortingOrder = 5;
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sortingOrder = 5;
             go.transform.parent = transform;
             go.transform.localPosition = new Vector3(0, 0, -.00005f * order);
-            return go;
+            return sr;
         }
 
         private Dictionary<string, Sprite> LoadSpriteSheet(string spriteSheet) {
@@ -44,7 +45,7 @@ namespace Verse.Systems.Visual {
         private void UpdateSprites(string currentState) {
             for (var i = 0; i < BodyParts.Length; i++)
                 try {
-                    _partRenderers[i].GetComponent<SpriteRenderer>().sprite = _spriteMappings[i][currentState];
+                    _partRenderers[i].sprite = _spriteMappings[i][currentState];
                 }
                 catch (KeyNotFoundException) {
                     Debug.Log(BodyParts[i] + " does not have state " + currentState);
@@ -52,7 +53,7 @@ namespace Verse.Systems.Visual {
         }
 
         private void LateUpdate() {
-            var currentState = _partRenderers[0].GetComponent<SpriteRenderer>().sprite.name;
+            var currentState = _partRenderers[0].sprite.name;
             if (currentState != _lastState) {
                 UpdateSprites(currentState);
                 _lastState = currentState;

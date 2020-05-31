@@ -1,12 +1,13 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 using Verse.API;
 using Verse.API.Models;
 
 public static class RoomFileSaver {
-    private static readonly string TilesFileName = "TileMap.json";
-    private static readonly string TileObjectsFileName = "ObjectMap.json";
-    private static readonly string TileObjectEntitiesFileName = "ScriptableObjectMap.json";
-    private static readonly string RoomDefinitionFileName = "MapDefinition.json";
+    //private static readonly string TilesFileName = "TileMap.json";
+    //private static readonly string TileObjectsFileName = "ObjectMap.json";
+    //private static readonly string TileObjectEntitiesFileName = "ScriptableObjectMap.json";
+    //private static readonly string RoomDefinitionFileName = "MapDefinition.json";
 
     public static ModPackage ModPackage = ModMap.GetEnabledMods()[0];
 
@@ -22,7 +23,6 @@ public static class RoomFileSaver {
     }
 
     /**
-
     private static void WriteTilesFile(TileProviderOldInternal providerOld, string path) {
         var jsonString =
             JsonConvert.SerializeObject(providerOld.GetTiles().Select(tile => (SerializableTile) tile).ToArray());

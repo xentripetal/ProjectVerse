@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 12
     m_Resolution: 2
     m_BakeResolution: 40
     m_AtlasSize: 1024
@@ -62,6 +62,7 @@ LightmapSettings:
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
     m_Padding: 2
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
@@ -76,10 +77,16 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 500
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 2
+    m_PVRDenoiserTypeDirect: 0
+    m_PVRDenoiserTypeIndirect: 0
+    m_PVRDenoiserTypeAO: 0
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVRFilteringMode: 1
+    m_PVREnvironmentMIS: 0
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -87,9 +94,11 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_LightingSettings: {fileID: 1946208862}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -109,6 +118,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -152,9 +163,10 @@ Camera:
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -208,9 +220,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e921c366c781d8946a337b29c7104283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 1994204633}
-  SmoothSpeed: 0.125
   Offset: {x: 0, y: 0, z: -10}
+  SmoothSpeed: 0.125
+  Target: {fileID: 1994204633}
 --- !u!114 &61920380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -280,6 +292,10 @@ EdgeCollider2D:
   m_Points:
   - {x: -0.5, y: 0}
   - {x: 0.5, y: 0}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &745822059
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +307,6 @@ GameObject:
   - component: {fileID: 745822061}
   - component: {fileID: 745822060}
   - component: {fileID: 745822062}
-  - component: {fileID: 745822063}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -306,16 +321,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745822059}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: efa004c0eed918940a540f48df2b1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TerrainRoot: {fileID: 558619338}
   ObjectRoot: {fileID: 1573604050}
-  TerrainTilePrefab: {fileID: 6811447045783309085, guid: ec3fc476c8dbb8c459c08389ae6f44d9,
-    type: 3}
   ObjectTilePrefab: {fileID: 6472809618688913335, guid: 306ea39ea6955fc47901a68fbbc67825,
+    type: 3}
+  TerrainRoot: {fileID: 558619338}
+  TerrainTilePrefab: {fileID: 6811447045783309085, guid: ec3fc476c8dbb8c459c08389ae6f44d9,
     type: 3}
   TransparencyColliderPrefab: {fileID: 8103904561225275748, guid: 68774e8c61da1964084cb85b19d40f64,
     type: 3}
@@ -342,24 +357,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745822059}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 977d4574ce3c71045992dba3c8082723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   EditorMode: 0
---- !u!114 &745822063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745822059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 009bf337bc469d541a91601895c35c05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1573604050
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +393,67 @@ Transform:
   m_Father: {fileID: 745822061}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!850595691 &1946208862
+LightingSettings:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Settings.lighting
+  serializedVersion: 2
+  m_GIWorkflowMode: 1
+  m_EnableBakedLightmaps: 0
+  m_EnableRealtimeLightmaps: 0
+  m_RealtimeEnvironmentLighting: 1
+  m_BounceScale: 1
+  m_AlbedoBoost: 1
+  m_IndirectOutputScale: 1
+  m_UsingShadowmask: 1
+  m_BakeBackend: 1
+  m_LightmapMaxSize: 1024
+  m_BakeResolution: 40
+  m_Padding: 2
+  m_TextureCompression: 1
+  m_AO: 0
+  m_AOMaxDistance: 1
+  m_CompAOExponent: 1
+  m_CompAOExponentDirect: 0
+  m_ExtractAO: 0
+  m_MixedBakeMode: 2
+  m_LightmapsBakeMode: 1
+  m_FilterMode: 1
+  m_LightmapParameters: {fileID: 0}
+  m_ExportTrainingData: 0
+  m_TrainingDataDestination: TrainingData
+  m_RealtimeResolution: 2
+  m_ForceWhiteAlbedo: 0
+  m_ForceUpdates: 0
+  m_FinalGather: 0
+  m_FinalGatherRayCount: 256
+  m_FinalGatherFiltering: 1
+  m_PVRCulling: 1
+  m_PVRSampling: 1
+  m_PVRDirectSampleCount: 32
+  m_PVRSampleCount: 500
+  m_PVREnvironmentSampleCount: 500
+  m_PVREnvironmentReferencePointCount: 2048
+  m_LightProbeSampleCountMultiplier: 4
+  m_PVRBounces: 2
+  m_PVRRussianRouletteStartBounce: 2
+  m_PVREnvironmentMIS: 0
+  m_PVRFilteringMode: 2
+  m_PVRDenoiserTypeDirect: 0
+  m_PVRDenoiserTypeIndirect: 0
+  m_PVRDenoiserTypeAO: 0
+  m_PVRFilterTypeDirect: 0
+  m_PVRFilterTypeIndirect: 0
+  m_PVRFilterTypeAO: 0
+  m_PVRFilteringGaussRadiusDirect: 1
+  m_PVRFilteringGaussRadiusIndirect: 5
+  m_PVRFilteringGaussRadiusAO: 2
+  m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+  m_PVRFilteringAtrousPositionSigmaIndirect: 2
+  m_PVRFilteringAtrousPositionSigmaAO: 1
 --- !u!1 &1994204630
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +467,7 @@ GameObject:
   - component: {fileID: 1994204632}
   - component: {fileID: 1994204635}
   - component: {fileID: 1994204634}
+  - component: {fileID: 1994204636}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -422,6 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c418619d76a56d14987fc4a49b08d025, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Animator: {fileID: 9100000, guid: 37b25e3143a533443879f24c4ad6b59a, type: 2}
   BodyParts:
   - Body/Body
   - Face/Face
@@ -430,7 +496,6 @@ MonoBehaviour:
   - Shoes/Shoes
   - Hair/Hair
   - Arms/Arms
-  Animator: {fileID: 9100000, guid: 37b25e3143a533443879f24c4ad6b59a, type: 2}
 --- !u!114 &1994204632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,12 +508,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cffa28b5890afce42a622eebceb420cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkSpeed: 2.2
-  RunSpeed: 4
   Animator: {fileID: 0}
   HorizontalAxis: Horizontal
-  VerticalAxis: Vertical
+  RunSpeed: 4
   SpeedModifierKey: 304
+  VerticalAxis: Vertical
+  WalkSpeed: 2.2
 --- !u!4 &1994204633
 Transform:
   m_ObjectHideFlags: 0
@@ -510,3 +575,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &1994204636
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1994204630}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 37b25e3143a533443879f24c4ad6b59a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -32,7 +32,7 @@ namespace Verse.Systems {
 
         private void Start() {
             _roomController = RoomController.Instance;
-            if (!EditorMode) _roomController.ChangeRoom("main", null);
+            //if (!EditorMode) _roomController.ChangeRoom("main", null);
         }
 
         #region Utilities#Systems

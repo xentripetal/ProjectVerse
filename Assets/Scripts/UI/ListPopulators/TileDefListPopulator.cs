@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Verse.API.Models;
 
 public class TileDefListPopulator : MonoBehaviour {
-    private bool _includeTiles = true;
     private string _searchString;
 
     private List<string> _tileDefs;

@@ -3,6 +3,20 @@ using Newtonsoft.Json;
 
 namespace Verse.API.Models {
     public struct TilePosition {
+        public bool Equals(TilePosition other) {
+            return x == other.x && y == other.y;
+        }
+
+        public override bool Equals(object obj) {
+            return obj is TilePosition other && Equals(other);
+        }
+
+        public override int GetHashCode() {
+            unchecked {
+                return (x * 397) ^ y;
+            }
+        }
+
         public readonly int x;
         public readonly int y;
 

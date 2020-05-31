@@ -81,7 +81,7 @@ namespace Verse.API.Models {
                 var occupiedPos = tile.Position + pos;
                 var tileAtOccupiedPos = GetOrDefault(occupiedPos);
                 if (tileAtOccupiedPos != null) {
-                    //Destrot
+                    //TODO Destroy
                 }
 
                 if (_positionList.Count <= occupiedPos.x)
