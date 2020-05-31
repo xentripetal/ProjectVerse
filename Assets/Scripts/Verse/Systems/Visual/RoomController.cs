@@ -78,7 +78,6 @@ namespace Verse.Systems.Visual {
                 go.transform.parent = transform;
                 layerGameobjects.Add(layer, go);
                 foreach (var tile in tiles) {
-                    Debug.Log($"Building Tile For Layer {layer.Name}");
                     BuildTile(tile, go.transform);
                 }
             }
