@@ -5,6 +5,7 @@ using Verse.API.Models;
 using Verse.Utilities;
 
 namespace Verse.Systems.Visual {
+    //TODO Remove as monobehaviour into a scriptedentity controller
     public class PlayerController : MonoBehaviour {
         public static PlayerController Instance;
         private ApiController _apiController;

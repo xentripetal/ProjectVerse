@@ -17,7 +17,7 @@ reference to Stardew Valley. All objects, events, worlds, cutscenes, and
 scripted actions will be implemented using the API. 
 
 The game itself will be taking place in the far future with heavy influences from the T.V. series Firefly.
-The player will crash into a town similar to Stardew Valley and eventually gain enough wealth to fix their ship
+The player will crash into a small town, making friends with local villagers and while working on earning money. Eventually they will gain enough wealth to fix their ship
 and explore other worlds with different themes and quests all while promoting their budding enterprise of cargo
 trading, production, and crime.
 
@@ -27,13 +27,12 @@ trading, production, and crime.
 * Home Building - Add objects into home, decorative and functional
 * Modular Ship Design - Build/Purchase upgrades to ship that reflect in its physical design
 * Quests - Players will given quests to complete.
-* Relationships - Players will be able to build friendships and possibly more with NPCS (undecided on how explicit)
+* Relationships - Players will be able to build friendships and and enemies with the NPCs.
 * Morality - Players will be given choices over time that will change a players morality score and affect the lives of NPCs.
-* Managment - Players will be able to hire certain NPCS to do tasks for them, from handling crops, chopping trees, running cargo, or robbing ships.
-* Automation - Players will slowly be able to add automation to their enterprise. I want them to be fully programmable, similar to Opencomputers minecraft mod. However I'm uncertain how feasible this will be.
+* Management - Players will be able to hire certain NPCS to do tasks for them, from handling crops, chopping trees, running cargo, or robbing ships.
+* Automation - Players will slowly be able to add automation to their enterprise. Taking inspiration from Factorio with transportation and processing. With this, I want controllers to manipulate these machines to be fully programmable, presumably via LUA or possibly a Zachtronics inspired psuedo-assembly. However I'm uncertain how feasible this will be.
 * Trading - There will be an influenceable economy that will affect what and how the player trades items and moves cargo.
-* A lot more - I am planning on updating this readme every other sprint (4 weeks) to add more information and put my thoughts and progress down.
-
+* A lot more - I am planning on updating this readme over time. 
 
 
 ## Development
@@ -55,6 +54,7 @@ it currently uses a simple controller that delegates these data units to the app
 ### Stages
 
 Currently, the game is in stage INDEV. The expected stages are listed below.
+Note that when I first started this project I had more free time than I do now. I abandonded this project for a year and am now picking it back up in my spare time.
 
 Stage    | Description 
 -------- | -------------
@@ -84,8 +84,7 @@ Project requires git-lfs for the pre-existing images. If nothing is showing when
 
 
 ## Contributing
-
-This project is currently not accepting contributions.
+This project is currently not accepting contributions. If you would like a feature or notice a bug (which there will be a lot of for the next few months) please create an issue for it.
 
 
 

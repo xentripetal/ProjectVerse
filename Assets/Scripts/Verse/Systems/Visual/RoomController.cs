@@ -52,9 +52,14 @@ namespace Verse.Systems.Visual {
                 SimplePool.Despawn(go);
             }
 
+            foreach (var layerGameobject in layerGameobjects.Values) {
+                Destroy(layerGameobject);
+            }
+
 
             activeTiles = new Dictionary<GameObject, Tile>();
             activeTilesReverse = new Dictionary<Tile, GameObject>();
+            layerGameobjects = new Dictionary<TileLayer, GameObject>();
             CurrentRoomName = "";
             CurrentRoom = null;
             HasActiveRoom = false;
