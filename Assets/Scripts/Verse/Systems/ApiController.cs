@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using ProjectVerse.Client;
+using ProjectVerse.Server;
 using UnityEngine;
 using Verse.API;
 using Verse.API.Events;
@@ -32,6 +34,7 @@ namespace Verse.Systems {
 
         private void Start() {
             _roomController = RoomController.Instance;
+            ClientManager.Start();
             //if (!EditorMode) _roomController.ChangeRoom("main", null);
         }
 
@@ -74,6 +77,7 @@ namespace Verse.Systems {
                 var tiles = _roomController.CurrentRoom.Tiles.GetTilesWithEntities();
                 foreach (var tile in tiles) tile.Entity.OnFrameUpdate();
             }
+            ClientManager.Update();
         }
 
         private void LateUpdate() {
