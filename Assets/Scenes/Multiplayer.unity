@@ -263,5 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b73e96a31d64cba8e61673a686850cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsClient>k__BackingField: 0
+  <IsServer>k__BackingField: 0
   AutoStartServer: 1
   AutoStartClient: 1
