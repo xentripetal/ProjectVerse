@@ -45,10 +45,9 @@ trading, production, and crime.
 
 
 ### Design Goals
+* Reduce development dependency on Unity as much as possible. While Unity is a great dev environment it isn't designed to allow mods/patching. Unity Editor should be used for as few systems as possible by making a runtime level/scene editor that supports patching and having a custom lifecycle system for registering classes. Unity Engine will still be heavily used and most things will still use Monobehaviors.
 * Pick a specific code style and reformat all code
 * Add unit tests and a build tracker
-* Transition most code over to ECS. Objects are intentionally being designed right now around data and systems. However,
-it currently uses a simple controller that delegates these data units to the appropriate systems in a single thread.
 
 
 ### Stages

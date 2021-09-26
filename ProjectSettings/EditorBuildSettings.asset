@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Plugins/Mirror/Examples/MultipleAdditiveScenes/Scenes/Main.unity
+    guid: 0fa8b7965660de64f8aefd6b64f18a08
+  - enabled: 1
+    path: Assets/Plugins/Mirror/Examples/MultipleAdditiveScenes/Scenes/Game.unity
+    guid: d45ed07e5475d4740812c97ae565255c
   m_configObjects: {}
