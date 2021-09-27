@@ -1,0 +1,17 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Root" style="width: 100%; height: 100%; left: 0; top: 0; right: 0; bottom: 0; flex-wrap: nowrap; flex-direction: column; align-items: center; -unity-font: resource(&apos;Fonts/munro&apos;); background-color: rgba(56, 56, 56, 0); justify-content: center;">
+        <ui:VisualElement name="Title" style="left: auto; justify-content: center; position: relative; align-items: stretch; right: auto; bottom: auto;">
+            <ui:Label text="Project Verse" display-tooltip-when-elided="true" name="Text" style="font-size: 200px; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none; color: rgb(173, 173, 173);" />
+            <ui:Label text="INDEV" display-tooltip-when-elided="true" name="Sublabel" style="font-size: 100px; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none; align-items: flex-end; -unity-text-align: upper-right; color: rgb(180, 178, 178);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Actions" style="align-items: center; width: 50%; height: 100%; padding-left: 0; padding-top: 10%; padding-bottom: 10%; left: 25%; justify-content: center; flex-wrap: nowrap; flex-direction: column;">
+            <ui:Button text="New Game" display-tooltip-when-elided="true" name="new-game-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font-definition: none; -unity-font: resource(&apos;Fonts/munro-small&apos;);" />
+            <ui:Button text="Load Game" display-tooltip-when-elided="true" name="load-game-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none;" />
+            <ui:Button text="Join game" display-tooltip-when-elided="true" name="join-game-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none;" />
+            <ui:Button text="Editor" display-tooltip-when-elided="true" name="editor-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font-definition: none; -unity-font: resource(&apos;Fonts/munro-small&apos;);" />
+            <ui:Button text="Settings" display-tooltip-when-elided="true" name="settings-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none;" />
+            <ui:Button text="Credits" display-tooltip-when-elided="true" name="credits-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none;" />
+            <ui:Button text="Exit Game" display-tooltip-when-elided="true" name="exit-btn" style="height: 64px; width: 256px; font-size: 45px; align-items: flex-end; -unity-font: resource(&apos;Fonts/munro-small&apos;); -unity-font-definition: none;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

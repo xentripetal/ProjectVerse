@@ -8,7 +8,7 @@ namespace Verse.Engine {
 	// Are attributes the right way to do this? We need some way to register subscribers and call them in a specific
 	// order. I guess we can use events and have some sort of event registration attribute for static handlers
 	// while instance handlers can register using this bootstrap system. Though it might be considered a bug
-	// to depend on the registration order implementation of events
+	// to depend on the registration order implementation of events. 
 	[System.AttributeUsage(System.AttributeTargets.Method)]
 	public class BootstrapSystemAttribute : System.Attribute {
 		public BootstrapSystemAttribute() {
@@ -21,6 +21,8 @@ namespace Verse.Engine {
 	/// to the main scene. Everything else will be have been spawned from something <c>Bootstrap</c> has called.
 	/// </summary>
 	public class Bootstrap : MonoBehaviour {
+		
+		// This is only for making it easier to quickly launch into a scene. Not intended for developers.
 		public enum Scene {
 			MainMenu,
 			Editor,
@@ -41,6 +43,11 @@ namespace Verse.Engine {
 				if (bootstrapSystem.Parameters().Count == 0) {
 					bootstrapSystem.Call();
 				}
+			}
+
+			// TODO swap to a SceneLoader system
+			if (StartingScene == Scene.MainMenu) {
+				
 			}
 		}
 		
