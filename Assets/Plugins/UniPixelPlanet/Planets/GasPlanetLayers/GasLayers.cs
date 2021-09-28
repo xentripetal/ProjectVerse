@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[ExecuteInEditMode]
 public class GasLayers : MonoBehaviour{
     [SerializeField] private GameObject _GasLayers;
     [SerializeField] private GameObject _Ring;
@@ -37,12 +36,6 @@ public class GasLayers : MonoBehaviour{
     {
         m_GasLayers = _GasLayers.GetComponent<SpriteRenderer>().sharedMaterial;
         m_Ring = _Ring.GetComponent<SpriteRenderer>().sharedMaterial;
-    }
-
-    public void OnValidate() {
-        m_GasLayers = _GasLayers.GetComponent<SpriteRenderer>().sharedMaterial;
-        m_Ring = _Ring.GetComponent<SpriteRenderer>().sharedMaterial;
-        ApplyChanges();
     }
 
     public void Update() {

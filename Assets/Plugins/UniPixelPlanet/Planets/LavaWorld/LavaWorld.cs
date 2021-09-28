@@ -35,13 +35,6 @@ public class LavaWorld : MonoBehaviour {
         ApplyChanges();
     }
 
-    public void OnValidate() {
-        m_Planet = PlanetUnder.GetComponent<SpriteRenderer>().sharedMaterial;
-        m_Craters = Craters.GetComponent<SpriteRenderer>().sharedMaterial;
-        m_Rivers = LavaRivers.GetComponent<SpriteRenderer>().sharedMaterial;
-        ApplyChanges();
-    }
-    
     public void Update() {
         UpdateTime(Time.time);
     }
