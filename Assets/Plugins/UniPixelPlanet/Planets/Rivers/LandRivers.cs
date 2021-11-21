@@ -41,8 +41,11 @@ public class LandRivers : MonoBehaviour {
         ApplyChanges();
     }
 
-    public void ApplyChanges() {
-        
+    public void ApplyChanges()
+    {
+        if (m_Land == null) return;
+        if (m_Cloud == null) return;
+
         m_Land.SetFloat(ShaderProperties.Key_Pixels, PixelSize);
         m_Cloud.SetFloat(ShaderProperties.Key_Pixels, PixelSize);
         

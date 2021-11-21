@@ -3,6 +3,7 @@ using System.Collections;
 using System.Reflection;
 using Fasterflect;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Verse.Engine {
 	// Are attributes the right way to do this? We need some way to register subscribers and call them in a specific
@@ -12,7 +13,6 @@ namespace Verse.Engine {
 	[System.AttributeUsage(System.AttributeTargets.Method)]
 	public class BootstrapSystemAttribute : System.Attribute {
 		public BootstrapSystemAttribute() {
-			
 		}
 	}
 	
@@ -21,7 +21,6 @@ namespace Verse.Engine {
 	/// to the main scene. Everything else will be have been spawned from something <c>Bootstrap</c> has called.
 	/// </summary>
 	public class Bootstrap : MonoBehaviour {
-		
 		// This is only for making it easier to quickly launch into a scene. Not intended for developers.
 		public enum Scene {
 			MainMenu,
@@ -47,7 +46,7 @@ namespace Verse.Engine {
 
 			// TODO swap to a SceneLoader system
 			if (StartingScene == Scene.MainMenu) {
-				
+				SceneManager.LoadScene("MainMenu");
 			}
 		}
 		

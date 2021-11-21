@@ -93,6 +93,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -102,8 +103,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -124,6 +125,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -650,6 +653,30 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      mediumtree1: 21300040
+      barrel3: 21300006
+      sapling: 21300014
+      stones1: 21300018
+      stones4: 21300024
+      stones8: 21300028
+      stones5: 21300034
+      mushroom: 21300002
+      barrel1: 21300010
+      angledtree: 21300044
+      mediumtree2: 21300042
+      log: 21300004
+      barrels: 21300026
+      barrel2: 21300012
+      treeleaves2: 21300038
+      stones2: 21300020
+      stones9: 21300008
+      trashcan: 21300000
+      stones7: 21300030
+      stones6: 21300032
+      trunk: 21300016
+      stones3: 21300022
+      treeleaves1: 21300036
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

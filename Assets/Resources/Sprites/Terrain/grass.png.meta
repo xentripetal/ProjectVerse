@@ -438,6 +438,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -447,8 +448,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -469,6 +470,8 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
@@ -3410,6 +3413,145 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      grass_9: 21300018
+      grass_48: 21300096
+      grass_47: 21300094
+      grass_10: 21300020
+      grass_16: 21300032
+      grass_68: 21300136
+      grass_104: 21300208
+      grass_24: 21300048
+      grass_86: 21300172
+      grass_82: 21300164
+      grass_23: 21300046
+      grass_17: 21300034
+      grass_89: 21300178
+      grass_77: 21300154
+      grass_2: 21300004
+      grass_18: 21300036
+      grass_101: 21300202
+      grass_58: 21300116
+      grass_66: 21300132
+      grass_131: 21300262
+      grass_92: 21300184
+      grass_123: 21300246
+      grass_32: 21300064
+      grass_97: 21300194
+      grass_29: 21300058
+      grass_122: 21300244
+      grass_46: 21300092
+      grass_34: 21300068
+      grass_94: 21300188
+      grass_26: 21300052
+      grass_6: 21300012
+      grass_106: 21300212
+      grass_39: 21300078
+      grass_36: 21300072
+      grass_40: 21300080
+      grass_38: 21300076
+      grass_21: 21300042
+      grass_54: 21300108
+      grass_126: 21300252
+      grass_61: 21300122
+      grass_35: 21300070
+      grass_132: 21300264
+      grass_90: 21300180
+      grass_51: 21300102
+      grass_52: 21300104
+      grass_44: 21300088
+      grass_115: 21300230
+      grass_62: 21300124
+      grass_59: 21300118
+      grass_114: 21300228
+      grass_83: 21300166
+      grass_116: 21300232
+      grass_133: 21300266
+      grass_95: 21300190
+      grass_88: 21300176
+      collision: 21300274
+      grass_93: 21300186
+      grass_96: 21300192
+      grass_129: 21300258
+      grass_110: 21300220
+      grass_120: 21300240
+      grass_117: 21300234
+      grass_50: 21300100
+      grass_13: 21300026
+      grass_127: 21300254
+      grass_113: 21300226
+      grass_118: 21300236
+      grass_1: 21300002
+      grass_43: 21300086
+      grass_56: 21300112
+      grass_8: 21300016
+      grass_87: 21300174
+      grass_130: 21300260
+      grass_55: 21300110
+      grass_100: 21300200
+      grass_80: 21300160
+      grass_33: 21300066
+      grass_11: 21300022
+      grass_85: 21300170
+      grass_30: 21300060
+      grass_64: 21300128
+      grass_72: 21300144
+      lightgrass: 21300000
+      grass_124: 21300248
+      grass_103: 21300206
+      grass_107: 21300214
+      grass_22: 21300044
+      grass_75: 21300150
+      grass_53: 21300106
+      grass_78: 21300156
+      grass_102: 21300204
+      grass_91: 21300182
+      grass_128: 21300256
+      grass_60: 21300120
+      grass_70: 21300140
+      grass_119: 21300238
+      grass_98: 21300196
+      grass_81: 21300162
+      grass_69: 21300138
+      grass_121: 21300242
+      grass_7: 21300014
+      grass_20: 21300040
+      grass_112: 21300224
+      grass_14: 21300028
+      grass_19: 21300038
+      grass_42: 21300084
+      grass_27: 21300054
+      grass_84: 21300168
+      grass_67: 21300134
+      grass_3: 21300006
+      grass_25: 21300050
+      grass_109: 21300218
+      grass_4: 21300008
+      grass_136: 21300272
+      grass_31: 21300062
+      grass_111: 21300222
+      grass_74: 21300148
+      grass_108: 21300216
+      grass_134: 21300268
+      grass_5: 21300010
+      grass_41: 21300082
+      grass_45: 21300090
+      grass_65: 21300130
+      grass_135: 21300270
+      grass_49: 21300098
+      grass_125: 21300250
+      grass_12: 21300024
+      grass_105: 21300210
+      grass_15: 21300030
+      grass_57: 21300114
+      grass_99: 21300198
+      grass_71: 21300142
+      grass_28: 21300056
+      grass_37: 21300074
+      grass_79: 21300158
+      grass_63: 21300126
+      grass_76: 21300152
+      grass_73: 21300146
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

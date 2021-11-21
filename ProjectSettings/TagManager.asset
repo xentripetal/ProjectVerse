@@ -7,6 +7,7 @@ TagManager:
   - TileObject
   - TransparencyCollider
   - LineDrawer
+  - RoomLoader
   layers:
   - Default
   - TransparentFX
