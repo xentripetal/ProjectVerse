@@ -22,18 +22,18 @@ Shader "Unlit/Clouds"
 	    _OCTAVES("OCTAVES", range(0,20)) = 0
 	    _Seed("Seed",range(1, 10)) = 1
 
-	    time("time",float) = 0.0
     }
     SubShader
     {
         //Tags { "RenderType"="Opaque" }
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
         LOD 100
 
         Pass
         {
 			Tags { "LightMode"="UniversalForward"}
 
+        	ZTest Off
 			CULL Off
 			ZWrite Off // don't write to depth buffer 
          	Blend SrcAlpha OneMinusSrcAlpha // use alpha blending
@@ -80,7 +80,6 @@ Shader "Unlit/Clouds"
 			float _Size;
             int _OCTAVES;
             int _Seed;
-			float time;
             
 			struct Input
 	        {
@@ -142,9 +141,9 @@ Shader "Unlit/Clouds"
 				
 				// more iterations for more turbulence
 				for (int i = 0; i < 9; i++) {
-					c_noise += circleNoise((uv * _Size * 0.3) + (float(i+1)+10.) + (float2(time*_Time_speed, 0.0)));
+					c_noise += circleNoise((uv * _Size * 0.3) + (float(i+1)+10.) + (float2(_Time.y*_Time_speed, 0.0)));
 				}
-				float fbmval = fbm(uv*_Size+c_noise + float2(time*_Time_speed, 0.0));
+				float fbmval = fbm(uv*_Size+c_noise + float2(_Time.y*_Time_speed, 0.0));
 				
 				return fbmval;//step(a_cutoff, fbm);
 			}

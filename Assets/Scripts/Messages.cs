@@ -4,7 +4,7 @@ namespace Verse
 {
     public struct RoomMessage : NetworkMessage
     {
-        public string RoomName;
+        public string RoomId;
         public RoomOperation Operation;
     }
     

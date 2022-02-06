@@ -20,13 +20,12 @@ Shader "Unlit/LavaPlanetUnder"
 	    _Size("Size",float) = 50.0
 	    _OCTAVES("OCTAVES", range(0,20)) = 0
 	    _Seed("Seed",range(1, 10)) = 1
-	    time("time",float) = 0.0
     	
     }
     SubShader
     {
         //Tags { "RenderType"="Opaque" }
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
         LOD 100
 
         Pass
@@ -34,6 +33,7 @@ Shader "Unlit/LavaPlanetUnder"
 			Tags { "LightMode"="UniversalForward"}
 
 			CULL Off
+        	ZTest Off
 			ZWrite Off // don't write to depth buffer 
          	Blend SrcAlpha OneMinusSrcAlpha // use alpha blending
 
@@ -73,7 +73,6 @@ Shader "Unlit/LavaPlanetUnder"
             float _Size;
             int _OCTAVES;
             int _Seed;
-			float time;
     		fixed4 _Color1;
             fixed4 _Color2;
             fixed4 _Color3;
@@ -151,7 +150,7 @@ Shader "Unlit/LavaPlanetUnder"
 				// get a noise value with light distance added
 				// this creates a moving dynamic shape
 				float fbm1 = fbm(uv);
-				d_light += fbm(uv*_Size+fbm1+float2(time*_Time_speed, 0.0))*0.3; // change the magic 0.3 here for different light strengths
+				d_light += fbm(uv*_Size+fbm1+float2(_Time.y*_Time_speed, 0.0))*0.3; // change the magic 0.3 here for different light strengths
 				
 				// _Size of edge in which colors should be dithered
 				float dither_border = (1.0/_Pixels)*_Dither_Size;

@@ -21,12 +21,11 @@ Shader "Unlit/Ring"
 	    _Size("Size",float) = 50.0
 	    _OCTAVES("OCTAVES", range(0,20)) = 0
 	    _Seed("Seed",range(1, 10)) = 1
-	    time("time",float) = 0.0
     }
     SubShader
     {
         //Tags { "RenderType"="Opaque" }
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
+        Tags { "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True" "Queue" = "Transparent"}
         LOD 100
 
         Pass
@@ -35,6 +34,7 @@ Shader "Unlit/Ring"
 
 			CULL Off
 			ZWrite Off // don't write to depth buffer 
+        	ZTest Off
          	Blend SrcAlpha OneMinusSrcAlpha // use alpha blending
         	
             CGPROGRAM
@@ -77,7 +77,6 @@ Shader "Unlit/Ring"
             float _Size;
             int _OCTAVES;
             int _Seed;
-			float time;
             
 			struct Input
 	        {
@@ -181,7 +180,7 @@ Shader "Unlit/Ring"
 				}
 				
 				// rotate material in the ring
-				uv_center = rotate(uv_center+float2(0, 0.5), time*_Time_speed);
+				uv_center = rotate(uv_center+float2(0, 0.5), _Time.y * _Time_speed);
 				// some noise
 				ring *= fbm(uv_center*_Size);
 				

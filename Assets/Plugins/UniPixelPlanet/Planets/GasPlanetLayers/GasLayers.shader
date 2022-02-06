@@ -20,12 +20,11 @@ Shader "Unlit/GasLayers"
 	    _Size("Size",float) = 50.0
 	    _OCTAVES("OCTAVES", range(0,20)) = 0
 	    _Seed("Seed",range(1, 10)) = 7.46
-	    time("time",float) = 0.0
     }
     SubShader
     {
         //Tags { "RenderType"="Opaque" }
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
+        Tags { "RenderType"="Transparent" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True" "Queue" = "Transparent" }
         LOD 100
 
         Pass
@@ -34,6 +33,7 @@ Shader "Unlit/GasLayers"
 
 			CULL Off
 			ZWrite Off // don't write to depth buffer 
+        	ZTest Off
          	Blend SrcAlpha OneMinusSrcAlpha // use alpha blending
         	
             CGPROGRAM
@@ -75,7 +75,6 @@ Shader "Unlit/GasLayers"
             float _Size;
             int _OCTAVES;
             int _Seed;
-			float time;
             
 			struct Input
 	        {
@@ -138,7 +137,7 @@ Shader "Unlit/GasLayers"
 				
 				// more iterations for more turbulence
 				for (int i = 0; i < 10; i++) {
-					c_noise += circleNoise((uv * _Size *0.3) + (float(i+1)+10.) + (float2(time * _Time_speed, 0.0)));
+					c_noise += circleNoise((uv * _Size *0.3) + (float(i+1)+10.) + (float2(_Time.y* _Time_speed, 0.0)));
 				}
 				return c_noise;
 			}
@@ -185,7 +184,7 @@ Shader "Unlit/GasLayers"
 				// by layering multiple noise values & combining with turbulence and _Bands
 				// we get some dynamic looking shape	
 				float fbm1 = fbm(uv*_Size);
-				float fbm2 = fbm(uv*float2(1.0, 2.0)*_Size+fbm1+float2(-time*_Time_speed,0.0)+turb);
+				float fbm2 = fbm(uv*float2(1.0, 2.0)*_Size+fbm1+float2(-_Time.y * _Time_speed,0.0)+turb);
 
 				
 				// all of this is just increasing some contrast & applying light

@@ -20,13 +20,12 @@ Shader "Unlit/LavaRivers"
 	    _Size("Size",float) = 50.0
 	    _OCTAVES("OCTAVES", range(0,20)) = 0
 	    _Seed("Seed",range(1, 10)) = 1
-	    time("time",float) = 0.0
     	
     }
     SubShader
     {
         //Tags { "RenderType"="Opaque" }
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
+        Tags { "Queue"="Transparent" "RenderType"="Transparent" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
         LOD 100
 
         Pass
@@ -34,6 +33,7 @@ Shader "Unlit/LavaRivers"
 			Tags { "LightMode"="UniversalForward"}
 
 			CULL Off
+        	ZTest Off
 			ZWrite Off // don't write to depth buffer 
          	Blend SrcAlpha OneMinusSrcAlpha // use alpha blending
 
@@ -71,7 +71,6 @@ Shader "Unlit/LavaRivers"
 			float _Size;
             int _OCTAVES;
             int _Seed;
-			float time;
     		fixed4 _Color1;
             fixed4 _Color2;
             fixed4 _Color3;
@@ -155,7 +154,7 @@ Shader "Unlit/LavaRivers"
 				uv = spherify(uv);
 				
 				// some scrolling noise for landmasses
-				float fbm1 = fbm(uv*_Size+float2(time*_Time_speed,0.0));
+				float fbm1 = fbm(uv*_Size+float2(_Time.y * _Time_speed,0.0));
 				float river_fbm = fbm(uv + fbm1*2.5);
 				
 				// increase contrast on d_light

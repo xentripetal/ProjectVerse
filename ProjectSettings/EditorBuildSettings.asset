@@ -5,6 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Plugins/Mirror/Examples/MultipleAdditiveScenes/Scenes/Main.unity
+    guid: 0fa8b7965660de64f8aefd6b64f18a08
+  - enabled: 0
+    path: Assets/Plugins/Mirror/Examples/MultipleAdditiveScenes/Scenes/Game.unity
+    guid: d45ed07e5475d4740812c97ae565255c
   - enabled: 1
     path: Assets/Scenes/Loading.unity
     guid: 4abacce4358954bbfa88d964efd159a0
@@ -15,6 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game.unity
     guid: 8a8492bdbed134104a48e82bfde8981d
   - enabled: 1
-    path: Assets/Scenes/Room.unity
+    path: Assets/Scenes/AutoRoom.unity
     guid: f8834f4a0ff1b4e768f3749c0ffde310
   m_configObjects: {}

@@ -16,13 +16,12 @@ Shader "Unlit/LavaCraters"
     	
 	    _Size("Size",float) = 50.0
 	    _Seed("Seed",range(1, 10)) = 1
-	    time("time",float) = 0.0
     	
     }
     SubShader
     {
         //Tags { "RenderType"="Opaque" }
-        Tags { "RenderType"="Opaque" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
+        Tags { "RenderType"="Transparent" "Queue" = "Transparent" "RenderPipeline" = "UniversalPipeline" "IgnoreProjector" = "True"}
         LOD 100
 
         Pass
@@ -30,6 +29,7 @@ Shader "Unlit/LavaCraters"
 			Tags { "LightMode"="UniversalForward"}
 
 			CULL Off
+        	ZTest Off
 			ZWrite Off // don't write to depth buffer 
          	Blend SrcAlpha OneMinusSrcAlpha // use alpha blending
         	
@@ -64,7 +64,6 @@ Shader "Unlit/LavaCraters"
             float _Light_border;
             float _Size;
             int _Seed;
-			float time;
     		fixed4 _Color1;
             fixed4 _Color2;
                         
@@ -99,7 +98,7 @@ Shader "Unlit/LavaCraters"
 			float crater(float2 uv) {
 				float c = 1.0;
 				for (int i = 0; i < 2; i++) {
-					c *= circleNoise((uv * _Size) + (float(i+1)+10.) + float2(time*_Time_speed,0.0));
+					c *= circleNoise((uv * _Size) + (float(i+1)+10.) + float2(_Time.y * _Time_speed,0.0));
 				}
 				return 1.0 - c;
 			}
