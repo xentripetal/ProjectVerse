@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176e7c6242a0f474a8ef16c720fbae33, type: 3}
+  m_Name: Carrot
+  m_EditorClassIdentifier: 
+  UniqueID: carrot
+  DisplayName: Carrot
+  ItemSprite: {fileID: 21300000, guid: f2c50504d7db1cd4d8df1e3bb31d78e2, type: 3}
+  MaxStackSize: 10
+  Consumable: 1
+  BuyPrice: -1
+  VisualPrefab: {fileID: 8966544202626773991, guid: 2e0831dc56cf5294a8962622c990f6bd, type: 3}
+  PlayerAnimatorTriggerUse: Eating
+  UseSound:
+  - {fileID: 8300000, guid: f09ed1dd35d0d7d4a814d2991829c7de, type: 3}
+  - {fileID: 8300000, guid: e53864a914cf2d34ca1e1b71b5a745a7, type: 3}
+  SellPrice: 10

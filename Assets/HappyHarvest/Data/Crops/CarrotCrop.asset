@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c182de401cfc10b4192b8f3f3f981b0c, type: 3}
+  m_Name: CarrotCrop
+  m_EditorClassIdentifier: 
+  UniqueID: carrot_crop
+  GrowthStagesTiles:
+  - {fileID: 11400000, guid: a66b2f9bafdd4bf45a23730cf4ade9b9, type: 2}
+  - {fileID: 11400000, guid: 9b40d0baed5cc084fa956b2100fde390, type: 2}
+  - {fileID: 11400000, guid: 7f5b09c6bf0156142915dfbe2be8fd22, type: 2}
+  - {fileID: 11400000, guid: 8a0ae29504dc12344855aa76beeb1663, type: 2}
+  Produce: {fileID: 11400000, guid: 7dd4bfa02c1367b44a3501547025f6b0, type: 2}
+  GrowthTime: 15
+  NumberOfHarvest: 1
+  StageAfterHarvest: 1
+  ProductPerHarvest: 1
+  DryDeathTimer: 3000
+  HarvestEffect: {fileID: 2466092027356929877, guid: b22c0b7ba7feb1a4194738232d7a049d, type: 3}

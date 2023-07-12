@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c182de401cfc10b4192b8f3f3f981b0c, type: 3}
+  m_Name: WheatCrop
+  m_EditorClassIdentifier: 
+  UniqueID: wheat_crop
+  GrowthStagesTiles:
+  - {fileID: 11400000, guid: b994da5862314f042a11189be122064a, type: 2}
+  - {fileID: 11400000, guid: 082fffb91d8043949b1c0ca5c8e5422e, type: 2}
+  - {fileID: 11400000, guid: 47c591461e6fd9b4ca4ae8b0704cd727, type: 2}
+  - {fileID: 11400000, guid: 4ec1b85045d6f6644b2877282287b641, type: 2}
+  - {fileID: 11400000, guid: cf256630a725ae44484c968b2852ecee, type: 2}
+  Produce: {fileID: 11400000, guid: 9e9f866ca785dac48a735a2cc4daf87a, type: 2}
+  GrowthTime: 15
+  NumberOfHarvest: 1
+  StageAfterHarvest: 1
+  ProductPerHarvest: 1
+  DryDeathTimer: 3000
+  HarvestEffect: {fileID: 4079984929120309204, guid: a893969ae0c685a4495c23af2f04fddf, type: 3}

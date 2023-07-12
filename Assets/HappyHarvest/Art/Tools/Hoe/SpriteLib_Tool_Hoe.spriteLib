@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e6fedc2472449cead18ef23b5cb30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Library:
+  - m_Name: Hoe
+    m_Hash: 511043541
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: hoe_back_down
+      m_Hash: 429911212
+      m_Sprite: {fileID: 21300000, guid: 6762c5afe76b1874b90704a1814d8327, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 6762c5afe76b1874b90704a1814d8327, type: 3}
+    - m_Name: hoe_back_up
+      m_Hash: 857199939
+      m_Sprite: {fileID: 21300000, guid: f3a9a24f89ff22847af1399421671613, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: f3a9a24f89ff22847af1399421671613, type: 3}
+    - m_Name: hoe_front_down
+      m_Hash: 464426856
+      m_Sprite: {fileID: 21300000, guid: 46e21a597e49c744a96de7b76f2b9403, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 46e21a597e49c744a96de7b76f2b9403, type: 3}
+    - m_Name: hoe_front_up
+      m_Hash: 1067532704
+      m_Sprite: {fileID: 21300000, guid: 1d3ba8d2852fc994eb2d285a8f39377a, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 1d3ba8d2852fc994eb2d285a8f39377a, type: 3}
+    - m_Name: hoe_side
+      m_Hash: 997022257
+      m_Sprite: {fileID: 21300000, guid: 2659ee6b8d715264cbfc630e3aae5a13, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 21300000, guid: 2659ee6b8d715264cbfc630e3aae5a13, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 5
+  m_PrimaryLibraryGUID: 
+  m_ModificationHash: 638102704952612954
+  m_Version: 1

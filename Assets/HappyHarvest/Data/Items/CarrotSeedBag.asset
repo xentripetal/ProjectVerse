@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f793efa550e103a4780b9b1224162ba4, type: 3}
+  m_Name: CarrotSeedBag
+  m_EditorClassIdentifier: 
+  UniqueID: carrot_seed
+  DisplayName: Seed (Carrot)
+  ItemSprite: {fileID: 21300000, guid: 19c6f05575d117643bab6333c35c4855, type: 3}
+  MaxStackSize: 10
+  Consumable: 1
+  BuyPrice: 10
+  VisualPrefab: {fileID: 3853442708067445921, guid: 470a5537bd597904eb22580ac5265bd9, type: 3}
+  PlayerAnimatorTriggerUse: Planting
+  UseSound:
+  - {fileID: 8300000, guid: 9440290ca86f48c41a2abfd592a57e6c, type: 3}
+  PlantedCrop: {fileID: 11400000, guid: dc17a381c852afb4b9b3bb78384a45c1, type: 2}

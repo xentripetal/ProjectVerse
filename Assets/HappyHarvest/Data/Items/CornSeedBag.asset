@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f793efa550e103a4780b9b1224162ba4, type: 3}
+  m_Name: CornSeedBag
+  m_EditorClassIdentifier: 
+  UniqueID: corn_seed
+  DisplayName: Seed (Corn)
+  ItemSprite: {fileID: 21300000, guid: 3896de64703b0ca42be152482d64c873, type: 3}
+  MaxStackSize: 10
+  Consumable: 1
+  BuyPrice: 15
+  VisualPrefab: {fileID: 3853442708067445921, guid: 92838e90d6f18b348b9b28e23ea71c78, type: 3}
+  PlayerAnimatorTriggerUse: Planting
+  UseSound:
+  - {fileID: 8300000, guid: 9440290ca86f48c41a2abfd592a57e6c, type: 3}
+  PlantedCrop: {fileID: 11400000, guid: 4e5ed7b98bc2b9744ac19020ffaa9cc7, type: 2}

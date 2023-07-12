@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcf7219bab7fe46a1ad266029b2fee19, type: 3}
+  m_Name: Readme
+  m_EditorClassIdentifier: 
+  icon: {fileID: 2800000, guid: 7c0822b0780ca4a74b276e50db2c68a3, type: 3}
+  title: 2D Sample - Happy Harvest
+  sections:
+  - heading: About this project
+    text: 'This 2D sample project, made by Unity, is a top-down farming simulation
+      game that showcases how you can combine the suite of 2D tools and artwork to
+      make your vision a reality. All of the content in the demo can be added into
+      your own creative projects, and you can also extend the demo itself with your
+      own systems, characters, collectables, and more.   We recommend that you read
+      the articles that accompany Happy Harvest. Each article focuses on a key toolset
+      used in the demo, providing further instructions so you can replicate the effects
+      in your own projects. '
+    linkText: 'Blog introducing Happy Harvest '
+    url: https://blog.unity.com/games/happy-harvest-demo-latest-2d-techniques
+  - heading: 2D light and shadow techniques
+    text: "Learn how to create and work with normal maps and mask maps (Secondary
+      Textures). See how you can add rich details like mimicking the sun\u2019s movement
+      throughout the day, using blob shadows to create shadows for any shape and
+      time of day, and making infinite shadows with the Shadow Caster. You\u2019ll
+      also pick up tips for optimizing your 2D lights."
+    linkText: Read about 2D lights and shadows
+    url: https://unity.com/how-to/2d-light-shadow-techniques-in-the-universal-render-pipeline
+  - heading: How to create art and gameplay with 2D tilemaps
+    text: This page provides information on how the Tilemap System is used in the
+      demo. Get more information about the Rule Tile feature, GameObject Brush, and
+      how to use the Tilemap API for gameplay logic.
+    linkText: Read about art and gameplay with tilemaps
+    url: https://unity.com/how-to/create-art-and-gameplay-2d-tilemaps-unity
+  - heading: How to animate 2D characters in Unity 2022 LTS
+    text: This article covers how the 2D Animation and PSD Importer packages are
+      used in the demo. Learn how to rig a character in the Sprite Editor and how
+      to connect sprites to bones, geometry, and weights. Plus, see how you can use
+      the Sprite Library Editor and Sprite Swap to create types of animations other
+      than those that can be achieved with bone rotations, such as facial expressions
+      when the character changes its facing direction.
+    linkText: Read about 2D character and animation
+    url: https://unity.com/how-to/2d-characters-and-animation-unity-2022-lts
+  - heading: 2D special effects with the VFX Graph and Shader Graph
+    text: Learn how to create the special effects in the demo with the Built-In Particle
+      System, the VFX Graph, and Shader Graph. See how to create Flipbook particles
+      using the VFX Graph and how to craft common effects like the water tiles, wind,
+      fire, and smoke. Plus, learn how to create raindrops in the VFX Graph using
+      the 2D Lit shader so they blend nicely with the environment, and how extra
+      polishing was applied with postprocessing.
+    linkText: Available soon
+    url: 
+  - heading: Manuals
+    text: Additionally, in the folder Manuals, you can find information on how crops
+      and items systems work.
+    linkText: 
+    url: https://unity.com/how-to#all-e-books
+  - heading: 'GDC 2023 talk: Enhance a top-down game with URP 2D lights'
+    text: Watch this session to get examples of high-end 2D art and tech coming together.
+      In particular, see a quick overview of the 2D lights and shadows techniques
+      used in the sample.
+    linkText: Watch session
+    url: https://youtu.be/YhrwKF_i-BI
+  - heading: Forum post for feedback and support
+    text: You can share your feedback about Happy Harvest and the companion content
+      in the dedicated forum post.
+    linkText: Join the forum
+    url: 
+  - heading: Get the 2D e-book
+    text: The e-book 2D game art, animation, and lighting for artists expands and
+      elaborates further on some of the techniques on display in the demo.
+    linkText: Get the free e-book
+    url: https://resources.unity.com/games/2d-game-art-animation-lighting-for-artists-ebook?ungated=true
+  - heading: More technical e-books
+    text: "Whether you\u2019re interested in coding performant gameplay or creating
+      state of the art effects, you can access more technical e-books for free."
+    linkText: Get all the e-books
+    url: https://unity.com/how-to#all-e-books
+  loadedLayout: 1

@@ -1,0 +1,146 @@
+:root {
+    -unity-font: url('project://database/Assets/HappyHarvest/Fonts/CurseCasual/Curse%20Casual.ttf');
+    -unity-font-definition: initial;
+    font-size: 20px;
+    text-shadow: 0 18px 0 rgba(0, 0, 0, 0);
+    --main-color: rgb(0, 127, 226);
+    --main-radius: 20px;
+    --top-block-height: 95px;
+    cursor: url('project://database/Assets/HappyHarvest/Art/UI/Texture_Cursor.png');
+}
+
+.game-button {
+    margin: 0;
+    padding: 0;
+    -unity-font-style: bold;
+    font-size: 20px;
+    color: white;
+    border-width: 2px;
+    border-color: var(--main-radius);
+    border-radius: var(--main-radius);
+}
+
+.game-button:hover {
+    border-color: white;
+    cursor: url('project://database/Assets/HappyHarvest/Art/UI/Texture_CursorHand.png');
+    transition-property: scale;
+    transition-duration: 0.3s;
+    scale: 1.2 1.2;
+    transition-timing-function: ease-out-bounce;
+    transition-delay: 0s;
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    -unity-background-image-tint-color: rgb(146, 233, 156);
+    padding-bottom: 14px;
+}
+
+#ButtonBlock {
+    padding-left: 10%;
+    padding-right: 10%;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+#ButtonBlock > Button {
+    height: 20%;
+    font-size: 69px;
+    min-width: 300px;
+}
+
+.background-block {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+    text-shadow: 0 24.2px 0 rgb(0, 0, 0);
+    opacity: 1;
+}
+
+.top-block {
+    height: var(--top-block-height);
+}
+
+#WeatherBlock {
+    position: absolute;
+    top: var(--top-block-height);
+    width: 220px;
+    height: 40px;
+    flex-direction: row;
+}
+
+#WeatherBlock > Label {
+    -unity-font: url('/Assets/HappyHarvest/Fonts/NotoSansSymbols2/NotoSansSymbols2-Regular.ttf');
+    -unity-font-definition: initial;
+    flex-grow: 1;
+    font-size: 35px;
+}
+
+#WeatherBlock > Label:hover {
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(120, 180, 255);
+}
+
+#WeatherBlock > .on-button {
+    color: rgb(255, 255, 255);
+}
+
+#WeatherBlock > .off-button {
+    color: rgb(50, 50, 50);
+}
+
+#InventoryEntry {
+    margin: 5px;
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0.31);
+    background-image: url('project://database/Assets/HappyHarvest/Art/UI/Sprite_Target.png#Sprite_Target');
+    width: 297px;
+}
+
+#InventoryEntry.equipped {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-image: url('project://database/Assets/HappyHarvest/Art/UI/Sprite_Target_selected.png#Sprite_Target_selected');
+}
+
+#Item {
+    margin: 5px;
+    margin-left: 11px;
+    margin-right: 11px;
+    margin-top: 11px;
+    margin-bottom: 11px;
+    translate: 0 -4px;
+}
+
+#ItemCount {
+    background-image: url('project://database/Assets/HappyHarvest/Art/UI/Sprite_Circle.png#Sprite_Circle');
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.game-popup {
+    flex-grow: 1;
+    background-color: rgba(0, 127, 226, 0);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+    visibility: hidden;
+}
+
+#Blocker {
+    transition: opacity 1s ease-in;
+}
+
+#Previous {
+    background-image: url('project://database/Assets/HappyHarvest/Art/UI/Sprite_keyboard_key.png#Sprite_keyboard_key');
+    opacity: 1;
+    align-items: auto;
+    padding-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+}
